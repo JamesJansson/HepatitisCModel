@@ -7,9 +7,17 @@
 
 %http://arxiv.org/ftp/arxiv/papers/1302/1302.4024.pdf
 
+% Paper to investigate
+% The Structure and Function of Complex Networks
+% Read More: http://epubs.siam.org/doi/abs/10.1137/S003614450342480?journalCode=siread&
+
+
 
 ConnectionsPerNode=2*3*2;
 TotalNodes=7*5*4*3*2 *119;%7*5*4*3*2=840, 119*840=99960~100000
+NumSims=100;
+
+
 % Groups to try
 
 % Each person has 2 groups with 6 connections, leading to 7 people per group
@@ -28,11 +36,15 @@ Groups(confignum)=6; Connections(confignum)=2; GroupSize(confignum)=3;
 confignum=5;
 Groups(confignum)=12; Connections(confignum)=1; GroupSize(confignum)=2;
 
+% at some later point, we'll analyse
+% 30 people in work/school group, 5 in social group, 5 in family
+
+
 
 % for each of the group configs
 for confignum=1:5
     % for the number of simulations to repeat over
-    for sim=1:100
+    for sim=1:NumSims
         % Create groups
             % Divide number of nodes by number in group = number of groups
             % for the number of groups per person
@@ -47,28 +59,52 @@ for confignum=1:5
 end
 
             
-
+DepthCheckMax=100;%number of steps that are checked before stopping
 % for each of the group configs
 for confignum=1:5
     % for the number of simulations to repeat over
-    for sim=1:100
-        DepthCheckMax=100;%number of steps that are checked before stopping
-        CheckedArray=rand(1, TotalNodes);%an array that records if the individual has been checked or not
-        CheckThisStep=[];%an array to store the next set of people to check
-
+    
+    Results(confignum).DepthMatrix=zeros(NumSims, TotalNodes, TotalNodes);
+    for sim=1:NumSims
         ConnectionMatrix=Store(confignum).Connection(sim, :, :);
-        
         for Ind=1:TotalNodes
-            CheckThisStep=Ind;
+            DepthArray=-1*ones(1, TotalNodes);%an array that records if the individual has been checked or not
+            DepthArray(Ind)=0;
+            CheckThisStep=Ind;%an array to store the next set of people to check
+
             Depth=0;
-            while Depth<DepthCheckMax
+            KeepChecking=true;
+            while Depth<DepthCheckMax && KeepChecking
                 Depth=Depth+1;
-
+                %Look up individuals in those that are being check this step
+                CheckNext=ConnectionMatrix(CheckThisStep, :);
+                % Reshape
+                CheckNext=reshape(CheckNext, 1, []);
+                % Remove duplicates
+                CheckNext=unique(CheckNext);
+                % Look up checked array
+                CheckNext=find(DepthArray(CheckNext)<0.5);
+                
+                [~, NumToCheck]=size(CheckNext);
+                if NumToCheck<1 %if there are no new people to check
+                    KeepChecking=false;
+                else
+                    CheckThisStep=CheckNext;
+                    DepthArray(CheckNext)=Depth;
+                end
             end
-
-
+            Results(confignum).DepthMatrix(Sim, Ind, :)=DepthArray;
+            %note values that could not be reached are represented as -1
         end
     end
+    
+    %Determine the total number 
+    Results(confignum).DistancePropExplored=
+    AllDistances=Results(confignum).DepthMatrix;
+    AllDistances=reshape(AllDistances, 1, []);
+    AllDistances(AllDistances==0)=[];
+    Results(confignum).DistanceHistogram=AllDistances;
+    
 end
 
 
@@ -81,3 +117,10 @@ end
 % then do sexual connections- individual must choose only a set number of sexual parteners in the groups they are in
 % Or even allow 'friends of friends'
 % Repeat measurements of speed etc
+
+
+
+
+% A larger distance between points implies that for an an epidemic which
+% reaches 10% of the population in 5 interactions has a much higher
+% probability of transmission in a system with 
