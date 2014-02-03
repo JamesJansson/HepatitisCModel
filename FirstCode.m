@@ -1,6 +1,7 @@
-% Sparse random network
+% Regular network (attached to nearest neighbours on a ring
 % Small world network
 % Sparse network with dense subgraph <- most realistic for cold, flu etc
+% Sparse random network
 
 %http://arxiv.org/ftp/arxiv/papers/1302/1302.4024.pdf
 
