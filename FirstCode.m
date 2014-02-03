@@ -1,3 +1,5 @@
+% Author: James Jansson, UNSW
+
 % Regular network (attached to nearest neighbours on a ring
 % Small world network
 % Sparse network with dense subgraph <- most realistic for cold, flu etc
@@ -19,3 +21,4 @@ ConnectionsPerNode=2*3*2;
 % Each person has 4 groups with 3 connections, leading to 4 people per group
 % Each person has 6 groups with 2 connections, leading to 3 people per group
 % Each person has 12 groups with 2 connections, leading to 2 people per group (Each person has 12 connections) 
+
