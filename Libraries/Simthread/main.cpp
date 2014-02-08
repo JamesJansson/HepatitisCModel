@@ -49,7 +49,7 @@ int main()
 
     StorageStruct B[10];
 
-    ThreadSim(&RunASim, 10, A, B);
+    ThreadSim(RunASim, 10, A, B);
     //thread t1(RunASim, A[1], B[1]);
 
     //t1.join();

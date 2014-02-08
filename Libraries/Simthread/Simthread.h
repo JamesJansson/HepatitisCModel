@@ -8,8 +8,8 @@ int ThreadSimCurrentlyAvailable;
 
 //template<typename _Callable, int , typename ParameterStructVec, typename StorageStructVec, typename... _Args>
 //void LoadCore(_Callable&& __FunctionToRun, int NumberOfRuns, ParameterStructVec ParaVec, StorageStructVec StorageVec  , _Args&&... __args)
-template <typename _Callable, typename... _Args>
-void LoadCore(_Callable __FunctionToRun, int NumberOfRuns, ParameterStruct ParaVec[], StorageStruct StorageVec[])//  , _Args&&... __args)
+//template <typename _Callable, typename... _Args>
+void LoadCore(void (*__FunctionToRun)(ParameterStruct, StorageStruct), int NumberOfRuns, ParameterStruct ParaVec[], StorageStruct StorageVec[])//  , _Args&&... __args)
 {
     int N;
     while (ThreadSimCurrentlyAvailable<NumberOfRuns)
@@ -17,7 +17,7 @@ void LoadCore(_Callable __FunctionToRun, int NumberOfRuns, ParameterStruct ParaV
         N=ThreadSimCurrentlyAvailable;
         ThreadSimCurrentlyAvailable++;
 
-        __FunctionToRun(ParaVec[N], StorageVec[N]);
+        (*__FunctionToRun)(ParaVec[N], StorageVec[N]);
         //std::bind<void>(std::forward<_Callable>(__FunctionToRun), ParaVec[N], StorageVec[N], std::forward<_Args>(__args)...);
 
         //(*__FunctionToRun)( struct ParametersToUse, struct StoragePointer, int NumberOfRuns);
@@ -38,14 +38,14 @@ void LoadCore(_Callable __FunctionToRun, int NumberOfRuns, ParameterStruct ParaV
 //void ThreadSim(_Callable *__FunctionToRun(ParameterStruct, StorageStruct), int NumberOfRuns, ParameterStruct ParaVec[], StorageStruct StorageVec[])
 
 template <typename _Callable, typename... _Args>
-void ThreadSim(void *__FunctionToRun(ParameterStruct, StorageStruct), int NumberOfRuns, ParameterStruct ParaVec[], StorageStruct StorageVec[])
+void ThreadSim(_Callable __FunctionToRun(ParameterStruct, StorageStruct), int NumberOfRuns, ParameterStruct ParaVec[10], StorageStruct StorageVec[10])
 {
     ThreadSimCurrentlyAvailable=0;
 
     //__FunctionToRun(NumberOfRuns, NumberOfRuns);
 
-    //unsigned int NumberOfThreadsAvailable = std::thread::hardware_concurrency();
-    //std::vector<std::thread> threads;
+    unsigned int NumberOfThreadsAvailable = std::thread::hardware_concurrency();
+    std::vector<std::thread> threads;
 
     //Load the cores with simulations
     //for(unsigned int i = 0; i < NumberOfThreadsAvailable; i++) {
@@ -57,7 +57,7 @@ void ThreadSim(void *__FunctionToRun(ParameterStruct, StorageStruct), int Number
     //}
 
 
-
+/*
 
     RunASim(ParaVec[1], StorageVec[2]);//Works
 
@@ -71,23 +71,24 @@ void ThreadSim(void *__FunctionToRun(ParameterStruct, StorageStruct), int Number
 
     thread works3(__FunctionToRun, ParaVec[1], StorageVec[2]);
     works3.join();
+*/
 
 
 
 
-
-    //thread t1(LoadCore, &RunASim, NumberOfRuns, ParaVec, StorageVec);
+    //thread t1(LoadCore, &RunASim, NumberOfRuns, ParaVec, StorageVec);///works
     //t1.join();
 
-    thread t1(LoadCore, &__FunctionToRun, NumberOfRuns, ParaVec, StorageVec);
-    t1.join();
+    thread t2(LoadCore, __FunctionToRun, NumberOfRuns, ParaVec, StorageVec);//works
+    t2.join();
+
+    ThreadSimCurrentlyAvailable=0;
 
 
+    for(unsigned int i = 0; i < NumberOfThreadsAvailable; i++) {
+        threads.push_back(std::thread(LoadCore, __FunctionToRun, NumberOfRuns, ParaVec, StorageVec));//, std::forward<_Args>(__args)...)));//http://gcc.gnu.org/onlinedocs/libstdc++/libstdc++-api-4.6/a01086_source.html
+    }
 
-    //for(unsigned int i = 0; i < NumberOfThreadsAvailable; i++) {
-    //    threads.push_back(std::thread(LoadCore, &__FunctionToRun, NumberOfRuns, ParaVec, StorageVec));//, std::forward<_Args>(__args)...)));//http://gcc.gnu.org/onlinedocs/libstdc++/libstdc++-api-4.6/a01086_source.html
-    //}
-/*
     //http://en.wikipedia.org/wiki/Varargs#Variadic%5Ffunctions%5Fin%5FC.2C%5FObjective-C.2C%5FC.2B.2B.2C%5Fand%5FD
     //templates http://en.wikipedia.org/wiki/Template_(C%2B%2B)
     //binding http://en.cppreference.com/w/cpp/utility/functional/bind
@@ -97,6 +98,6 @@ void ThreadSim(void *__FunctionToRun(ParameterStruct, StorageStruct), int Number
     for(auto& thread : threads) {
         thread.join();
     }
-    */
+
 };
 
