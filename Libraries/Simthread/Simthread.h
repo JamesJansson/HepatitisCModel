@@ -9,7 +9,7 @@ int ThreadSimCurrentlyAvailable;
 //template<typename _Callable, int , typename ParameterStructVec, typename StorageStructVec, typename... _Args>
 //void LoadCore(_Callable&& __FunctionToRun, int NumberOfRuns, ParameterStructVec ParaVec, StorageStructVec StorageVec  , _Args&&... __args)
 template <typename _Callable, typename... _Args>
-void LoadCore(_Callable __FunctionToRun(ParameterStruct, StorageStruct), int NumberOfRuns, ParameterStruct ParaVec[], StorageStruct StorageVec[])//  , _Args&&... __args)
+void LoadCore(_Callable __FunctionToRun, int NumberOfRuns, ParameterStruct ParaVec[], StorageStruct StorageVec[])//  , _Args&&... __args)
 {
     int N;
     while (ThreadSimCurrentlyAvailable<NumberOfRuns)
@@ -34,8 +34,11 @@ void LoadCore(_Callable __FunctionToRun(ParameterStruct, StorageStruct), int Num
 //http://en.cppreference.com/w/cpp/language/function_template
 //template <typename _Callable<int, int>,  int N>//, typename ParameterStructVec, typename StorageStructVec, typename... _Args>
 
+//template <typename _Callable, typename... _Args>
+//void ThreadSim(_Callable *__FunctionToRun(ParameterStruct, StorageStruct), int NumberOfRuns, ParameterStruct ParaVec[], StorageStruct StorageVec[])
+
 template <typename _Callable, typename... _Args>
-void ThreadSim(_Callable __FunctionToRun(ParameterStruct, StorageStruct), int NumberOfRuns, ParameterStruct ParaVec[], StorageStruct StorageVec[])
+void ThreadSim(void *__FunctionToRun(ParameterStruct, StorageStruct), int NumberOfRuns, ParameterStruct ParaVec[], StorageStruct StorageVec[])
 {
     ThreadSimCurrentlyAvailable=0;
 
@@ -76,7 +79,7 @@ void ThreadSim(_Callable __FunctionToRun(ParameterStruct, StorageStruct), int Nu
     //thread t1(LoadCore, &RunASim, NumberOfRuns, ParaVec, StorageVec);
     //t1.join();
 
-    thread t1(LoadCore, __FunctionToRun, NumberOfRuns, ParaVec, StorageVec);
+    thread t1(LoadCore, &__FunctionToRun, NumberOfRuns, ParaVec, StorageVec);
     t1.join();
 
 
