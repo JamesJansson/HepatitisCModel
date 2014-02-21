@@ -13,7 +13,7 @@ AveragePeoplePerGroup=2.5;
 % be expected otherwise.
 NoGroups=round(NoPeople/AveragePeoplePerGroup);
 
-PersonID=1:NoPeople;
+
 ProbabilityOfMoving=0.01;
 
 

@@ -2,8 +2,8 @@
 % This function demonstrates moving between groups. Each person has an
 % annual probability of of leaving their current group and joining another.
 clear
-NoPeople=10000000;
-AveragePeoplePerGroup=3.1419; 
+NoPeople=100000;
+AveragePeoplePerGroup=1.5; 
 % avearge people per group is 2.5: however the number of people per group 
 % with people in it is less than 400, on average. Many of them have no
 % people. 
@@ -11,11 +11,17 @@ AveragePeoplePerGroup=3.1419;
 % Two groups with two people have 4 people with 1 contact. The accumulation
 % of people in the bigger groups results in many more contacts than would
 % be expected otherwise.
+
+% The distribution of these individuals into random groups follows a
+% multinomial distribution. see http://stats.stackexchange.com/questions/43575/random-balls-in-random-buckets-what-are-the-characteristics-of-the-distribution
+% 
+%Note that each bucket contributes to the total number of connections for
+%k people at a rate of k-1. This should ultimately result in the average
+%number of people per group==number of connections per person
+%That is, if there are 15 groups with 5 people, there are 15*5 people with
+%4 connections each
+
 NoGroups=round(NoPeople/AveragePeoplePerGroup);
-
-PersonID=1:NoPeople;
-ProbabilityOfMoving=0.01;
-
 
 
 % Randomly assign the individuals
