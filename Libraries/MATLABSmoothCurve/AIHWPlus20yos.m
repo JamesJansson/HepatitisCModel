@@ -1,6 +1,6 @@
 % 
 NumberToAdd=13500;
-ProbabiltyLeaving=0.15;
+
 
 X=DistributionOfIDU(NumberToAdd);
 hist(X, 0:100)
@@ -12,6 +12,11 @@ xlabel('Age at first injection');
 ylabel('N');
 box off;
 
+
+for i=2001:2006
+    
+    
+end
 
 
 
