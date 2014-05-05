@@ -11,8 +11,11 @@ Pos=0;
 for i=NotCensored
     Pos=Pos+1;
     if i==1
-        % Determine the probabilty of death per 
+        % Determine the probabilty of death per step
+        
         
     end
 end
+
+
 
