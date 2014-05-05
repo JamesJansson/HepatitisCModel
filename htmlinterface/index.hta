@@ -9,11 +9,29 @@ Sub RunProgram
 	objShell.Run "notepad.exe C:\Users\jjansson\Documents\GitHub\SparseEpidemiologicalNetworks\htmlinterface\testdoc.txt"
 End Sub
 
+Sub RunModel
+	set ws = CreateObject("WScript.shell")
+	ws.run("notepad.exe"), 0, true
+	'0 = Hidden
+	'1 = displayed
+	'True = Waits till command has completed before moving to next
+	'False = Does not wait for command to complete before moving to next
+End Sub 
+
+Sub StopModel
+	'The purpose of this routine is to stop the model from running usig the interface
+End Sub
 
 </script> 
 </head> 
 
 <body> 
 <button onclick="RunProgram">Run Program</button> <p>
+<button onclick="RunModel">Run Model</button> <p>
+
+<textarea rows="10" cols="80">
+The purpose of this field will be to use it as a console for the output of the model
+</textarea>
+
 </body> 
 </html>
