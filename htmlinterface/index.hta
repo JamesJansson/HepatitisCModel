@@ -3,11 +3,12 @@
 <head> 
 <script language="VBScript"> 
 
+	
 Sub RunProgram 
-    Const NORMAL_WINDOW = 1
-    Set objShell = CreateObject("Shell.Application")
-    objShell.ShellExecute "notepad.exe", "C:\Users\jjansson\Documents\GitHub\SparseEpidemiologicalNetworks\htmlinterface\testdoc.txt", , , NORMAL_WINDOW
+	Set objShell = CreateObject("Wscript.Shell")
+	objShell.Run "notepad.exe C:\Users\jjansson\Documents\GitHub\SparseEpidemiologicalNetworks\htmlinterface\testdoc.txt"
 End Sub
+
 
 </script> 
 </head> 
