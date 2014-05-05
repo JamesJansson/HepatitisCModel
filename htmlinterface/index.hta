@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html> 
+<head> 
+<script language="VBScript"> 
+
+Sub RunProgram 
+    Const NORMAL_WINDOW = 1
+    Set objShell = CreateObject("Shell.Application")
+    objShell.ShellExecute "notepad.exe", "C:\Users\jjansson\Documents\GitHub\SparseEpidemiologicalNetworks\htmlinterface\testdoc.txt", , , NORMAL_WINDOW
+End Sub
+
+</script> 
+</head> 
+
+<body> 
+<button onclick="RunProgram">Run Program</button> <p>
+</body> 
+</html>
