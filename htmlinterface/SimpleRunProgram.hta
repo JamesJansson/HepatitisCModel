@@ -1,15 +1,6 @@
 <!DOCTYPE html>
 <html> 
 <head> 
-<title>HCV Individual Model</title>
-<HTA:APPLICATION 
-     APPLICATIONNAME="HCVIndividualModel"
-     SCROLL="yes"
-     SINGLEINSTANCE="yes"
-     WINDOWSTATE="maximize"
-	 ICON = "appdata/BasicIcon.ico"
->
-
 <script language="VBScript"> 
 
 	
@@ -32,33 +23,11 @@ Sub StopModel
 End Sub
 
 </script> 
-
-<script language="javascript"> 
-function DisplayFileName()
-{
-    var ParamFilePath = document.getElementById('ParameterFile').value;
-	alert(ParamFilePath);
-}
-
-</script> 
-
-
 </head> 
 
 <body> 
-
-<img src="appdata/basicicon.png" width="100" height="100"><br>
-
 <button onclick="RunProgram">Run Program</button> <p>
 <button onclick="RunModel">Run Model</button> <p>
-<button onclick="DisplayFileName">Display File Name</button> <p>
-
-
-<form>
-Parameter file: <br>
-<input type="file" id="ParameterFile" value="Submit">
-</form>
-
 
 <textarea rows="10" cols="80">
 The purpose of this field will be to use it as a console for the output of the model
