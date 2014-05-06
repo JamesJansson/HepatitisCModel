@@ -22,7 +22,7 @@ struct StorageStruct
 
 void RunASim(ParameterStruct Parameter, StorageStruct Output)
 {
-    cout << "Running parameter" << Parameter.x << endl;
+    cout << "Running parameter yep" << Parameter.x << endl;
 
 };
 
