@@ -1,36 +1,25 @@
-#include "stdafx.h"
-//#include "ProbabilityFunctions.h"
-#define StandardVectorSize 50//this is the standard size of a vector that records things like disease stage
-
 #include "EventVector.h"
+//#include "transmission.h"
+//#include "HCVClass.h"
+//#include "mortality.h"
 
-//#define StepVectorSize 300//enough to take us to 2020 on a 0.1 step size
-//Disease level code
-#define  NotInfected 0
-#define  AcuteInfection 1
-#define  FibrosisLevelF0 2
-#define  FibrosisLevelF1 3
-#define  FibrosisLevelF2 4
-#define  FibrosisLevelF3 5
-#define  FibrosisLevelF4 6
-#define  LiverFailure 7
-#define  HCC 8
-#define  LiverTransplant 9
-#define  Death 10
-
-
-#define NextSusceptibleMAX 20000//a very large number so no simulation will ever ask about this date
-
-
-class HCVClass {
-	//Note: excessive paramters will lead to reduced capacity to create new objects. Limit parameters if more individuals necessary. Max bits allow in array 2 147 483 647
-	float StepSize;
-	bool Active;//A variable used to indicate if the slot has been used for an individual yet (true) or not (false). 
+class PersonClass {
+	bool Active;//A variable used to indicate if the slot has been used for an individual yet (true) or not (false).
     float YearOfBirth;
-	
+
 	//, YearOfInfection, YearOfGeneralDeath, YearOfDrugDeath, YearOfHCVDeath, YearOfTransplantDeath;
 	int Sex;//male 0, female, 1
 	int State;//numerical state code
+
+    MortalityClass Mortalilty
+
+	HCVClass HCVStatus;
+	//HIVClass HIVStatus;
+
+	//TransmissionClass InjectingNetwork
+	//TransmissionClass SexualNetwork
+	//TransmissionClass HIVInjectingNetwork
+    //TransmissionClass HCVSexualNetwork
 
 	//temporary variables: dynamic and simply to show where up to
 	//int MostRecentSlot;
@@ -45,7 +34,7 @@ class HCVClass {
 	float GeneralMortalityDate, IDUMortalityDate, HCVMortalityDate, TransplantMortalityDate;
 	float YearOfDeath;//YearOfDeath is earliest of all these death dates
 	float NextSusceptible;//When the individual can possibly be infected next. Set to NextSusceptibleMAX if can never be infected again
-	
+
 public:
 	EventVector HCV;
 	//-1 : empty
@@ -69,7 +58,7 @@ public:
 	EventVector HCVDiagnosis;
 	//0: not diagnosed
 	//1: diagnosed
-	
+
 	EventVector Treatment;
 	//0 : not on treatment
 	//1 : on treatment
@@ -81,7 +70,7 @@ public:
 	bool SusceptibleIDU(float Year);
 	void SetSex(int SexValue);
 	void SetYearOfBirth(float YearOfBirthValue);
-    
+
 	float CurrentAge (float CurrentYear);
 	float DetermineCurrentIDUStatus (float CurrentYear);
 	float YearsUntilEvent (float ProbabilityOfEvent);
@@ -93,7 +82,7 @@ public:
 	int NewHCVInfection (float InfectionDate, int HCVStrain, ParameterClass* p);
 	void SetNextSusceptible (float Year);
 	void Display (void);
-	
+
 };
 
 HCVClass::HCVClass(void)//Constructor class
@@ -129,12 +118,12 @@ int HCVClass::StartIDU(float DateStartIDU, float InputBirthDate, int InputSex,  
 	{
 		return -1;//can't restart a person on IDU if they are already listed as an IDU
 	}
-	
+
 	Active=1;
 
 	Sex=InputSex;
 	YearOfBirth=InputBirthDate;
-	IDUStart=DateStartIDU; 
+	IDUStart=DateStartIDU;
 	IDUStop=DateStartIDU+p->DurationOfIDU();
 
 	NextSusceptible=IDUStart;
@@ -149,7 +138,7 @@ int HCVClass::StartIDU(float DateStartIDU, float InputBirthDate, int InputSex,  
 	float AgeAtGeneralMortality;
 	AgeAtGeneralMortality = p->DetermineAgeAtDeathGeneral(InputSex, DateStartIDU-InputBirthDate);
 	GeneralMortalityDate = InputBirthDate+AgeAtGeneralMortality;
-	//Determine IDU mortality 
+	//Determine IDU mortality
 	float TestYearOfIDUMortality;
 	TestYearOfIDUMortality=DateStartIDU+p->TimeUntilIDUMortality();
 	// Does IDU exit occur before mortality
@@ -227,7 +216,7 @@ float HCVClass::YearsUntilEvent (float ProbabilityOfEvent) {
 }
 
 float HCVClass::RaceEvents (float ProbabilityOfEvent1, float ProbabilityOfEvent2, int &Winner) {
-	//RaceEvents: given 2 event probabilities, determines when each is likely to happen, and chooses the one that occurs first. 
+	//RaceEvents: given 2 event probabilities, determines when each is likely to happen, and chooses the one that occurs first.
 	char buffer;
 	std::cout << "\nFunction RaceEvents was used when you thought it was no longer used";
 	std::cin >> buffer;
@@ -289,7 +278,7 @@ float HCVClass::RaceEvents (float ProbabilityOfEvent1, float ProbabilityOfEvent2
 //	{
 //		if (DiseaseStage[Slot+1]==-1)
 //		{
-//			
+//
 //			return DiseaseStageTime[Slot];
 //		}
 //		Slot++;
@@ -345,16 +334,16 @@ float HCVClass::ReturnYearOfGeneralDeath (void)
 //					//std::cout<<"\n"<<DiseaseStage[0]<<' '<<DiseaseStage[1]<<' '<<DiseaseStage[2]<<' '<<DiseaseStage[3]<<' '<<DiseaseStage[4];
 //					//std::cout<<"\n"<<DiseaseStageTime[0]<<' '<<DiseaseStageTime[1]<<' '<<DiseaseStageTime[2]<<' '<<DiseaseStageTime[3]<<' '<<DiseaseStageTime[4];
 //					//std::cout<<"\nSet next disease stage birth";
-//	
+//
 //	//Determine movement between non-user, regular and occasional IDU states
 //
 //	//Determine when infected
 //	//Set infection date
 //	YearOfInfection=InfectionDate;
-//	
-//	
+//
+//
 //						//std::cout<<"\nSet Acute infection";
-//	
+//
 //
 //	//Determine natural mortality
 //	if (InfectionDate>=YearOfBirth)
@@ -362,23 +351,23 @@ float HCVClass::ReturnYearOfGeneralDeath (void)
 //	else
 //		return -1;//error has occurred, date of infection cannot be before date of birth
 //
-//	
-//	
-//	
+//
+//
+//
 //	//Determine disease stages (including clearance)//Determine when diagnosed//Determine when treatment occurs//Determine if and when clearance occurs due to drugs
 //	DetermineDiseaseProgression (HCVStrain, p);
 //	//Determine IDU related mortality
 //	//Liver related mortality
-//	//Choose the earliest mortality out of all 
+//	//Choose the earliest mortality out of all
 //	//cut down the disease progression to the earliest death date
-//	
-//	
+//
+//
 //	//Determine new cases created from current case
 //
 //
-//	
 //
-//	
+//
+//
 //	//Display();
 //	return 0;
 //}
@@ -389,7 +378,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 	{
 		return -1;//error: infection already exists for this date
 	}
-	
+
 
 	int NextDiseaseStage;
 	float CurrentDiseaseStageDuration;
@@ -400,20 +389,20 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 	int Intervention;
 	//int TreatmentAttempted=0;
 	int TreatmentSuccessful=-1;//-1 means unknown, 0 means no, 1 means yes
-	int CurrentlyDiagnosed=0;//0 for undiagnosed for this infection round 
+	int CurrentlyDiagnosed=0;//0 for undiagnosed for this infection round
 	int CurrentIDUStatus;
 	float DiagnosedThisStep;//indicates if the individual was diagnosed during the current disease stage
 	float YearOfDiagnosis;
 	float TreatmentDuration;
 
-	
+
 
 //Acute-----------------------------------------------------------------------------------------------------------
 	HCV.Set(YearOfInfection, AcuteInfection);
 	HCVGenotype.Set(YearOfInfection, HCVGenotypeGiven);
-	
+
 	NextDiseaseStage=FibrosisLevelF0;
-	
+
 	Intervention=p->CurrentlyIntervention(CurrentStageStart);
 	//Determining if diagnosed in acute stage
 	if (rand01()<p->AcuteDiagnosisProbability[Intervention])//Determine if diagnosis occurs during acute stage
@@ -457,7 +446,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 	//	SetNextDiseaseStage (10000, NotInfected, 'a');//set a really big number for not being infected
 	//	return 0;
 	//}
-	
+
 
 //Check each of the fibrosis stages------------------------------------------------------------------------------
 	for (int f=0; f<5; f++)
@@ -465,7 +454,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 		DiagnosedThisStep=0;
 		CurrentStageStart=HCV.MostRecentDate();      //    DiseaseStageTime[MostRecentSlot];
 		CurrentIDUStatus=DetermineCurrentIDUStatus(CurrentStageStart);
-		
+
 		if (f==0)
 		{
 			CurrentDiseaseStageDuration=YearsUntilEvent (p->F0toF1[CurrentIDUStatus]);
@@ -506,7 +495,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 
 
 		float CurrentDiseaseStageStartYear=HCV.MostRecentDate();
-		float TreatmentPossibleFromYear=CurrentDiseaseStageStartYear;//Note this date is increased if the person becomes diagnosed in the next step 
+		float TreatmentPossibleFromYear=CurrentDiseaseStageStartYear;//Note this date is increased if the person becomes diagnosed in the next step
 		if (CurrentlyDiagnosed==0)
 		{
 			//Determine what happens first, diagnosis or disease advancement//race events
@@ -521,7 +510,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 				HCV.Add(CurrentDiseaseStageDuration, NextDiseaseStage);
 				//Currently diagnosed remains =0
 			}
-			else//if diagnosis occurs first, 
+			else//if diagnosis occurs first,
 			{
 				CurrentlyDiagnosed=1;
 				//Set the diagnosis year
@@ -532,7 +521,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 			}
 		}
 		//For individuals currently diagnosed but not on treatment
-		if (CurrentlyDiagnosed==1)//note TreatmentSuccessful==-1 was removed because we want people to have the chance fo 
+		if (CurrentlyDiagnosed==1)//note TreatmentSuccessful==-1 was removed because we want people to have the chance fo
 		{
 			//Determine if diagnosed in this stage or in a previous one
 			if (DiagnosedThisStep==1)
@@ -554,7 +543,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 					Treatment.Set(YearOfTreatment, 1);//Indicate treatment started
 					TreatmentDuration=p->DetermineTreatmentDuration(f);
 					Treatment.Set(YearOfTreatment+TreatmentDuration, 0);//Indicate treatment stopped
-					
+
 					//Determine if treatment successful
 					Intervention=p->CurrentlyIntervention(YearOfTreatment);
 					if (rand01()<p->TreatmentClearanceF[f][HCVGenotypeGiven][Intervention])//treatment successful
@@ -599,11 +588,11 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 		//		//Advance to the next disease stage without diagnosis
 		//		HCV.Add(CurrentDiseaseStageDuration, NextDiseaseStage);
 		//	}
-		//	else//if diagnosis occurs first, 
+		//	else//if diagnosis occurs first,
 		//	{
 		//		//Set the diagnosis year
 		//		Diagnosis.Set(YearOfDiagnosis, 1);
-		//		
+		//
 		//		//determine if treatment occurs before movement on to next stage or not during this stage
 		//		YearOfTreatment=p->YearOfTreatment (f, YearOfDiagnosis, HCVGenotypeGiven);//(int FibrosisLevel, float CurrentYear, int HCVGenotype);
 		//		if (YearOfTreatment>=0)//YearOfTreatment will be -1 if no treatment occurs
@@ -614,7 +603,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 		//				Treatment.Set(YearOfTreatment, 1);//Indicate treatment started
 		//				TreatmentDuration=p->DetermineTreatmentDuration(void);
 		//				Treatment.Set(YearOfTreatment+TreatmentDuration, 0);//Indicate treatment stopped
-		//			
+		//
 		//				//Determine if treatment successful
 		//				Intervention=p->CurrentlyIntervention(YearOfTreatment);
 		//				if (rand01()<p->TreatmentClearanceF[f][HCVStrain][Intervention])//treatment successful
@@ -646,7 +635,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 		//			Treatment.Set(YearOfTreatment, 1);//Indicate treatment started
 		//			TreatmentDuration=p->DetermineTreatmentDuration(void);
 		//			Treatment.Set(YearOfTreatment+TreatmentDuration, 0);//Indicate treatment stopped
-		//			
+		//
 		//			//Determine if treatment successful
 		//			Intervention=p->CurrentlyIntervention(YearOfTreatment);
 		//			if (rand01()<p->TreatmentClearanceF[f][HCVStrain][Intervention])//treatment successful
@@ -679,7 +668,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 			//	Treatment.Set(YearOfTreatment, 1);//Indicate treatment started
 			//	TreatmentDuration=p->DetermineTreatmentDuration(void);
 			//	Treatment.Set(YearOfTreatment+TreatmentDuration, 0);//Indicate treatment stopped
-			//		
+			//
 			//	//Determine if treatment successful
 			//	Intervention=p->CurrentlyIntervention(YearOfTreatment);
 			//	if (rand01()<p->TreatmentClearanceF[f][HCVStrain][Intervention])//treatment successful
@@ -725,7 +714,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 
 
 		//}
-		
+
 	}
 
 	//the patient could get through all 5 stages of fibrosis without diagnosis, but after that they must become diagnosed
@@ -748,7 +737,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 		TimeUntilHCC=YearsUntilEvent (p->LiverFailureToHCC);
 		//Determine time until transplant
 		TimeUntilTransplant=YearsUntilEvent (p->TranslplantForLiverFailure);
-		//Determine time until related mortality. 
+		//Determine time until related mortality.
 		TimeUntilLiverMortality=YearsUntilEvent (p->LiverFailureRelatedMortality);
 		//Choose the earliest of the 3
 		if (TimeUntilHCC<TimeUntilTransplant)
@@ -778,7 +767,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 	{
 		//Determine time until transplant
 		TimeUntilTransplant=YearsUntilEvent (p->TranslplantForHCC);
-		//Determine time until related mortality. 
+		//Determine time until related mortality.
 		TimeUntilLiverMortality=YearsUntilEvent (p->HCCRelatedMortality);
 		//Choose the earliest of the 3
 		if (TimeUntilLiverMortality<TimeUntilTransplant)
@@ -794,7 +783,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 			NextDiseaseStage=LiverTransplant;
 			HCV.Add(CurrentDiseaseStageDuration, NextDiseaseStage);
 		}
-		
+
 	}
 
 	//liver transplant
@@ -812,7 +801,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 	NextDiseaseStage=Death;
 	HCV.Add(TimeTransplantMortality, NextDiseaseStage);
 	return 0;
-	
+
 }
 
 
@@ -833,7 +822,7 @@ void HCVClass::SetNextSusceptible (float Year)
 
 void HCVClass::Display (void)
 {
-	
+
 	char buffer;
 	std::cout << "\nEnter any character to continue";
 	std::cin >> buffer;

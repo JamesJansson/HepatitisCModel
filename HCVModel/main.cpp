@@ -1,8 +1,7 @@
 #include <iostream>
 //#include "thread.h"
-//#include "person.h"
-//#include "transmission.h"
-//#include
+//#include "PersonClass.h"
+
 
 using namespace std;
 
@@ -28,5 +27,5 @@ int main()
     return 0;
 }
 
-
+    // Create disired output summary statistics
     // Save output of this simulation
