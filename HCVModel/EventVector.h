@@ -11,6 +11,7 @@ public:
 	EventVector(void);//Constructor class
 	void Reset(void);
 	int Set(float Date, int EventValue);
+	int Set(float Date, int EventValue, bool EraseFutureEvents);// used to remove future events if, for example, the expected time of death is set but medication is given that changes the death date
 	int Add(float Years, int EventValue);
 	float MostRecentDate (void);
 	float MostRecentStage (void);
@@ -69,6 +70,20 @@ int EventVector::Set(float Date, int EventValue)//Date can either be the current
 	}
 	return -1;//error, run out of space to store disease progression
 }
+
+int EventVector::Set(float Date, int EventValue, bool EraseFutureEvents);// used to remove future events if, for example, the expected time of death is set but medication is given that changes the death date
+{
+    if (EraseFutureEvents==true)
+    {
+        std::cout << "\nDelete all future events";
+            std::cout << "\nFind future events";
+            std::cout << "\nSet to zero";
+    }
+    std::cout << "\nSet(float Date, int EventValue)";
+	return 0;
+}
+
+
 
 
 int EventVector::Add(float Years, int EventValue)//Date can either be the current year for AddOrSet=s, or the number of years since the last stage with AddOrSet=a
