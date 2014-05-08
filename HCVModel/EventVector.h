@@ -15,8 +15,8 @@ public:
 	float MostRecentDate (void);
 	float MostRecentStage (void);
 	int Stage (float Date);
-	float Find (int StageToFind);
-	float FindNext (int StageToFind, float Date);
+	float Find (int ValueToFind);
+	float FindNext (int ValueToFind, float Date);
 	void Display (void);
 };
 
@@ -129,12 +129,12 @@ int EventVector::Stage (float Date)
 	return -1;//error, run out of space to store disease progression
 }
 
-float EventVector::Find (int StageToFind)
+float EventVector::Find (int ValueToFind)
 {
 	int Slot=0;
 	while (Slot<StandardVectorSize-1 && EventValueVector[Slot]!=-1)
 	{
-		if (EventValueVector[Slot]==StageToFind)
+		if (EventValueVector[Slot]==ValueToFind)
 		{
 			return EventTimeVector[Slot];
 		}
@@ -143,13 +143,13 @@ float EventVector::Find (int StageToFind)
 	return -1;//value not found
 }
 
-float EventVector::FindNext (int StageToFind, float Date)
+float EventVector::FindNext (int ValueToFind, float Date)
 {
-	//Find the next occurence of the stage StageToFInd after the date given
+	//Find the next occurence of the stage ValueToFind after the date given
 	int Slot=0;
 	while (Slot<StandardVectorSize-1 && EventValueVector[Slot]!=-1)
 	{
-		if (EventValueVector[Slot]==StageToFind && EventTimeVector[Slot]>=Date)
+		if (EventValueVector[Slot]==ValueToFind && EventTimeVector[Slot]>=Date)
 		{
 			return EventTimeVector[Slot];
 		}
@@ -165,7 +165,7 @@ float EventVector::FindNext (int StageToFind, float Date)
 //	while (Slot<StandardVectorSize-1 && EventValueVector[Slot]!=-1)
 //	{
 //		if
-//		if (EventValueVector[Slot]==StageToFind))
+//		if (EventValueVector[Slot]==ValueToFind))
 //		{
 //			return EventTimeVector[Slot];
 //		}
