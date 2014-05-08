@@ -58,7 +58,7 @@ int EventVector::Set(float Date, int EventValue)//Date can either be the current
 		{
 			if (Slot>0)
 			{
-				if (EventTimeVector[Slot-1]>=Date)//error check (don't allow later disease states to overlap previous ones)
+				if (EventTimeVector[Slot-1]>=Date)//error check (don't allow later states to overlap previous ones)
 					return -2;//error has occurred
 			}
 			EventValueVector[Slot]=EventValue;
@@ -68,7 +68,7 @@ int EventVector::Set(float Date, int EventValue)//Date can either be the current
 		}
 		Slot++;
 	}
-	return -1;//error, run out of space to store disease progression
+	return -1;//error, run out of space to store events
 }
 
 int EventVector::Set(float Date, int EventValue, bool EraseFutureEvents);// used to remove future events if, for example, the expected time of death is set but medication is given that changes the death date
@@ -77,7 +77,7 @@ int EventVector::Set(float Date, int EventValue, bool EraseFutureEvents);// used
     {
         std::cout << "\nDelete all future events";
             std::cout << "\nFind future events";
-            std::cout << "\nSet to zero";
+            std::cout << "\nDelete events";
     }
     std::cout << "\nSet(float Date, int EventValue)";
 	return 0;
