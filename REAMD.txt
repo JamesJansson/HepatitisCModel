@@ -1,3 +1,3 @@
 README
 
-This code was developed and compiled using CodeBlocks. 
+This code was developed and compiled using CodeBlocks. If code blocks cannot find the compiler, go to settings, compiler, tool chain executables tab, then set the directory as C:\Program Files\CodeBlocks\MinGW
