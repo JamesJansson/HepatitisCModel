@@ -1,4 +1,7 @@
 #define EventVectorMaxSize 50
+#include <vector>
+using namespace std;
+//vector<int> v;         // no need to prepend std:: any more
 
 class EventVector {
 
