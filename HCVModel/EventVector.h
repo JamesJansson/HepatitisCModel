@@ -24,6 +24,7 @@ public:
 
 EventVector::EventVector(void)//Constructor class
 {
+    //use std::vector <int>
     //int *p;
     //p = new int[5];
     //for(int i=0;i<5;i++)
