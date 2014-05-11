@@ -170,7 +170,7 @@ int EventVector::ValueAt (float Time)
 	{
         if (Time>= EventTimeVector[Slot] && (Time<EventTimeVector[Slot+1])
         {
-            return EventValueVector[MostRecentSlot];
+            return EventValueVector[Slot];//take the left hand value
         }
 
         Slot++;
@@ -181,6 +181,9 @@ int EventVector::ValueAt (float Time)
 
 float EventVector::Find (int ValueToFind)
 {
+    std::cout<<"This function is not quite complete.";
+    vector<float> StartTimes;
+    vector<float> EndTimes;
 	int Slot=0;
 	while (Slot<=MostRecentSlot)
 	{
