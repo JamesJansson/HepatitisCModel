@@ -2,7 +2,8 @@
 #include <vector>
 using namespace std;
 //vector<int> v;         // no need to prepend std:: any more
-
+//myvector.resize(5); change the vector size to 5
+//myvector.resize(8,100); change the vecotr size to 8, fill new spots with 100s
 class EventVector {
 
 	int MostRecentSlot;
