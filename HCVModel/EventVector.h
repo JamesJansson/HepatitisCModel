@@ -7,21 +7,24 @@ using namespace std;
 class EventVector {
 
 	int MostRecentSlot;
+	int VectorSize;
 
-	int EventValueVector[EventVectorMaxSize];//
-	float EventTimeVector[EventVectorMaxSize];//a vector that indicates the time that the current DiseaseStage occurred at.
+    vector<int> EventValueVector;
+    vector<float> EventTimeVector;
+	//int EventValueVector[EventVectorMaxSize];//
+	//float EventTimeVector[EventVectorMaxSize];//a vector that indicates the time that the current DiseaseValue occurred at.
 
 public:
 	EventVector(void);//Constructor class
 	void Reset(void);
-	int Set(float Date, int EventValue);
-	int Set(float Date, int EventValue, bool EraseFutureEvents);// used to remove future events if, for example, the expected time of death is set but medication is given that changes the death date
+	int Set(float Time, int EventValue);
+	int Set(float Time, int EventValue, bool EraseFutureEvents);// used to remove future events if, for example, the expected time of death is set but medication is given that changes the death Time
 	int Add(float Years, int EventValue);
-	float MostRecentDate (void);
-	float MostRecentStage (void);
-	int Stage (float Date);
+	float MostRecentTime (void);
+	float MostRecentValue (void);
+	int Value (float Time);
 	float Find (int ValueToFind);
-	float FindNext (int ValueToFind, float Date);
+	float FindNext (int ValueToFind, float Time);
 	void Display (void);
 };
 
@@ -40,23 +43,23 @@ EventVector::EventVector(void)//Constructor class
     //delete [] p;
     //p = temp;
 	MostRecentSlot=-1;
-	for (int i=0; i<EventVectorMaxSize; i++)
-	{
-		EventValueVector[i]=-1;
-		EventTimeVector[i]=-1;
-	}
+	VectorSize=0;
+	//for (int i=0; i<EventVectorMaxSize; i++)
+	//{
+	//	EventValueVector[i]=-1;
+	//	EventTimeVector[i]=-1;
+	//}
 
 }
 
 
 void EventVector::Reset(void)//Constructor class
 {
+    EventValueVector.resize(0);
+    EventTimeVector.resize(0);
+
 	MostRecentSlot=-1;
-	for (int i=0; i<EventVectorMaxSize; i++)
-	{
-		EventValueVector[i]=-1;
-		EventTimeVector[i]=-1;
-	}
+	VectorSize=0;
 
 }
 
@@ -64,44 +67,40 @@ void EventVector::Reset(void)//Constructor class
 
 
 
-int EventVector::Set(float Date, int EventValue)//Date can either be the current year for AddOrSet=s, or the number of years since the last stage with AddOrSet=a
+int EventVector::Set(float Time, int EventValue)//Time can either be the current year for AddOrSet=s, or the number of years since the last Value with AddOrSet=a
 {
-	int Slot=0;
-	while (Slot<EventVectorMaxSize)
-	{
-		if (EventValueVector[Slot]==-1)
-		{
-			if (Slot>0)
-			{
-				if (EventTimeVector[Slot-1]>=Date)//error check (don't allow later states to overlap previous ones)
-					return -2;//error has occurred
-			}
-			EventValueVector[Slot]=EventValue;
-			EventTimeVector[Slot]=Date;
-			MostRecentSlot=Slot;
-			return 0;
-		}
-		Slot++;
-	}
-	return -1;//error, run out of space to store events
+	//is the last Time after the Time attempting to be set? This is an error, return -1
+	if (EventTimeVector[MostRecentSlot]>Time)
+    {
+        return -1;
+    }
+
+
+	MostRecentSlot++;
+	VectorSize++;
+    EventValueVector.resize(VectorSize, EventValue);
+    EventTimeVector.resize(VectorSize, EventValue);
+    float MostRecentTime (void);
+	float MostRecentValue (void);
+
 }
 
-int EventVector::Set(float Date, int EventValue, bool EraseFutureEvents);// used to remove future events if, for example, the expected time of death is set but medication is given that changes the death date
+int EventVector::Set(float Time, int EventValue, bool EraseFutureEvents);// used to remove future events if, for example, the expected time of death is set but medication is given that changes the death Time
 {
     if (EraseFutureEvents==true)
     {
+        //Determine if there are future events
+
+        //Determine where future events start
         std::cout << "\nDelete all future events";
             std::cout << "\nFind future events";
             std::cout << "\nDelete events";
     }
-    std::cout << "\nSet(float Date, int EventValue)";
-	return 0;
+    return Set(float Time, int EventValue)";
 }
 
 
-
-
-int EventVector::Add(float Years, int EventValue)//Date can either be the current year for AddOrSet=s, or the number of years since the last stage with AddOrSet=a
+int EventVector::Add(float Years, int EventValue)//Time can either be the current year for AddOrSet=s, or the number of years since the last Value with AddOrSet=a
 {
 	if (EventValueVector[0]==-1)
 		return -1;//error, no value to add on to
@@ -123,7 +122,7 @@ int EventVector::Add(float Years, int EventValue)//Date can either be the curren
 
 
 
-float EventVector::MostRecentDate (void)
+float EventVector::MostRecentTime (void)
 {
 	int Slot=0;
 	while (Slot<StandardVectorSize-1)
@@ -138,9 +137,9 @@ float EventVector::MostRecentDate (void)
 	return -1;//error, run out of space to store disease progression
 }
 
-int EventVector::Stage (float Date)
+int EventVector::Value (float Time)
 {
-	//this class is used to determine the disease stage at the current time
+	//this class is used to determine the disease Value at the current time
 
 	if (EventValueVector[0]==-1)
 	{
@@ -150,7 +149,7 @@ int EventVector::Stage (float Date)
 	int Slot=0;
 	while (Slot<StandardVectorSize-1)
 	{
-		if (Date>= EventTimeVector[Slot] && (Date<EventTimeVector[Slot+1]  || EventValueVector[Slot+1]==-1))
+		if (Time>= EventTimeVector[Slot] && (Time<EventTimeVector[Slot+1]  || EventValueVector[Slot+1]==-1))
 		{
 			return EventValueVector[Slot];
 		}
@@ -173,13 +172,13 @@ float EventVector::Find (int ValueToFind)
 	return -1;//value not found
 }
 
-float EventVector::FindNext (int ValueToFind, float Date)
+float EventVector::FindNext (int ValueToFind, float Time)
 {
-	//Find the next occurence of the stage ValueToFind after the date given
+	//Find the next occurence of the Value ValueToFind after the Time given
 	int Slot=0;
 	while (Slot<StandardVectorSize-1 && EventValueVector[Slot]!=-1)
 	{
-		if (EventValueVector[Slot]==ValueToFind && EventTimeVector[Slot]>=Date)
+		if (EventValueVector[Slot]==ValueToFind && EventTimeVector[Slot]>=Time)
 		{
 			return EventTimeVector[Slot];
 		}
