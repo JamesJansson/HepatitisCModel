@@ -1,55 +1,20 @@
 #include "stdafx.h"
-//#include "ProbabilityFunctions.h"
-#define StandardVectorSize 50//this is the standard size of a vector that records things like disease stage
-
+#include "ProbabilityFunctions.h"
 #include "EventVector.h"
 
-//#define StepVectorSize 300//enough to take us to 2020 on a 0.1 step size
-//Disease level code
-#define  NotInfected 0
-#define  AcuteInfection 1
-#define  FibrosisLevelF0 2
-#define  FibrosisLevelF1 3
-#define  FibrosisLevelF2 4
-#define  FibrosisLevelF3 5
-#define  FibrosisLevelF4 6
-#define  LiverFailure 7
-#define  HCC 8
-#define  LiverTransplant 9
-#define  Death 10
 
-
-#define NextSusceptibleMAX 20000//a very large number so no simulation will ever ask about this date
 
 
 class HCVClass {
-	//Note: excessive paramters will lead to reduced capacity to create new objects. Limit parameters if more individuals necessary. Max bits allow in array 2 147 483 647
-	float StepSize;
-	bool Active;//A variable used to indicate if the slot has been used for an individual yet (true) or not (false).
-    float YearOfBirth;
 
-	//, YearOfInfection, YearOfGeneralDeath, YearOfDrugDeath, YearOfHCVDeath, YearOfTransplantDeath;
+    float YearOfBirth; //used in determining age based probability of death, fibrosis development
+
 	int Sex;//male 0, female, 1
-	int State;//numerical state code
-
-	//temporary variables: dynamic and simply to show where up to
-	//int MostRecentSlot;
-
-	//Step model
-	//int DiseaseStageStep[StandardVectorSize];
-	//int DrugUseStep[StandardVectorSize];
 
 
-	float IDUStart, IDUStop;
-
-	float GeneralMortalityDate, IDUMortalityDate, HCVMortalityDate, TransplantMortalityDate;
-	float YearOfDeath;//YearOfDeath is earliest of all these death dates
-	float NextSusceptible;//When the individual can possibly be infected next. Set to NextSusceptibleMAX if can never be infected again
 
 public:
-	EventVector HCV;
-	//EventVector Fibrosis;????????????????????????????????????????????????????????
-
+	EventVector DiseaseStage;
 	//-1 : empty
 	//0 : not infected
 	//1 : accute infection
@@ -63,12 +28,11 @@ public:
 	//9  : liver transplant
 	//10  : death
 
-	EventVector HCVGenotype;
+	EventVector Genotype[7];//zero is unused, 1-6 indicates genotype 1-6 infected
 	//0: not infected
-	//1: genotype 1 infected
-	//2: genotype other infected
+	//1: infecected at that point
 
-	EventVector HCVDiagnosis;
+	EventVector Diagnosed;
 	//0: not diagnosed
 	//1: diagnosed
 
@@ -76,8 +40,20 @@ public:
 	//0 : not on treatment
 	//1 : on treatment
 
+	EventClass AlcoholUse;
+
+	HCVProbabilityClass *Prob;//Some sort of pointer to a class of probabilities. This can be live updated to represent changes in the probabilities
+
 	HCVClass(void);//Constructor class
 	void Reset(void);
+
+
+
+
+
+//------------------------------------------------------------------------------------------------------
+
+
 	int StartIDU(float DateStartIDU, float InputBirthDate, int InputSex,  ParameterClass* p);
 	int CleanUpMortality(void);
 	bool SusceptibleIDU(float Year);
@@ -470,6 +446,7 @@ int HCVClass::NewHCVInfection (float YearOfInfection,  int HCVGenotypeGiven, Par
 
 		if (f==0)
 		{
+		    //Years Until event have been moved to the probabilityfunctions header
 			CurrentDiseaseStageDuration=YearsUntilEvent (p->F0toF1[CurrentIDUStatus]);
 			NextDiseaseStage=FibrosisLevelF1;
 		}

@@ -1,4 +1,3 @@
-#define EventVectorMaxSize 50
 #include <vector>
 using namespace std;
 //vector<int> v;         // no need to prepend std:: any more
@@ -22,7 +21,7 @@ public:
 	int Add(float Years, int EventValue);
 	float LastTimeEntry (void);
 	int LastValueEntry (void);
-	int ValueAt (float Time);
+	int Value (float Time);
 	float Find (int ValueToFind);
 	float FindNext (int ValueToFind, float Time);
 	void Display (void);
@@ -142,7 +141,7 @@ int EventVector::LastValueEntry (void)
 
 
 
-int EventVector::ValueAt (float Time)
+int EventVector::Value (float Time)
 {
 	//this class is used to determine the value at the current time
 	if (MostRecentSlot==-1)
