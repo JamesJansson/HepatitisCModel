@@ -32,12 +32,12 @@ class PersonClass {
 
 	//float IDUStart, IDUStop;
 
-	float GeneralMortalityDate, IDUMortalityDate, HCVMortalityDate, TransplantMortalityDate;
-	float YearOfDeath;//YearOfDeath is earliest of all these death dates
+	float GeneralMortalityDate, IDUMortalityDate, HCVMortalityDate, TransplantMortalityDate, HIVMortalityDate;
+	float DateOfDeath;//YearOfDeath is earliest of all these death dates
 	float NextSusceptible;//When the individual can possibly be infected next. Set to NextSusceptibleMAX if can never be infected again
 
 public:
-	EventVector HCV;
+	//EventVector HCV;
 	//-1 : empty
 	//0 : not infected
 	//1 : accute infection

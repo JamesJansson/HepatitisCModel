@@ -20,8 +20,8 @@ public:
 	int Set(float Time, int EventValue);
 	int Set(float Time, int EventValue, bool EraseFutureEvents);// used to remove future events if, for example, the expected time of death is set but medication is given that changes the death Time
 	int Add(float Years, int EventValue);
-	float MostRecentTime (void);
-	float MostRecentValue (void);
+	float LastTimeEntry (void);
+	int LastValueEntry (void);
 	int ValueAt (float Time);
 	float Find (int ValueToFind);
 	float FindNext (int ValueToFind, float Time);
@@ -85,7 +85,7 @@ int EventVector::Set(float Time, int EventValue)//Time can either be the current
 
 }
 
-int EventVector::Set(float Time, int EventValue, bool EraseFutureEvents);// used to remove future events if, for example, the expected time of death is set but medication is given that changes the death Time
+int EventVector::Set(float Time, int EventValue, bool EraseFutureEvents)// used to remove future events if, for example, the expected time of death is set but medication is given that changes the death Time
 {
     if (EraseFutureEvents==true)
     {
@@ -96,7 +96,7 @@ int EventVector::Set(float Time, int EventValue, bool EraseFutureEvents);// used
             std::cout << "\nFind future events";
             std::cout << "\nDelete events";
     }
-    return Set(float Time, int EventValue)";
+    return Set(Time, EventValue);
 }
 
 
@@ -168,7 +168,7 @@ int EventVector::ValueAt (float Time)
     int Slot=0;
 	while (Slot<MostRecentSlot)
 	{
-        if (Time>= EventTimeVector[Slot] && (Time<EventTimeVector[Slot+1])
+        if (Time>= EventTimeVector[Slot] && Time<EventTimeVector[Slot+1])
         {
             return EventValueVector[Slot];//take the left hand value
         }
