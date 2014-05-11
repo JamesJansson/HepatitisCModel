@@ -22,7 +22,7 @@ public:
 	int Add(float Years, int EventValue);
 	float MostRecentTime (void);
 	float MostRecentValue (void);
-	int Value (float Time);
+	int ValueAt (float Time);
 	float Find (int ValueToFind);
 	float FindNext (int ValueToFind, float Time);
 	void Display (void);
@@ -122,46 +122,67 @@ int EventVector::Add(float Years, int EventValue)//Time can either be the curren
 
 
 
-float EventVector::MostRecentTime (void)
+float EventVector::LastTimeEntry (void)
 {
-	int Slot=0;
-	while (Slot<StandardVectorSize-1)
-	{
-		if (EventValueVector[Slot+1]==-1)
-		{
-
-			return EventTimeVector[Slot];
-		}
-		Slot++;
-	}
-	return -1;//error, run out of space to store disease progression
+    if (MostRecentSlot>=0)
+    {
+        return EventTimeVector[MostRecentSlot];
+    }
+    return -1;// this may become a problem if the time goes into negative time.
 }
 
-int EventVector::Value (float Time)
+int EventVector::LastValueEntry (void)
 {
-	//this class is used to determine the disease Value at the current time
+    if (MostRecentSlot>=0)
+    {
+        return EventValueVector[MostRecentSlot];
+    }
+    return -1;// this may become a problem if the time goes into negative time.
+}
 
-	if (EventValueVector[0]==-1)
+
+
+int EventVector::ValueAt (float Time)
+{
+	//this class is used to determine the value at the current time
+	if (MostRecentSlot==-1)
 	{
 		return -1;//error, nothing set as yet
 	}
 
-	int Slot=0;
-	while (Slot<StandardVectorSize-1)
+	//if the time is prior to the first set time
+	if (Time<EventTimeVector[0])
+    {
+        return -1;
+    }
+
+    if (MostRecentSlot==0)
+    {
+        if (Time>=EventTimeVector[0])
+        {
+            return EventTimeVector[0];
+        }
+    }
+
+    //find when the next event will happen
+    int Slot=0;
+	while (Slot<MostRecentSlot)
 	{
-		if (Time>= EventTimeVector[Slot] && (Time<EventTimeVector[Slot+1]  || EventValueVector[Slot+1]==-1))
-		{
-			return EventValueVector[Slot];
-		}
-		Slot++;
+        if (Time>= EventTimeVector[Slot] && (Time<EventTimeVector[Slot+1])
+        {
+            return EventValueVector[MostRecentSlot];
+        }
+
+        Slot++;
 	}
-	return -1;//error, run out of space to store disease progression
+
+    return EventTimeVector[MostRecentSlot];//if the time is after the most recent slot time, use that
 }
 
 float EventVector::Find (int ValueToFind)
 {
 	int Slot=0;
-	while (Slot<StandardVectorSize-1 && EventValueVector[Slot]!=-1)
+	while (Slot<=MostRecentSlot)
 	{
 		if (EventValueVector[Slot]==ValueToFind)
 		{
@@ -176,7 +197,7 @@ float EventVector::FindNext (int ValueToFind, float Time)
 {
 	//Find the next occurence of the Value ValueToFind after the Time given
 	int Slot=0;
-	while (Slot<StandardVectorSize-1 && EventValueVector[Slot]!=-1)
+	while (Slot<=MostRecentSlot)
 	{
 		if (EventValueVector[Slot]==ValueToFind && EventTimeVector[Slot]>=Time)
 		{
@@ -188,20 +209,6 @@ float EventVector::FindNext (int ValueToFind, float Time)
 }
 
 
-//float EventVector::Clean (int ValueToSet, float CutOffTime)
-//{
-//	int Slot=0;
-//	while (Slot<StandardVectorSize-1 && EventValueVector[Slot]!=-1)
-//	{
-//		if
-//		if (EventValueVector[Slot]==ValueToFind))
-//		{
-//			return EventTimeVector[Slot];
-//		}
-//		Slot++;
-//	}
-//	return -1;//value not found
-//}
 
 
 
