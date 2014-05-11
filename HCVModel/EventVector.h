@@ -66,19 +66,17 @@ void EventVector::Reset(void)//Constructor class
 
 
 
-int EventVector::Set(float Time, int EventValue)//Time can either be the current year for AddOrSet=s, or the number of years since the last Value with AddOrSet=a
+int EventVector::Set(float Time, int EventValue)
 {
 	//is the last Time after the Time attempting to be set? This is an error, return -1
 	if (EventTimeVector[MostRecentSlot]>Time)
     {
         return -1;
     }
-
-
 	MostRecentSlot++;
 	VectorSize++;
     EventValueVector.resize(VectorSize, EventValue);
-    EventTimeVector.resize(VectorSize, EventValue);
+    EventTimeVector.resize(VectorSize, Time);
     float MostRecentTime (void);
 	float MostRecentValue (void);
 
@@ -99,23 +97,17 @@ int EventVector::Set(float Time, int EventValue, bool EraseFutureEvents)// used 
 }
 
 
-int EventVector::Add(float Years, int EventValue)//Time can either be the current year for AddOrSet=s, or the number of years since the last Value with AddOrSet=a
+int EventVector::Add(float Years, int EventValue)
 {
-	if (EventValueVector[0]==-1)
+    if (MostRecentSlot==-1)
 		return -1;//error, no value to add on to
-	int Slot=1;
-	while (Slot<EventVectorMaxSize)
-	{
-		if (EventValueVector[Slot]==-1)
-		{
-			EventValueVector[Slot]=EventValue;
-			EventTimeVector[Slot]=EventTimeVector[Slot-1]+Years;
-			MostRecentSlot=Slot;
-			return 0;
-		}
-		Slot++;
-	}
-	return -1;//error, run out of space to store disease progression
+
+	MostRecentSlot++;
+	VectorSize++;
+    EventValueVector.resize(VectorSize, EventValue);
+    EventTimeVector.resize(VectorSize, EventTimeVector[MostRecentSlot-1]+Years);
+
+	return 0;
 }
 
 

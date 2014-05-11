@@ -9,7 +9,17 @@ using namespace std;
 
 int main()
 {
+    int TestingOn=1;
+    if (TestingOn==1)
+    {
+        SetSomeEvents();
+    }
+
+
     cout << "Starting model" << endl;
+
+
+
     // Load parameters and data
 
     // Create initial seed
