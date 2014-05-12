@@ -36,7 +36,7 @@ public:
 	//0: not diagnosed
 	//1: diagnosed
 
-	EventVector Treatment;
+	EventVector Treatment[77];
 	//0 : not on treatment
 	//1 : on treatment
 
