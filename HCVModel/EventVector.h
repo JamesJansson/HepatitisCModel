@@ -77,12 +77,10 @@ int EventVector::Set(float Time, int EventValue)
             return -1;
         }
     }
-    Display();
 	LastSlot++;
 	VectorSize++;
     EventValueVector.push_back( EventValue);
     EventTimeVector.push_back( Time);
-    Display();
     return 0;
 }
 
@@ -95,6 +93,10 @@ int EventVector::Set(float Time, int EventValue, bool EraseFutureEvents)// used 
         {
             //Find future events
             int LastPostitionLTTime=VectorPosition(Time);
+            if (EventTimeVector[LastPostitionLTTime]==Time)
+            {
+                LastPostitionLTTime=LastPostitionLTTime-1;
+            }
             if (LastPostitionLTTime<LastSlot)
             {
                 //Delete events
@@ -147,25 +149,23 @@ int EventVector::LastValueEntry (void)
 
 int EventVector::VectorPosition (float Time)
 {
-    std::cout<<"In vec pos"<<endl;
     if (LastSlot==-1)
     {
         return -1;//error, nothing set as yet
     }
-    std::cout<<"In vec pos 2"<<endl;
+
     //if the time is prior to the first set time
-	if (Time<=EventTimeVector[0])
+	if (Time<EventTimeVector[0])
     {
         return -1;//error, as time is prior to first step
     }
-    std::cout<<"In vec pos 3"<<endl;
+
     int Slot=0;
     while (Slot<LastSlot)
     {
         //std::cout<<"While loop"<<Slot<<" "<<EventTimeVector[Slot]<<" "<<Time<<endl;
-        if (EventTimeVector[Slot]<Time && Time<=EventTimeVector[Slot+1])
+        if (EventTimeVector[Slot]<=Time && Time<EventTimeVector[Slot+1])
         {
-            std::cout<<"While loop"<<Slot<<" "<<EventTimeVector[Slot]<<" "<<EventTimeVector[Slot+1]<<" "<<Time<<endl;
             return Slot;
         }
         Slot++;

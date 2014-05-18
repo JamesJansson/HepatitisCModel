@@ -2,16 +2,16 @@
 void EVSetSomeEvents(void)
 {
 
-    vector<int> veccy;
-    veccy.push_back( 1);
-    veccy.push_back( 2);
-    cout<<veccy[0]<<" "<<veccy[1]<<endl;
-    veccy.resize(1);
-    cout<<veccy.size()<<endl;
-
-    cout<<veccy[0]<<" "<<veccy[1]<<endl;
-    veccy.resize(2, 3);
-    cout<<veccy[0]<<" "<<veccy[1]<<" "<<veccy[2]<<endl;
+//    vector<int> veccy;
+//    veccy.push_back( 1);
+//    veccy.push_back( 2);
+//    cout<<veccy[0]<<" "<<veccy[1]<<endl;
+//    veccy.resize(1);
+//    cout<<veccy.size()<<endl;
+//
+//    cout<<veccy[0]<<" "<<veccy[1]<<endl;
+//    veccy.resize(2, 3);
+//    cout<<veccy[0]<<" "<<veccy[1]<<" "<<veccy[2]<<endl;
 
     EventVector Test;
 //    std::cout<<Test.Set(2012.1, 2)<<endl;
@@ -23,10 +23,14 @@ void EVSetSomeEvents(void)
 
     Test.Set(2012.1, 2);
     Test.Set(2012.5, 3);
+    Test.Set(2012.7, 3);
     Test.Display();
+
+
     std::cout<<"Deleting future"<<endl;
-    std::cout<<Test.Set(2012.3, 1, true)<<endl;
+    std::cout<<Test.Set(2012.9, 1, true)<<endl;
     Test.Display();
+
 
 
 
