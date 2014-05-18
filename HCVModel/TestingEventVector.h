@@ -47,12 +47,13 @@ void EVSpeedTest(void)
     std::clock_t start;
     double duration;
     start = std::clock();
-    for (int i=1; i<10000; i++)
+    for (int i=1; i<100000000; i++)
     {
         Test.Set(2012.5+i, 3+1);
     }
     duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
     std::cout<<"Time in seconds: "<< duration <<'\n';
+    std::cout<<Test.Size()<<endl;
 
 
 

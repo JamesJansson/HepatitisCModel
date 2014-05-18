@@ -25,6 +25,7 @@ public:
 	int Value (float Time);
 	float Find (int ValueToFind);
 	float FindNext (int ValueToFind, float Time);
+	int Size(void);
 	void Display (void);
 };
 
@@ -213,7 +214,10 @@ float EventVector::FindNext (int ValueToFind, float Time)
 }
 
 
-
+int EventVector::Size(void)
+{
+    return VectorSize;
+}
 
 
 
