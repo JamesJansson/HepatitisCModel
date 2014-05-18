@@ -5,7 +5,7 @@ using namespace std;
 //myvector.resize(8,100); change the vecotr size to 8, fill new spots with 100s
 class EventVector {
 
-	int CurrentSlot;
+	int LastSlot;
 	int VectorSize;
 
     vector<int> EventValueVector;
@@ -41,7 +41,7 @@ EventVector::EventVector(void)//Constructor class
     //std::copy(p, p + 5, temp); // Suggested by comments from Nick and Bojan
     //delete [] p;
     //p = temp;
-	CurrentSlot=-1;
+	LastSlot=-1;
 	VectorSize=0;
 	//for (int i=0; i<EventVectorMaxSize; i++)
 	//{
@@ -57,7 +57,7 @@ void EventVector::Reset(void)//Constructor class
     EventValueVector.resize(0);
     EventTimeVector.resize(0);
 
-	CurrentSlot=-1;
+	LastSlot=-1;
 	VectorSize=0;
 
 }
@@ -68,15 +68,20 @@ void EventVector::Reset(void)//Constructor class
 
 int EventVector::Set(float Time, int EventValue)
 {
-	//is the last Time after the Time attempting to be set? This is an error, return -1
-	if (EventTimeVector[CurrentSlot]>Time)
+    //is the last Time after the Time attempting to be set? This is an error, return -1
+	if (LastSlot>=0)
     {
-        return -1;
+        if (EventTimeVector[LastSlot]>Time)
+        {
+            return -1;
+        }
     }
-	CurrentSlot++;
+
+	LastSlot++;
 	VectorSize++;
     EventValueVector.resize(VectorSize, EventValue);
     EventTimeVector.resize(VectorSize, Time);
+    return 0;
 }
 
 int EventVector::Set(float Time, int EventValue, bool EraseFutureEvents)// used to remove future events if, for example, the expected time of death is set but medication is given that changes the death Time
@@ -84,6 +89,15 @@ int EventVector::Set(float Time, int EventValue, bool EraseFutureEvents)// used 
     if (EraseFutureEvents==true)
     {
         //Determine if there are future events
+        if (LastSlot>=0)
+        {
+            if (EventTimeVector[LastSlot]>=Time)
+            {
+                EventTimeVector[LastSlot]
+            }
+            VectorPosition(Time);
+            //else no need to delete future events
+        }
 
         //Determine where future events start
         std::cout << "\nDelete all future events";
@@ -96,13 +110,13 @@ int EventVector::Set(float Time, int EventValue, bool EraseFutureEvents)// used 
 
 int EventVector::Add(float Years, int EventValue)
 {
-    if (CurrentSlot==-1)
+    if (LastSlot==-1)
 		return -1;//error, no value to add on to
 
-	CurrentSlot++;
+	LastSlot++;
 	VectorSize++;
     EventValueVector.resize(VectorSize, EventValue);
-    EventTimeVector.resize(VectorSize, EventTimeVector[CurrentSlot-1]+Years);
+    EventTimeVector.resize(VectorSize, EventTimeVector[LastSlot-1]+Years);
 
 	return 0;
 }
@@ -112,59 +126,50 @@ int EventVector::Add(float Years, int EventValue)
 
 float EventVector::LastTimeEntry (void)
 {
-    if (CurrentSlot>=0)
+    if (LastSlot>=0)
     {
-        return EventTimeVector[CurrentSlot];
+        return EventTimeVector[LastSlot];
     }
     return -1;// this may become a problem if the time goes into negative time.
 }
 
 int EventVector::LastValueEntry (void)
 {
-    if (CurrentSlot>=0)
+    if (LastSlot>=0)
     {
-        return EventValueVector[CurrentSlot];
+        return EventValueVector[LastSlot];
     }
     return -1;// this may become a problem if the time goes into negative time.
 }
 
+int EventVector::VectorPosition (float Time)
+{
+    if (LastSlot==-1)
+    {
+        return -1;//error, nothing set as yet
+    }
+    //if the time is prior to the first set time
+	if (Time<EventTimeVector[0])
+    {
+        return -1;//error, as time is prior to first step
+    }
 
+    int Slot=0;
+    while (Slot<LastSlot)
+    {
+        if (EventTimeVector[Slot]<Time)
+        {
+            return Slot;
+        }
+        Slot++;
+    }
+    return LastSlot;// if it isn't any of the slots < LastSlot, it should be the LastSlot
+}
 
 int EventVector::Value (float Time)
 {
-	//this class is used to determine the value at the current time
-	if (CurrentSlot==-1)
-	{
-		return -1;//error, nothing set as yet
-	}
-
-	//if the time is prior to the first set time
-	if (Time<EventTimeVector[0])
-    {
-        return -1;
-    }
-
-    if (CurrentSlot==0)
-    {
-        if (Time>=EventTimeVector[0])
-        {
-            return EventTimeVector[0];
-        }
-    }
-
-    //find when the next event will happen
-    int Slot=0;
-	while (Slot<CurrentSlot)
-	{
-        if (Time>= EventTimeVector[Slot] && Time<EventTimeVector[Slot+1])
-        {
-            return EventValueVector[Slot];//take the left hand value
-        }
-
-        Slot++;
-	}
-
-    return EventTimeVector[CurrentSlot];//if the time is after the most recent slot time, use that
+    //this class is used to determine the value at the spcified time
+    return EventTimeVector[VectorPosition(Time)];
 }
 
 float EventVector::Find (int ValueToFind)
@@ -173,7 +178,7 @@ float EventVector::Find (int ValueToFind)
     vector<float> StartTimes;
     vector<float> EndTimes;
 	int Slot=0;
-	while (Slot<=CurrentSlot)
+	while (Slot<=LastSlot)
 	{
 		if (EventValueVector[Slot]==ValueToFind)
 		{
@@ -188,7 +193,7 @@ float EventVector::FindNext (int ValueToFind, float Time)
 {
 	//Find the next occurence of the Value ValueToFind after the Time given
 	int Slot=0;
-	while (Slot<=CurrentSlot)
+	while (Slot<=LastSlot)
 	{
 		if (EventValueVector[Slot]==ValueToFind && EventTimeVector[Slot]>=Time)
 		{
@@ -207,11 +212,12 @@ float EventVector::FindNext (int ValueToFind, float Time)
 void EventVector::Display (void)
 {
 	//Displays the current disease progression of the individual
-	int i=0;
-	while (EventValueVector[i]!=-1)//for (int i=0; i<10; i++)
+    std::cout<<"Vector start"<<endl;
+    int Slot=0;
+	while (Slot<=LastSlot)
 	{
-		std::cout<<"\n"<<EventValueVector[i]<<' '<<EventTimeVector[i];
-		i++;
+		std::cout<<EventValueVector[Slot]<<' '<<EventTimeVector[Slot]<<endl;
+		Slot++;
 	}
 	char buffer;
 	std::cout << "\nEnter any character to continue";

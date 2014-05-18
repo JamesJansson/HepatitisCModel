@@ -77,6 +77,7 @@ public:
 HCVClass::HCVClass(void)//Constructor class
 {
 	StepSize=0.1;
+	cout<<"Warning, hard value set here"<<endl;
 	Active=0;
 	NextSusceptible=0;
 
