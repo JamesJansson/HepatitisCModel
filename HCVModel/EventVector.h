@@ -21,6 +21,7 @@ public:
 	int Add(float Years, int EventValue);
 	float LastTimeEntry (void);
 	int LastValueEntry (void);
+	int VectorPosition (float);
 	int Value (float Time);
 	float Find (int ValueToFind);
 	float FindNext (int ValueToFind, float Time);
@@ -76,11 +77,12 @@ int EventVector::Set(float Time, int EventValue)
             return -1;
         }
     }
-
+    Display();
 	LastSlot++;
 	VectorSize++;
-    EventValueVector.resize(VectorSize, EventValue);
-    EventTimeVector.resize(VectorSize, Time);
+    EventValueVector.push_back( EventValue);
+    EventTimeVector.push_back( Time);
+    Display();
     return 0;
 }
 
@@ -91,20 +93,21 @@ int EventVector::Set(float Time, int EventValue, bool EraseFutureEvents)// used 
         //Determine if there are future events
         if (LastSlot>=0)
         {
-            if (EventTimeVector[LastSlot]>=Time)
+            //Find future events
+            int LastPostitionLTTime=VectorPosition(Time);
+            if (LastPostitionLTTime<LastSlot)
             {
-                EventTimeVector[LastSlot]
+                //Delete events
+                VectorSize=LastPostitionLTTime+1;
+                EventValueVector.resize(VectorSize);
+                EventTimeVector.resize(VectorSize);
+                LastSlot=LastPostitionLTTime;
+
             }
-            VectorPosition(Time);
             //else no need to delete future events
         }
-
-        //Determine where future events start
-        std::cout << "\nDelete all future events";
-            std::cout << "\nFind future events";
-            std::cout << "\nDelete events";
     }
-    return Set(Time, EventValue);
+    return Set(Time, EventValue);//set the current event
 }
 
 
@@ -115,8 +118,8 @@ int EventVector::Add(float Years, int EventValue)
 
 	LastSlot++;
 	VectorSize++;
-    EventValueVector.resize(VectorSize, EventValue);
-    EventTimeVector.resize(VectorSize, EventTimeVector[LastSlot-1]+Years);
+    EventValueVector.push_back( EventValue);
+    EventTimeVector.push_back( EventTimeVector[LastSlot-1]+Years);
 
 	return 0;
 }
@@ -144,25 +147,30 @@ int EventVector::LastValueEntry (void)
 
 int EventVector::VectorPosition (float Time)
 {
+    std::cout<<"In vec pos"<<endl;
     if (LastSlot==-1)
     {
         return -1;//error, nothing set as yet
     }
+    std::cout<<"In vec pos 2"<<endl;
     //if the time is prior to the first set time
-	if (Time<EventTimeVector[0])
+	if (Time<=EventTimeVector[0])
     {
         return -1;//error, as time is prior to first step
     }
-
+    std::cout<<"In vec pos 3"<<endl;
     int Slot=0;
     while (Slot<LastSlot)
     {
-        if (EventTimeVector[Slot]<Time)
+        //std::cout<<"While loop"<<Slot<<" "<<EventTimeVector[Slot]<<" "<<Time<<endl;
+        if (EventTimeVector[Slot]<Time && Time<=EventTimeVector[Slot+1])
         {
+            std::cout<<"While loop"<<Slot<<" "<<EventTimeVector[Slot]<<" "<<EventTimeVector[Slot+1]<<" "<<Time<<endl;
             return Slot;
         }
         Slot++;
     }
+
     return LastSlot;// if it isn't any of the slots < LastSlot, it should be the LastSlot
 }
 
@@ -212,7 +220,7 @@ float EventVector::FindNext (int ValueToFind, float Time)
 void EventVector::Display (void)
 {
 	//Displays the current disease progression of the individual
-    std::cout<<"Vector start"<<endl;
+    std::cout<<"Vector size:"<<VectorSize<<" last vector position: "<<LastSlot<<endl;
     int Slot=0;
 	while (Slot<=LastSlot)
 	{

@@ -17,7 +17,7 @@ int main()
     if (DisplayDebug==1)
     {
         cout << "Starting  testing" << endl;
-        SetSomeEvents();
+        EVSetSomeEvents();
     }
 
 
