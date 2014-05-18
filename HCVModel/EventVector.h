@@ -5,7 +5,7 @@ using namespace std;
 //myvector.resize(8,100); change the vecotr size to 8, fill new spots with 100s
 class EventVector {
 
-	int MostRecentSlot;
+	int CurrentSlot;
 	int VectorSize;
 
     vector<int> EventValueVector;
@@ -41,7 +41,7 @@ EventVector::EventVector(void)//Constructor class
     //std::copy(p, p + 5, temp); // Suggested by comments from Nick and Bojan
     //delete [] p;
     //p = temp;
-	MostRecentSlot=-1;
+	CurrentSlot=-1;
 	VectorSize=0;
 	//for (int i=0; i<EventVectorMaxSize; i++)
 	//{
@@ -57,7 +57,7 @@ void EventVector::Reset(void)//Constructor class
     EventValueVector.resize(0);
     EventTimeVector.resize(0);
 
-	MostRecentSlot=-1;
+	CurrentSlot=-1;
 	VectorSize=0;
 
 }
@@ -69,17 +69,14 @@ void EventVector::Reset(void)//Constructor class
 int EventVector::Set(float Time, int EventValue)
 {
 	//is the last Time after the Time attempting to be set? This is an error, return -1
-	if (EventTimeVector[MostRecentSlot]>Time)
+	if (EventTimeVector[CurrentSlot]>Time)
     {
         return -1;
     }
-	MostRecentSlot++;
+	CurrentSlot++;
 	VectorSize++;
     EventValueVector.resize(VectorSize, EventValue);
     EventTimeVector.resize(VectorSize, Time);
-    float MostRecentTime (void);
-	float MostRecentValue (void);
-
 }
 
 int EventVector::Set(float Time, int EventValue, bool EraseFutureEvents)// used to remove future events if, for example, the expected time of death is set but medication is given that changes the death Time
@@ -99,13 +96,13 @@ int EventVector::Set(float Time, int EventValue, bool EraseFutureEvents)// used 
 
 int EventVector::Add(float Years, int EventValue)
 {
-    if (MostRecentSlot==-1)
+    if (CurrentSlot==-1)
 		return -1;//error, no value to add on to
 
-	MostRecentSlot++;
+	CurrentSlot++;
 	VectorSize++;
     EventValueVector.resize(VectorSize, EventValue);
-    EventTimeVector.resize(VectorSize, EventTimeVector[MostRecentSlot-1]+Years);
+    EventTimeVector.resize(VectorSize, EventTimeVector[CurrentSlot-1]+Years);
 
 	return 0;
 }
@@ -115,18 +112,18 @@ int EventVector::Add(float Years, int EventValue)
 
 float EventVector::LastTimeEntry (void)
 {
-    if (MostRecentSlot>=0)
+    if (CurrentSlot>=0)
     {
-        return EventTimeVector[MostRecentSlot];
+        return EventTimeVector[CurrentSlot];
     }
     return -1;// this may become a problem if the time goes into negative time.
 }
 
 int EventVector::LastValueEntry (void)
 {
-    if (MostRecentSlot>=0)
+    if (CurrentSlot>=0)
     {
-        return EventValueVector[MostRecentSlot];
+        return EventValueVector[CurrentSlot];
     }
     return -1;// this may become a problem if the time goes into negative time.
 }
@@ -136,7 +133,7 @@ int EventVector::LastValueEntry (void)
 int EventVector::Value (float Time)
 {
 	//this class is used to determine the value at the current time
-	if (MostRecentSlot==-1)
+	if (CurrentSlot==-1)
 	{
 		return -1;//error, nothing set as yet
 	}
@@ -147,7 +144,7 @@ int EventVector::Value (float Time)
         return -1;
     }
 
-    if (MostRecentSlot==0)
+    if (CurrentSlot==0)
     {
         if (Time>=EventTimeVector[0])
         {
@@ -157,7 +154,7 @@ int EventVector::Value (float Time)
 
     //find when the next event will happen
     int Slot=0;
-	while (Slot<MostRecentSlot)
+	while (Slot<CurrentSlot)
 	{
         if (Time>= EventTimeVector[Slot] && Time<EventTimeVector[Slot+1])
         {
@@ -167,7 +164,7 @@ int EventVector::Value (float Time)
         Slot++;
 	}
 
-    return EventTimeVector[MostRecentSlot];//if the time is after the most recent slot time, use that
+    return EventTimeVector[CurrentSlot];//if the time is after the most recent slot time, use that
 }
 
 float EventVector::Find (int ValueToFind)
@@ -176,7 +173,7 @@ float EventVector::Find (int ValueToFind)
     vector<float> StartTimes;
     vector<float> EndTimes;
 	int Slot=0;
-	while (Slot<=MostRecentSlot)
+	while (Slot<=CurrentSlot)
 	{
 		if (EventValueVector[Slot]==ValueToFind)
 		{
@@ -191,7 +188,7 @@ float EventVector::FindNext (int ValueToFind, float Time)
 {
 	//Find the next occurence of the Value ValueToFind after the Time given
 	int Slot=0;
-	while (Slot<=MostRecentSlot)
+	while (Slot<=CurrentSlot)
 	{
 		if (EventValueVector[Slot]==ValueToFind && EventTimeVector[Slot]>=Time)
 		{

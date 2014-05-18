@@ -1,0 +1,11 @@
+# depslib dependency file v1.0
+1400392646 source:c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\main.cpp
+	<iostream>
+	"EventVector.h"
+	"TestingEventVector.h"
+
+1400392901 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\eventvector.h
+	<vector>
+
+1400392919 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\testingeventvector.h
+

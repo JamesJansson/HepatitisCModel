@@ -4,14 +4,17 @@
 //#include "thread.h"
 //#include "PersonClass.h"
 
+#define DisplayDebug 1
 
 using namespace std;
 
 int main()
 {
-    int TestingOn=1;
-    if (TestingOn==1)
+
+
+    if (DisplayDebug==1)
     {
+        cout << "Starting  testing" << endl;
         SetSomeEvents();
     }
 
