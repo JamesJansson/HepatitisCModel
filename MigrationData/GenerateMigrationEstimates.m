@@ -4,8 +4,9 @@ LoadAndCleanMigrationData
 
 [CountryData]=MatchCountries
 
-GenerateMigrationRate
+DetermineMigrationRate
 
+SaveToCSV
 
 
 for EachState

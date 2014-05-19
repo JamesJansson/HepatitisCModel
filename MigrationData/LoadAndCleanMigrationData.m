@@ -11,10 +11,10 @@ StateNum=1;
 %Load NSW data
 %1996
 YearIndex=1;
-[State(StateNum, YearIndex).Data, State(StateNum, YearIndex).SACCCode State(StateNum, YearIndex).CountryName]=OpenSheetData(File1996, 'Table_6.2', [9 59]);
+[State(StateNum, YearIndex).Data, State(StateNum, YearIndex).SACCCode, State(StateNum, YearIndex).CountryName]=OpenSheetData(File1996, 'Table_6.2', [9 59]);
 %2001 ;
 YearIndex=2;
-
+[State(StateNum, YearIndex).Data, State(StateNum, YearIndex).SACCCode, State(StateNum, YearIndex).CountryName]=OpenSheetData(File2001, 'Table_7.2', [9 294]);
 %2006
 YearIndex=3;
 
