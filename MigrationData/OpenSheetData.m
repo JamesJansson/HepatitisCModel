@@ -1,4 +1,4 @@
-function [CountryCode]=OpenSheetData(File, Sheet, Range)
+function [Data, SACCCode, CountryName]=OpenSheetData(File, Sheet, Range)
 
 %Load the whole range
 NumericalData=xlsread(File, Sheet, ['C' num2str(Range(1)) ':AX' num2str(Range(2)) ]);
@@ -8,8 +8,8 @@ NumericalData=xlsread(File, Sheet, ['C' num2str(Range(1)) ':AX' num2str(Range(2)
 
 
 
-Data(Sex, AgeGroup, CountryCount).SACCCode  %Note that country count will not be consistent throughout this first level of data set
 
+size(NumericalData)
 
 TotalRows=Range(2)-Range(1)+1;
 for CountryCount=1:TotalRows
@@ -17,7 +17,7 @@ for CountryCount=1:TotalRows
     AgeCount=1;
     while ColumnCount<=48
         for SexCount=1:3
-            Data(SexCount, AgeGroup, CountryCount).value=NumericalData(ColumnCount, CountryCount);
+            Data(CountryCount, SexCount, AgeCount).value=NumericalData(CountryCount, ColumnCount);
             ColumnCount=ColumnCount+1;
         end
         AgeCount=AgeCount+1;
@@ -25,15 +25,3 @@ for CountryCount=1:TotalRows
 end
     
     
-%Gender header
-%Age header
-%country name
-%country code
-xlsread%main data area
-
-
-
-%Turn into tidy data
-for each x element of the matrix
-    for each y element of the matrix
-        

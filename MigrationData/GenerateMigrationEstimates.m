@@ -4,9 +4,9 @@ LoadAndCleanMigrationData
 
 [CountryData]=MatchCountries
 
-Generate
+GenerateMigrationRate
 
 
 
 for EachState
-    FindContiguous
+    MatchAge
