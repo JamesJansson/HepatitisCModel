@@ -3,13 +3,24 @@ function [Data, SACCCode, CountryName]=OpenSheetData(File, Sheet, Range)
 %Load the whole range
 NumericalData=xlsread(File, Sheet, ['C' num2str(Range(1)) ':AX' num2str(Range(2)) ]);
 %Strip and save the headers
-[~, SACCCode, ~]=xlsread(File, Sheet, ['A' num2str(Range(1)) ':A' num2str(Range(2)) ]);
-[~, CountryName, ~]=xlsread(File, Sheet, ['B' num2str(Range(1)) ':B' num2str(Range(2)) ]);
+[~, ~, SACCCodeTemp]=xlsread(File, Sheet, ['A' num2str(Range(1)) ':A' num2str(Range(2)) ]);
+%clean SACC code (make all strings)
+SACCCode=cell(size(SACCCodeTemp));
+CountryCount=1;
+for entry=SACCCodeTemp'
+    if isnumeric(entry{:})==true
+        %Convert from num to str
+        entry=num2str(entry{:});
+    else
+        %Break it out of cell into array
+        entry=entry{:};
+    end
+    SACCCode{CountryCount}=entry;
+    CountryCount=CountryCount+1;
+end
 
 
-
-
-size(NumericalData)
+[~, ~, CountryName]=xlsread(File, Sheet, ['B' num2str(Range(1)) ':B' num2str(Range(2)) ]);
 
 TotalRows=Range(2)-Range(1)+1;
 for CountryCount=1:TotalRows
@@ -23,5 +34,3 @@ for CountryCount=1:TotalRows
         AgeCount=AgeCount+1;
     end
 end
-    
-    
