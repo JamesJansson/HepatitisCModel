@@ -1,3 +1,5 @@
+% Written by James Jansson, for the Kirby Institute Hepatitis C Project
+
 clear 
 clc
 

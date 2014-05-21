@@ -1,4 +1,6 @@
-function [Age AgeValues]=SmoothCurve(Ranges, values)
+function [Age, AgeValues]=SmoothCurve(Ranges, values)
+% Written by James Jansson, as part of a PhD program
+
 
 %create a vector that indiates the ranges
 Age=(min(Ranges( :, 1))):(max(Ranges(:, 2)));
