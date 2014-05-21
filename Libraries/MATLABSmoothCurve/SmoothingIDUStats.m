@@ -17,7 +17,7 @@ ReportedIDU=[0.00001
     123900
     84200
     64200
-    0.00001];
+    0.00001];%Note the 0.0001 on either side is usd to set the edge points. If you are certain incidence is 0 at birth, set the incidence in the age range 0-1 as zero.
 
 
 [AgeVector ReportedIDUSmoothed]=SmoothCurve(Ranges, ReportedIDU);
