@@ -28,7 +28,7 @@ for CountryCount=1:TotalRows
     AgeCount=1;
     while ColumnCount<=48
         for SexCount=1:3
-            Data(CountryCount, SexCount, AgeCount).value=NumericalData(CountryCount, ColumnCount);
+            Data(CountryCount, SexCount, AgeCount)=NumericalData(CountryCount, ColumnCount);
             ColumnCount=ColumnCount+1;
         end
         AgeCount=AgeCount+1;
