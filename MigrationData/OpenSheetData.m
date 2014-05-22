@@ -2,8 +2,10 @@ function [Data, SACCCode, CountryName]=OpenSheetData(File, Sheet, Range)
 
 %Load the whole range
 NumericalData=xlsread(File, Sheet, ['C' num2str(Range(1)) ':AX' num2str(Range(2)) ]);
-%Strip and save the headers
+
+%Load the headers
 [~, ~, SACCCodeTemp]=xlsread(File, Sheet, ['A' num2str(Range(1)) ':A' num2str(Range(2)) ]);
+
 %clean SACC code (make all strings)
 SACCCode=cell(size(SACCCodeTemp));
 CountryCount=1;
@@ -20,6 +22,7 @@ for entry=SACCCodeTemp'
 end
 
 
+% Break out age and sex into separate matrix dimensions
 [~, ~, CountryName]=xlsread(File, Sheet, ['B' num2str(Range(1)) ':B' num2str(Range(2)) ]);
 
 TotalRows=Range(2)-Range(1)+1;
@@ -34,3 +37,7 @@ for CountryCount=1:TotalRows
         AgeCount=AgeCount+1;
     end
 end
+
+%Order data according to SACCCode
+[SACCCode SACCIndex]=sort(SACCCode);
+Data=Data(SACCIndex, :, :);

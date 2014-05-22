@@ -7,19 +7,22 @@ File2011='ABS Data/2011 attualiz.xls';
 
 
 
-StateNum=1;
-%Load NSW data
+
+
 %1996
-YearIndex=1;
-[State(StateNum, YearIndex).Data, State(StateNum, YearIndex).SACCCode, State(StateNum, YearIndex).CountryName]=OpenSheetData(File1996, 'Table_6.2', [9 59]);
+%YearIndex=1;
+%[State(StateNum, YearIndex).Data, State(StateNum, YearIndex).SACCCode, State(StateNum, YearIndex).CountryName]=OpenSheetData(File1996, 'Table_6.2', [9 59]);
+
+%Load NSW data
+StateNum=1;
 %2001 ;
-YearIndex=2;
+YearIndex=1;
 [State(StateNum, YearIndex).Data, State(StateNum, YearIndex).SACCCode, State(StateNum, YearIndex).CountryName]=OpenSheetData(File2001, 'Table_7.2', [9 294]);
 %2006
-YearIndex=3;
+YearIndex=2;
 [State(StateNum, YearIndex).Data, State(StateNum, YearIndex).SACCCode, State(StateNum, YearIndex).CountryName]=OpenSheetData(File2006, 'Table_8.2', [9 294]);
 %2011
-YearIndex=4;
+YearIndex=3;
 [State(StateNum, YearIndex).Data, State(StateNum, YearIndex).SACCCode, State(StateNum, YearIndex).CountryName]=OpenSheetData(File2011, 'Table_9.2', [9 294]);
 
 
