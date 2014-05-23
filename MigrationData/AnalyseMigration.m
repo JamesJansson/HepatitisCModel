@@ -49,6 +49,8 @@ a=[squeeze(squeeze(FirstYearData(CountryIndex, Sex, :))) squeeze(squeeze(SecondY
 
 
 %% Generate migration distribution
+%Note that these mortality rates represent the expected AVERAGE probability
+%of mortality occuring in a 5 year period moving on to the next age band. 
 MaleMortalityBands=[0.003170074
 0.000522614
 0.001521396
@@ -91,7 +93,7 @@ FemaleMortalityBands=[0.002625521
 0.506126996
 0.506126996];
     
-GenerateMigrationDistribution
+[DistributionByYear, NegativeBands]=GenerateMigrationDistribution(FirstYearData, SecondYearData, MaleMortalityBands);
 
 
 %2006+migration

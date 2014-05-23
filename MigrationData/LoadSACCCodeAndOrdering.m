@@ -1,5 +1,5 @@
 function [SACCCode, SACCIndex]=LoadSACCCodeAndOrdering(File, Sheet, Range)
-%return the SACCCodes from the file then 
+%return the SACCCodes from the file and the order which they appear in the file
 
 
 [~, ~, SACCCodeTemp]=xlsread(File, Sheet, ['A' num2str(Range(1)) ':A' num2str(Range(2)) ]);
