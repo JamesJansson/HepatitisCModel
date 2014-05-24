@@ -59,7 +59,8 @@ Mortality=[MaleMortalityBands FemaleMortalityBands];
 
 for CountryCount=1:NumCountries
     CountryIndex=CountrySizeIndexArray(CountryCount);% run each country by its size
-    ThisCountryName=CountryNames(CountryIndex);
+    ThisCountryName=CountryNames{CountryIndex};
+    ThisCountryName(ThisCountryName=='/')=[];%remove characters we don't like
     for Sex=1:2
         % 2001+migration
         FirstYear=1;
@@ -81,19 +82,27 @@ for CountryCount=1:NumCountries
         
         DistributionByYear=[DistributionByYear1; DistributionByYear2];
         
+        % Output a graph of the results
         clf;
         MeanDistributionByYear=mean(DistributionByYear, 1);
         plot(0:99, MeanDistributionByYear, 'k', 'LineWidth',2);
         hold on;
         plot(0:99, DistributionByYear);
         hold off;
-        
+        xlabel('Age','fontsize', 22);
+        ylabel('Number of immigrants per year','fontsize', 22);
+        set(gca,'Color',[1.0 1.0 1.0]);
+        set(gcf,'Color',[1.0 1.0 1.0]);%makes the grey border white
+        set(gca, 'fontsize', 18)
+        box off;
         %Save the plot
-        FileName=['SavaData\' numstr(CountryCount) '-' ThisCountryName '-' Sex '.png'];
-        
+        FileName=['savedata/migrants-' num2str(CountryCount) '-' ThisCountryName '-' num2str(Sex) '.png'];
+        FileName
+        print('-dpng ','-r300',FileName);
+
         % Add to the Matrix for saving
         % Country code
-        SACCCodes, 
+        % SACCCodes, 
         % Country name
         % Sex
         % Data
@@ -104,4 +113,4 @@ end
 
 % Save the data to a csv/xls
 
-xlswrite[]
+% xlswrite[]
