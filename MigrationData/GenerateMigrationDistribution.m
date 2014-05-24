@@ -23,7 +23,7 @@ Increase(NegativeBands)=0;
 % younger than 5 in the 5th year
 % Mean per year=Increase(0)/(25);
 % disp([Increase' StartDistribution EndDistribution])
-disp([EndDistribution(2:16) StartDistribution(1:15)])
+
 
 
 
@@ -34,9 +34,7 @@ AgedWeighting=AgedWeighting/sum(AgedWeighting);
 %Space out 75 year olds
 Increase(16:20)=Increase(16).*AgedWeighting;
 
-disp(Increase)
 
-pause(10);
 
 
 DistributionByYear=zeros(5, 100);
@@ -48,7 +46,7 @@ for BandStart=-4:5:95
     else
         IncreasePerBox=Increase(BandCount)/25;
     end
-    disp(IncreasePerBox)
+
     for Y=1:5
         for AgeAdd=(0:5)
             Ageindex=BandStart+AgeAdd+(Y-1);
@@ -60,15 +58,9 @@ for BandStart=-4:5:95
                 end
             end
         end
-        disp(DistributionByYear(:, 1:100));
-        pause(0.1);
     end
     BandCount=BandCount+1;
 end
-
-
-
-
 
 
 
