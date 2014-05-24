@@ -8,12 +8,18 @@ function [DistributionByYear, NegativeBands]=GenerateMigrationDistribution(Start
 
 SurvivalBandRate=1-MortalityBandRate;
 
-
+% Weight people in the older bands according to their survival probability
+AgedWeighting=[1 SurvivalBandRate(16)*[1 SurvivalBandRate(17)*[1 SurvivalBandRate(18)*[1 SurvivalBandRate(19)]]]];
+%Normalise
+AgedWeighting=AgedWeighting/sum(AgedWeighting);
+%Space out 75 year olds
+StartDistribution(16:20)=StartDistribution(16).*AgedWeighting;
+EndDistribution(16:20)=EndDistribution(16).*AgedWeighting;
 
 %Determine the increase in the age group accounting for mortality
 Increase(1)=EndDistribution(1);
-Increase(2:16)=EndDistribution(2:16)-SurvivalBandRate(1:15).*StartDistribution(1:15);
-Increase(16)=Increase(16)-SurvivalBandRate(16).*StartDistribution(16);
+Increase(2:20)=EndDistribution(2:20)-SurvivalBandRate(1:19).*StartDistribution(1:19);
+Increase(20)=Increase(20)-SurvivalBandRate(20).*StartDistribution(20);
 
 %Remove negatives from increase
 NegativeBands=Increase<0;% feedback negatives, incase there is something interesting 
@@ -23,23 +29,10 @@ Increase(NegativeBands)=0;
 % younger than 5 in the 5th year
 % Mean per year=Increase(0)/(25);
 % disp([Increase' StartDistribution EndDistribution])
-disp([EndDistribution(2:16) StartDistribution(1:15)])
-
-
-
-% Weight people in the older bands according to their survival probability
-AgedWeighting=[1 SurvivalBandRate(16)*[1 SurvivalBandRate(17)*[1 SurvivalBandRate(18)*[1 SurvivalBandRate(19)]]]];
-%Normalise
-AgedWeighting=AgedWeighting/sum(AgedWeighting);
-%Space out 75 year olds
-Increase(16:20)=Increase(16).*AgedWeighting;
-
-disp(Increase)
-
+disp([EndDistribution(2:20) StartDistribution(1:19)])
 pause(10);
-
-
 DistributionByYear=zeros(5, 100);
+
 BandCount=1;
 for BandStart=-4:5:95
     if (BandCount==1 )
@@ -65,10 +58,6 @@ for BandStart=-4:5:95
     end
     BandCount=BandCount+1;
 end
-
-
-
-
 
 
 
