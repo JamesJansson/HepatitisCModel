@@ -48,34 +48,60 @@ FemaleMortalityBands=[0.002625521
 0.506126996
 0.506126996];
 
+Mortality=[MaleMortalityBands FemaleMortalityBands];
+
 
 %% Determine highest impact countries by sorting by total population size
 [CountrySize, CountrySizeIndexArray]=sort(TotalFromEachCountry, 'descend');
 
+%% Go through each country, then each sex, then the two ranges of years
+[~, NumCountries]=size(CountrySizeIndexArray);
 
+for CountryCount=1:NumCountries
+    CountryIndex=CountrySizeIndexArray(CountryCount);% run each country by its size
+    ThisCountryName=CountryNames(CountryIndex);
+    for Sex=1:2
+        % 2001+migration
+        FirstYear=1;
+        SecondYear=2;
+        
+        FirstYearData=squeeze(AusData(FirstYear, CountryIndex, Sex, :));
+        SecondYearData=squeeze(AusData(SecondYear, CountryIndex, Sex, :));
+        
+        [DistributionByYear1, NegativeBands]=GenerateMigrationDistribution(FirstYearData, SecondYearData, Mortality(:, Sex));
 
-% 2001+migration
-FirstYear=1;
-SecondYear=2;
-FirstYearData=squeeze(AusData(FirstYear, :, :, :));
-SecondYearData=squeeze(AusData(SecondYear, :, :, :));
-%(Country, Sex, Age)
+        % 2006+migration
+        FirstYear=2;
+        SecondYear=3;
+        
+        FirstYearData=squeeze(squeeze(squeeze(AusData(FirstYear, CountryIndex, Sex, :))));
+        SecondYearData=squeeze(squeeze(squeeze(AusData(SecondYear, CountryIndex, Sex, :))));
+        
+        [DistributionByYear2, NegativeBands]=GenerateMigrationDistribution(FirstYearData, SecondYearData, Mortality(:, Sex));
+        
+        DistributionByYear=[DistributionByYear1; DistributionByYear2];
+        
+        clf;
+        MeanDistributionByYear=mean(DistributionByYear, 1);
+        plot(0:99, MeanDistributionByYear, 'k', 'LineWidth',2);
+        hold on;
+        plot(0:99, DistributionByYear);
+        hold off;
+        
+        %Save the plot
+        FileName=['SavaData\' numstr(CountryCount) '-' ThisCountryName '-' Sex '.png'];
+        
+        % Add to the Matrix for saving
+        % Country code
+        SACCCodes, 
+        % Country name
+        % Sex
+        % Data
+    end
+end
 
+%Join the data into a massive cell
 
+% Save the data to a csv/xls
 
-
-CountryIndex=CountrySizeIndexArray(4);
-Sex=1;
-
-
-
-
-
-ThisFirstYearData=squeeze(squeeze(FirstYearData(CountryIndex, Sex, :)));
-ThisSecondYearData=squeeze(squeeze(SecondYearData(CountryIndex, Sex, :)));
-
-    
-[DistributionByYear, NegativeBands]=GenerateMigrationDistribution(ThisFirstYearData, ThisSecondYearData, MaleMortalityBands);
-
-
-% 2006+migration
+xlswrite[]
