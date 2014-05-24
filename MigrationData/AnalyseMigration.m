@@ -51,8 +51,7 @@ FemaleMortalityBands=[0.002625521
 Mortality=[MaleMortalityBands FemaleMortalityBands];
 
 
-%% Determine highest impact countries by sorting by total population size
-[CountrySize, CountrySizeIndexArray]=sort(TotalFromEachCountry, 'descend');
+
 
 %% Go through each country, then each sex, then the two ranges of years
 [~, NumCountries]=size(CountrySizeIndexArray);
@@ -97,7 +96,7 @@ for CountryCount=1:NumCountries
         box off;
         %Save the plot
         FileName=['savedata/migrants-' num2str(CountryCount) '-' ThisCountryName '-' num2str(Sex) '.png'];
-        FileName
+        disp(FileName)
         print('-dpng ','-r300',FileName);
 
         % Add to the Matrix for saving

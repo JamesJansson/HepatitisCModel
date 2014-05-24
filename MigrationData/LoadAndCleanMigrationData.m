@@ -28,12 +28,16 @@ Multiplier=ones(8, 1)*TotalFromEachCountry;
 CountryProportion=CountryStateNumber./Multiplier;
 CountryProportion(isnan(CountryProportion))=0;
 
+% Determine highest impact countries by sorting by total population size
+[CountrySize, CountrySizeIndexArray]=sort(TotalFromEachCountry, 'descend');
 
+% Model each of the countries and output the results
 AnalyseMigration
 
 
-
-
+%Save the following to a file
+CountrySize'
+CountryNames(CountrySizeIndexArray)
 
 
 
