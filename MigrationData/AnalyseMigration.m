@@ -55,7 +55,8 @@ Mortality=[Male5YearMortalityBands Female5YearMortalityBands];
 
 %% Go through each country, then each sex, then the two ranges of years
 [~, NumCountries]=size(CountrySizeIndexArray);
-
+YearlyCellMatrix={};
+MeanCellMatrix={};
 for CountryCount=1:NumCountries
     CountryIndex=CountrySizeIndexArray(CountryCount);% run each country by its size
     ThisCountryName=CountryNames{CountryIndex};
@@ -100,11 +101,33 @@ for CountryCount=1:NumCountries
         print('-dpng ','-r300',FileName);
 
         % Add to the Matrix for saving
-        % Country code
-        % SACCCodes, 
+        % SACCCode 
+        CountryCodeOutput=(repmat({SACCCodes(CountryCount)},10,1));
         % Country name
+        CountryNameOutput=(repmat({ThisCountryName},10,1));
         % Sex
+        SexOutput=(repmat({num2str(Sex)},10,1));
+        % Year
+        YearOutput=num2str((2001:2010)');
+        YearOutput=cellstr(YearOutput);
         % Data
+        DataOutput=num2cell(DistributionByYear);
+        
+        ToAppend=[CountryNameOutput SexOutput YearOutput DataOutput];
+        YearlyCellMatrix=[YearlyCellMatrix; ToAppend];
+        
+        % SACCCode 
+        CountryCodeOutput={SACCCodes(CountryCount)};
+        % Country name
+        CountryNameOutput={ThisCountryName};        
+        % Sex
+        SexOutput={num2str(Sex)};
+        %Year
+        YearOutput=cellstr('Mean');
+        % Data
+        DataOutput=num2cell(MeanDistributionByYear);
+        ToAppend=[CountryNameOutput SexOutput YearOutput DataOutput];
+        MeanCellMatrix=[MeanCellMatrix; ToAppend];
     end
 end
 
@@ -112,4 +135,5 @@ end
 
 % Save the data to a csv/xls
 
-% xlswrite[]
+xlswrite('savedata/EstimatedYearlyMigration.xls', YearlyCellMatrix); 
+xlswrite('savedata/EstimatedMeanMigration.xls', MeanCellMatrix); 
