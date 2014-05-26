@@ -1,0 +1,10 @@
+Description of methods to determine the HCV prevalence due to migration
+
+This methodology takes the total resident population by place of birth, age, and sex for the years 2001, 2006 and 2011 provided by the ABS. 
+http://www.abs.gov.au/AUSSTATS/abs@.nsf/DetailsPage/3412.02011-12%20and%202012-13?OpenDocument
+
+The simulation takes place in two steps, for the year bands 2001 to 2006 and 2006 to 2011. The difference in the 5 year age bands over five years are calculated, taking into account expected mortality between the years. For example, all the people in the age band 40-45 will age by 5 years from 2001 to 2006, such that they will be in the 45-50 year old band in 2006. As certain proportion of the people in this band will die, and hence will affect the total number of migrants expected in that period. 
+
+The total number of new migrants per age group is spread evenly between the age groups and years. 
+
+The age band 75+ is obviously quite wide. To determine the number of people in 75-80, 80-85 etc age bands, the people in the 75+ group are distributed according to the expected survival curve due to mortality. 

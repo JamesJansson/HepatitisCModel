@@ -6,7 +6,7 @@
 %of mortality occuring in a 5 year period moving on to the next age band. 
 
 
-MaleMortalityBands=[0.003170074
+Male5YearMortalityBands=[0.003170074
 0.000522614
 0.001521396
 0.003132185
@@ -27,7 +27,7 @@ MaleMortalityBands=[0.003170074
 0.573071932
 0.573071932];
 
-FemaleMortalityBands=[0.002625521
+Female5YearMortalityBands=[0.002625521
 0.0004999
 0.000863273
 0.001362873
@@ -48,7 +48,7 @@ FemaleMortalityBands=[0.002625521
 0.506126996
 0.506126996];
 
-Mortality=[MaleMortalityBands FemaleMortalityBands];
+Mortality=[Male5YearMortalityBands Female5YearMortalityBands];
 
 
 

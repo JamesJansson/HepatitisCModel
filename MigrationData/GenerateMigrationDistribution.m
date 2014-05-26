@@ -1,4 +1,4 @@
-function [DistributionByYear, NegativeBands]=GenerateMigrationDistribution(StartDistribution, EndDistribution, MortalityBandRate)
+function [DistributionByYear, NegativeBands]=GenerateMigrationDistribution(StartDistribution, EndDistribution, MortalityBand5YearRate)
 %Assumptions about input
 % StartDistribution, EndDistributioni s in 5 year increments between 0 and 75
 % MortalityBandRate is in 5 year increments between 0 and 100
@@ -6,7 +6,7 @@ function [DistributionByYear, NegativeBands]=GenerateMigrationDistribution(Start
 % DistributionByYear is a 5 by 100 array
 % Use the 5 year average as the population rate prior to the data available
 
-SurvivalBandRate=1-MortalityBandRate;
+SurvivalBandRate=1-MortalityBand5YearRate;
 
 
 
