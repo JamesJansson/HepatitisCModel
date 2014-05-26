@@ -117,7 +117,7 @@ for CountryCount=1:NumCountries
         YearlyCellMatrix=[YearlyCellMatrix; ToAppend];
         
         % SACCCode 
-        CountryCodeOutput={SACCCodes(CountryCount)};
+        CountryCodeOutput=SACCCodes(CountryCount);
         % Country name
         CountryNameOutput={ThisCountryName};        
         % Sex
