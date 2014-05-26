@@ -102,7 +102,7 @@ for CountryCount=1:NumCountries
 
         % Add to the Matrix for saving
         % SACCCode 
-        CountryCodeOutput=(repmat({SACCCodes(CountryCount)},10,1));
+        CountryCodeOutput=(repmat(SACCCodes(CountryCount),10,1));
         % Country name
         CountryNameOutput=(repmat({ThisCountryName},10,1));
         % Sex
@@ -132,7 +132,7 @@ for CountryCount=1:NumCountries
 end
 
 % Put headers on the cell
-Header={'Country' 'CountryCode' 'Sex' 'Year' num2cell(0:99)};
+Header=['Country' 'CountryCode' 'Sex' 'Year' num2cell(0:99)];
 YearlyCellMatrix=[Header; YearlyCellMatrix];
 MeanCellMatrix=[Header; MeanCellMatrix];
 
