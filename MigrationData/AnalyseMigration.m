@@ -96,7 +96,7 @@ for CountryCount=1:NumCountries
         set(gca, 'fontsize', 18)
         box off;
         %Save the plot
-        FileName=['savedata/migrants-' num2str(CountryCount) '-' ThisCountryName '-' num2str(Sex) '.png'];
+        FileName=['savedata/migrants-' sprintf('%03d',CountryCount) '-' ThisCountryName '-' num2str(Sex) '.png'];
         disp(FileName)
         print('-dpng ','-r300',FileName);
 
@@ -113,7 +113,7 @@ for CountryCount=1:NumCountries
         % Data
         DataOutput=num2cell(DistributionByYear);
         
-        ToAppend=[CountryNameOutput SexOutput YearOutput DataOutput];
+        ToAppend=[CountryNameOutput CountryCodeOutput SexOutput YearOutput DataOutput];
         YearlyCellMatrix=[YearlyCellMatrix; ToAppend];
         
         % SACCCode 
@@ -126,12 +126,15 @@ for CountryCount=1:NumCountries
         YearOutput=cellstr('Mean');
         % Data
         DataOutput=num2cell(MeanDistributionByYear);
-        ToAppend=[CountryNameOutput SexOutput YearOutput DataOutput];
+        ToAppend=[CountryNameOutput CountryCodeOutput SexOutput YearOutput DataOutput];
         MeanCellMatrix=[MeanCellMatrix; ToAppend];
     end
 end
 
-%Join the data into a massive cell
+% Put headers on the cell
+Header={'Country' 'CountryCode' 'Sex' 'Year' num2cell(0:99)};
+YearlyCellMatrix=[Header; YearlyCellMatrix];
+MeanCellMatrix=[Header; MeanCellMatrix];
 
 % Save the data to a csv/xls
 
