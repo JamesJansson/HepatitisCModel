@@ -12,7 +12,7 @@ int ThreadSimCurrentlyAvailable;
 void LoadCore(void (*__FunctionToRun)(ParameterStruct, StorageStruct), int NumberOfRuns, ParameterStruct ParaVec[], StorageStruct StorageVec[])//  , _Args&&... __args)
 {
     int N;
-    while (ThreadSimCurrentlyAvailable<NumberOfRuns)
+    while (ThreadSimCurrentlyAvailable<NumberOfRuns)//
     {
         N=ThreadSimCurrentlyAvailable;
         ThreadSimCurrentlyAvailable++;
