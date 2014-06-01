@@ -39,7 +39,7 @@ int main()
     //Create simulation
     Simulation Sim(1000, 10);// add a seed element
 
-    //Optimise simualtion
+    //Optimise simulation
 
     //Run baseline
     Simulation BaselineSim=Sim;
