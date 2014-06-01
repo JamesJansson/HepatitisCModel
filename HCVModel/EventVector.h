@@ -1,3 +1,4 @@
+#pragma once//only include this file if included multiply
 #include <vector>
 using namespace std;
 //vector<int> v;         // no need to prepend std:: any more

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+//#include "stdafx.h"
 #include "ProbabilityFunctions.h"
 #include "EventVector.h"
 
@@ -40,7 +40,7 @@ public:
 	//0 : not on treatment
 	//1 : on treatment
 
-	EventClass AlcoholUse;
+	EventVector AlcoholUse;
 
 	HCVProbabilityClass *Prob;//Some sort of pointer to a class of probabilities. This can be live updated to represent changes in the probabilities
 

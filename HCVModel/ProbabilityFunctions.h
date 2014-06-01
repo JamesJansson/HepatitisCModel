@@ -1,3 +1,5 @@
+#include <math.h>
+#include <stdlib.h>
 float rand01(void)
 {
 	return ((float)rand()/(float)RAND_MAX);

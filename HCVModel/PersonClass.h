@@ -1,7 +1,8 @@
 #include "EventVector.h"
 //#include "transmission.h"
-//#include "HCVClass.h"
-//#include "mortality.h"
+#include "HCVClass.h"
+#include "IDUClass.h"
+#include "MortalityClass.h"
 
 class Person {
 	bool Active;//A variable used to indicate if the slot has been used for an individual yet (true) or not (false).
@@ -81,6 +82,17 @@ void Person::Reset(void)//Constructor class
 
 }
 
+void Person::SetYearOfBirth (float YearOfBirthValue)
+{
+    YearOfBirth=InputBirthDate;
+}
+void Person::SetSex (int SexValue)
+{
+    Sex=SexValue;
+}
+
+
+
 int Person::StartIDU(float DateStartIDU, float InputBirthDate, int InputSex,  ParameterClass* p)
 {
 	if (DateStartIDU<InputBirthDate)//check the date of starting use is after birth
@@ -129,7 +141,7 @@ int Person::StartIDU(float DateStartIDU, float InputBirthDate, int InputSex,  Pa
 		else
 		{
 			YearOfDeath=TestYearOfIDUMortality;
-		}
+		}SetSex
 	}
 	return 0;
 }

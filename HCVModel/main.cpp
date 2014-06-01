@@ -37,7 +37,7 @@ int main()
     // Create seeds for threads
 
     //Create simulation
-    Simulation Sim;
+    Simulation Sim(1000, 10);
 
     //Optimise simualtion
 
