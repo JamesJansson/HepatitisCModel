@@ -33,6 +33,7 @@ public:
 
 EventVector::EventVector(void)//Constructor class //possibly create an overloaded contructor to allow different data types
 {
+    cout<<"Make a function that shows all events in time ranges"<<endl;
     //use std::vector <int>
     //int *p;
     //p = new int[5];
