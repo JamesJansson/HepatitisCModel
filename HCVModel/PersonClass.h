@@ -15,7 +15,7 @@ class Person {
     MortalityClass *Mortalilty;//a pointer to a general mortality probability
 
 	HCVClass HCV;
-	HIVClass HIV;
+	//HIVClass HIV;
 	IDUClass IDU; //contains IDU status, network record of IDU
 	//TransmissionClass SexualNetwork
 	//TransmissionClass HIVInjectingNetwork
@@ -42,7 +42,7 @@ public:
 
 
 
-	int StartIDU(float DateStartIDU, float InputBirthDate, int InputSex,  ParameterClass* p);
+	int StartIDU(float DateStartIDU, float InputBirthDate, int InputSex);
 	int CleanUpMortality(void);
 	bool SusceptibleIDU(float Year);
 
@@ -53,7 +53,7 @@ public:
 	float MostRecentDiseaseStageDate (void);
 	int CurrentDiseaseStage (float Date);
 	float ReturnYearOfGeneralDeath (void);
-	int NewHCVInfection (float InfectionDate, int HCVStrain, ParameterClass* p);
+	//int NewHCVInfection (float InfectionDate, int HCVStrain, ParameterClass* p);
 	void SetNextSusceptible (float Year);
 	void Display (void);
 
@@ -61,7 +61,7 @@ public:
 
 Person::Person(void)//Constructor class
 {
-	StepSize=0.1;
+	//StepSize=0.1;
 	Active=0;
 	NextSusceptible=0;
 
@@ -74,17 +74,17 @@ void Person::Reset(void)//Constructor class
 
 
 	HCV.Reset();
-	HCVGenotype.Reset();
-	HCVDiagnosis.Reset();
-	Treatment.Reset();
+	//Genotype.Reset();
+	//HCVDiagnosis.Reset();
+	//Treatment.Reset();
 	Active=0;
-	NextSusceptible=0;
+	//NextSusceptible=0;
 
 }
 
 void Person::SetYearOfBirth (float YearOfBirthValue)
 {
-    YearOfBirth=InputBirthDate;
+    YearOfBirth=YearOfBirthValue;
 }
 void Person::SetSex (int SexValue)
 {
@@ -93,7 +93,7 @@ void Person::SetSex (int SexValue)
 
 
 
-int Person::StartIDU(float DateStartIDU, float InputBirthDate, int InputSex,  ParameterClass* p)
+int Person::StartIDU(float DateStartIDU, float InputBirthDate, int InputSex)
 {
 	if (DateStartIDU<InputBirthDate)//check the date of starting use is after birth
 	{
@@ -106,18 +106,16 @@ int Person::StartIDU(float DateStartIDU, float InputBirthDate, int InputSex,  Pa
 
 	Active=1;
 
-	Sex=InputSex;
-	YearOfBirth=InputBirthDate;
-	IDUStart=DateStartIDU;
-	IDUStop=DateStartIDU+p->DurationOfIDU();
-
-	NextSusceptible=IDUStart;
+    Sex=InputSex;
+    SetYearOfBirth(InputBirthDate);
 
 	//Set the tracking variables
-	HCV.Set(YearOfBirth, 0);
-	HCVGenotype.Set(YearOfBirth, 0);
-	HCVDiagnosis.Set(YearOfBirth, 0);
-	Treatment.Set(YearOfBirth, 0);
+	HCV.Start(YearOfBirth);
+
+
+	IDU.Use.Set(DateStartIDU, (int) 1);
+	/*
+	IDUStop=DateStartIDU+p->DurationOfIDU();
 
 	//Determine general population mortality
 	float AgeAtGeneralMortality;
@@ -143,9 +141,29 @@ int Person::StartIDU(float DateStartIDU, float InputBirthDate, int InputSex,  Pa
 			YearOfDeath=TestYearOfIDUMortality;
 		}SetSex
 	}
+	*/
 	return 0;
 }
 
+float Person::CurrentAge (float CurrentYear) {
+	return CurrentYear-YearOfBirth;
+}
+
+float Person::ReturnYearOfGeneralDeath (void)
+{
+	return GeneralMortalityDate;
+}
+
+void Person::Display (void)
+{
+
+	char buffer;
+	std::cout << "\nEnter any character to continue";
+	std::cin >> buffer;
+}
+
+
+/*
 int Person::CleanUpMortality(void)
 {
 
@@ -178,9 +196,7 @@ bool Person::SusceptibleIDU(float Year)
 	return 0;
 }
 
-float Person::CurrentAge (float CurrentYear) {
-	return CurrentYear-YearOfBirth;
-}
+
 
 float Person::DetermineCurrentIDUStatus (float CurrentYear) {
 	if (CurrentYear>IDUStart && CurrentYear<IDUStop)
@@ -220,6 +236,7 @@ float Person::RaceEvents (float ProbabilityOfEvent1, float ProbabilityOfEvent2, 
 		return Event2Time;
 	}
 }
+*/
 
 //int Person::SetNextDiseaseStage (float Date, int DiseaseCode, char AddOrSet)//Date can either be the current year for AddOrSet=s, or the number of years since the last stage with AddOrSet=a
 //{
@@ -305,10 +322,7 @@ float Person::RaceEvents (float ProbabilityOfEvent1, float ProbabilityOfEvent2, 
 
 
 
-float Person::ReturnYearOfGeneralDeath (void)
-{
-	return GeneralMortalityDate;
-}
+
 
 //int Person::DeterminePatientHistory (float InfectionDate, int HCVStrain, ParameterClass* p)
 //{
@@ -358,7 +372,7 @@ float Person::ReturnYearOfGeneralDeath (void)
 //}
 
 
-
+/*
 
 void Person::SetNextSusceptible (float Year)
 {
@@ -373,12 +387,6 @@ void Person::SetNextSusceptible (float Year)
 		NextSusceptible= YearOfFoundNextSusceptible;
 	}
 }
+*/
 
 
-void Person::Display (void)
-{
-
-	char buffer;
-	std::cout << "\nEnter any character to continue";
-	std::cin >> buffer;
-}

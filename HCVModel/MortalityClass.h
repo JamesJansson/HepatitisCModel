@@ -1,4 +1,4 @@
-
+#define NumberOfAgeGroups 24
 class MortalityClass {
 
 	public:

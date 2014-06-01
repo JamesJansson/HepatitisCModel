@@ -9,7 +9,7 @@
 //#include "thread.h"
 //#include "PersonClass.h"
 
-#define DisplayDebug 1
+#define TestingEventVector 0
 
 using namespace std;
 
@@ -17,7 +17,7 @@ int main()
 {
 
 
-    if (DisplayDebug==1)
+    if (TestingEventVector==1)
     {
         cout << "Starting  testing" << endl;
         //EVSetSomeEvents();
@@ -37,7 +37,7 @@ int main()
     // Create seeds for threads
 
     //Create simulation
-    Simulation Sim(1000, 10);
+    Simulation Sim(1000, 10);// add a seed element
 
     //Optimise simualtion
 

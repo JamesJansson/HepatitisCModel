@@ -50,25 +50,34 @@ Simulation::Simulation(void)//Constructor class
 
 }
 
-Simulation::Simulation(int IDUPopSize, int HCVInfectedSize )//Constructor class
+Simulation::Simulation(int IDUPopSize, int HCVInfectedSize )//Constructor class overloaded for testing purposes
 {
-    Person PUninfected;
-    PUninfected.DiseaseStage
+    //Person PUninfected;
+    //PUninfected.DiseaseStage
     // Create a population
     //P.resize(PUninfected, IDUPopSize); // How to add a specific type of person to the group
 
     // Give a random time of birth
     float DateStartIDU;
+    float AgeStartIDU;
     float InputBirthDate;
     int Sex;
     for (int i=0; i<IDUPopSize; i++)
     {
+        Person TempP;
+        P.push_back (TempP);
+        if (i<HCVInfectedSize)
+        {
+            AgeStartIDU=randnormal(20.1, 5);
+            InputBirthDate=randrange((float) 1960, (float) 1980);
+            Sex=0;
 
+            DateStartIDU=InputBirthDate+AgeStartIDU;
 
+            P[i].StartIDU(DateStartIDU, InputBirthDate, Sex);
+            //P(i).StartIDU
+        }
 
-        StartIDU(float DateStartIDU, float InputBirthDate, int InputSex,  ParameterClass* p)
-
-        P.HCV.DiseaseStage
     }
 
     // Give some of the individuals an infection some time between
