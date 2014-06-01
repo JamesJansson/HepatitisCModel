@@ -2,6 +2,9 @@
 #include <ctime>
 
 #include "EventVector.h"
+#include "SimulationClass.h"
+
+
 #include "TestingEventVector.h"
 //#include "thread.h"
 //#include "PersonClass.h"
@@ -24,8 +27,6 @@ int main()
 
     cout << "Starting model" << endl;
 
-
-
     // Load parameters and data
 
     // Create initial seed
@@ -35,15 +36,26 @@ int main()
     // Set up multithreading
     // Create seeds for threads
 
+    //Create simulation
+    Simulation Sim;
 
+    //Optimise simualtion
 
+    //Run baseline
+    Simulation BaselineSim=Sim;
 
+    //Create an intervention simulation
+    Simulation InterventionSim=Sim;
 
+    // Create disired output summary statistics
+
+    // Perform sensitivity analyses
+
+    // Save output of these simulations
 
 
 
     return 0;
 }
 
-    // Create disired output summary statistics
-    // Save output of this simulation
+

@@ -30,7 +30,7 @@ public:
 };
 
 
-EventVector::EventVector(void)//Constructor class
+EventVector::EventVector(void)//Constructor class //possibly create an overloaded contructor to allow different data types
 {
     //use std::vector <int>
     //int *p;
@@ -54,7 +54,7 @@ EventVector::EventVector(void)//Constructor class
 }
 
 
-void EventVector::Reset(void)//Constructor class
+void EventVector::Reset(void)
 {
     EventValueVector.resize(0);
     EventTimeVector.resize(0);

@@ -3,7 +3,7 @@
 //#include "HCVClass.h"
 //#include "mortality.h"
 
-class PersonClass {
+class Person {
 	bool Active;//A variable used to indicate if the slot has been used for an individual yet (true) or not (false).
     float YearOfBirth;
 
@@ -28,7 +28,7 @@ class PersonClass {
 
 public:
 
-	PersonClass(void);//Constructor class
+	Person(void);//Constructor class
 	void Reset(void);
 	void SetSex(int SexValue);
 	void SetYearOfBirth(float YearOfBirthValue);
@@ -58,7 +58,7 @@ public:
 
 };
 
-PersonClass::PersonClass(void)//Constructor class
+Person::Person(void)//Constructor class
 {
 	StepSize=0.1;
 	Active=0;
@@ -66,7 +66,7 @@ PersonClass::PersonClass(void)//Constructor class
 
 }
 
-void PersonClass::Reset(void)//Constructor class
+void Person::Reset(void)//Constructor class
 {
 	//Reset birthdate too!
 	//std::cout<<"\nhey you need to reset general pop mortality too!";
@@ -81,7 +81,7 @@ void PersonClass::Reset(void)//Constructor class
 
 }
 
-int PersonClass::StartIDU(float DateStartIDU, float InputBirthDate, int InputSex,  ParameterClass* p)
+int Person::StartIDU(float DateStartIDU, float InputBirthDate, int InputSex,  ParameterClass* p)
 {
 	if (DateStartIDU<InputBirthDate)//check the date of starting use is after birth
 	{
@@ -134,7 +134,7 @@ int PersonClass::StartIDU(float DateStartIDU, float InputBirthDate, int InputSex
 	return 0;
 }
 
-int PersonClass::CleanUpMortality(void)
+int Person::CleanUpMortality(void)
 {
 
 	//Determine HCV death date
@@ -157,7 +157,7 @@ int PersonClass::CleanUpMortality(void)
 	return 0;
 }
 
-bool PersonClass::SusceptibleIDU(float Year)
+bool Person::SusceptibleIDU(float Year)
 {
 	if (Year>NextSusceptible && Year<YearOfDeath)
 	{
@@ -166,18 +166,18 @@ bool PersonClass::SusceptibleIDU(float Year)
 	return 0;
 }
 
-float PersonClass::CurrentAge (float CurrentYear) {
+float Person::CurrentAge (float CurrentYear) {
 	return CurrentYear-YearOfBirth;
 }
 
-float PersonClass::DetermineCurrentIDUStatus (float CurrentYear) {
+float Person::DetermineCurrentIDUStatus (float CurrentYear) {
 	if (CurrentYear>IDUStart && CurrentYear<IDUStop)
 		return 1;
 	else
 		return 0;
 }
 
-float PersonClass::YearsUntilEvent (float ProbabilityOfEvent) {
+float Person::YearsUntilEvent (float ProbabilityOfEvent) {
 	//determines time in years until an event occurring based on a yearly probability of the event occuring
 	float Years, RandomValue;
 	RandomValue=(float)rand()/(float)RAND_MAX;
@@ -188,15 +188,15 @@ float PersonClass::YearsUntilEvent (float ProbabilityOfEvent) {
 	return Years;
 }
 
-float PersonClass::RaceEvents (float ProbabilityOfEvent1, float ProbabilityOfEvent2, int &Winner) {
+float Person::RaceEvents (float ProbabilityOfEvent1, float ProbabilityOfEvent2, int &Winner) {
 	//RaceEvents: given 2 event probabilities, determines when each is likely to happen, and chooses the one that occurs first.
 	char buffer;
 	std::cout << "\nFunction RaceEvents was used when you thought it was no longer used";
 	std::cin >> buffer;
 
 	float Event1Time, Event2Time;
-	Event1Time=PersonClass::YearsUntilEvent (ProbabilityOfEvent1);
-	Event2Time=PersonClass::YearsUntilEvent (ProbabilityOfEvent2);
+	Event1Time=Person::YearsUntilEvent (ProbabilityOfEvent1);
+	Event2Time=Person::YearsUntilEvent (ProbabilityOfEvent2);
 	if (Event1Time<=Event2Time)
 	{
 		Winner=1;
@@ -209,7 +209,7 @@ float PersonClass::RaceEvents (float ProbabilityOfEvent1, float ProbabilityOfEve
 	}
 }
 
-//int PersonClass::SetNextDiseaseStage (float Date, int DiseaseCode, char AddOrSet)//Date can either be the current year for AddOrSet=s, or the number of years since the last stage with AddOrSet=a
+//int Person::SetNextDiseaseStage (float Date, int DiseaseCode, char AddOrSet)//Date can either be the current year for AddOrSet=s, or the number of years since the last stage with AddOrSet=a
 //{
 //	int Slot=0;
 //	while (Slot<StandardVectorSize)
@@ -244,7 +244,7 @@ float PersonClass::RaceEvents (float ProbabilityOfEvent1, float ProbabilityOfEve
 //	return -1;//error, run out of space to store disease progression
 //}
 
-//float PersonClass::MostRecentDiseaseStageDate (void)
+//float Person::MostRecentDiseaseStageDate (void)
 //{
 //	int Slot=0;
 //	while (Slot<StandardVectorSize-1)
@@ -259,7 +259,7 @@ float PersonClass::RaceEvents (float ProbabilityOfEvent1, float ProbabilityOfEve
 //	return -1;//error, run out of space to store disease progression
 //}
 
-//int PersonClass::CurrentDiseaseStage (float Date)
+//int Person::CurrentDiseaseStage (float Date)
 //{
 //	//this class is used to determine the disease stage at the current time
 //
@@ -275,7 +275,7 @@ float PersonClass::RaceEvents (float ProbabilityOfEvent1, float ProbabilityOfEve
 //	return -1;//error, run out of space to store disease progression
 //}
 
-//int PersonClass::CurrentIDUState (float Date)
+//int Person::CurrentIDUState (float Date)
 //{
 //	//this class is used to determine the disease stage at the current time
 //
@@ -293,12 +293,12 @@ float PersonClass::RaceEvents (float ProbabilityOfEvent1, float ProbabilityOfEve
 
 
 
-float PersonClass::ReturnYearOfGeneralDeath (void)
+float Person::ReturnYearOfGeneralDeath (void)
 {
 	return GeneralMortalityDate;
 }
 
-//int PersonClass::DeterminePatientHistory (float InfectionDate, int HCVStrain, ParameterClass* p)
+//int Person::DeterminePatientHistory (float InfectionDate, int HCVStrain, ParameterClass* p)
 //{
 //	YearOfBirth=1985.09;//Note that this year of birth may be set slightly differently: we may determine the age distribution of the current IDU population in an external function
 //	Sex=0;
@@ -348,7 +348,7 @@ float PersonClass::ReturnYearOfGeneralDeath (void)
 
 
 
-void PersonClass::SetNextSusceptible (float Year)
+void Person::SetNextSusceptible (float Year)
 {
 	float YearOfFoundNextSusceptible;
 	YearOfFoundNextSusceptible=HCV.FindNext(NotInfected, NextSusceptibleMAX);
@@ -363,7 +363,7 @@ void PersonClass::SetNextSusceptible (float Year)
 }
 
 
-void PersonClass::Display (void)
+void Person::Display (void)
 {
 
 	char buffer;
