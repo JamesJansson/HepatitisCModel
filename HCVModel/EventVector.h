@@ -4,6 +4,13 @@ using namespace std;
 //vector<int> v;         // no need to prepend std:: any more
 //myvector.resize(5); change the vector size to 5
 //myvector.resize(8,100); change the vecotr size to 8, fill new spots with 100s
+
+
+typedef struct{
+    vector<int> Values,Times;
+    int NoEvents;
+}EventData;
+
 class EventVector {
 
 	int LastSlot;
@@ -27,13 +34,14 @@ public:
 	float Find (int ValueToFind);
 	float FindNext (int ValueToFind, float Time);
 	int Size(void);
+	EventData Range(float StartTime, float EndTime);
 	void Display (void);
 };
 
 
 EventVector::EventVector(void)//Constructor class //possibly create an overloaded contructor to allow different data types
 {
-    cout<<"Make a function that shows all events in time ranges"<<endl;
+
     //use std::vector <int>
     //int *p;
     //p = new int[5];
@@ -150,7 +158,7 @@ int EventVector::LastValueEntry (void)
     return -1;// this may become a problem if the time goes into negative time.
 }
 
-int EventVector::VectorPosition (float Time)
+int EventVector::VectorPosition (float Time)//Returns the array position in the time vector of the specified time
 {
     if (LastSlot==-1)
     {
@@ -166,7 +174,6 @@ int EventVector::VectorPosition (float Time)
     int Slot=0;
     while (Slot<LastSlot)
     {
-        //std::cout<<"While loop"<<Slot<<" "<<EventTimeVector[Slot]<<" "<<Time<<endl;
         if (EventTimeVector[Slot]<=Time && Time<EventTimeVector[Slot+1])
         {
             return Slot;
@@ -221,7 +228,35 @@ int EventVector::Size(void)
     return VectorSize;
 }
 
+EventData Range(float StartTime, float EndTime)//returns the events that occurred between this range
+{
+    EventData ED;
+    if (LastSlot>-1)
+    {
+        int StartSlot=VectorPosition(StartTime);
+        int EndSlot=VectorPosition(StartTime);
+        if (StartSlot==EndSlot)//if the time are in the same slot, including if they are both before the first entry
+        {
+            ED.NoEvents=0;
+        }
+        else // copy across events
+        {
+            //Start with the slot immediately after the start slot (including if the slot is -1)
+            for (int Slot=StartSlot+1; Slot<=EndSlot; Slot++)
+            {
+                ED.Values.push_back( EventValueVector[Slot]);
+                ED.Times.push_back( EventTimeVector[Slot]);
+            }
+            ED.NoEvents=EndSlot-StartSlot;
+        }
+    }
+    else
+    {
+        ED.NoEvents=0;
+    }
 
+    return ED;
+}
 
 void EventVector::Display (void)
 {

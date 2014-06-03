@@ -21,6 +21,7 @@ class Person {
 	//TransmissionClass HIVInjectingNetwork
     //TransmissionClass HCVSexualNetwork
 
+    EventVector Alcohol;
 
 
 	float GeneralMortalityDate, IDUMortalityDate, HCVMortalityDate, TransplantMortalityDate, HIVMortalityDate;

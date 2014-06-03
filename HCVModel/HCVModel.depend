@@ -1,12 +1,36 @@
 # depslib dependency file v1.0
-1400433178 source:c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\main.cpp
+1401636347 source:c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\main.cpp
 	<iostream>
 	<ctime>
 	"EventVector.h"
+	"SimulationClass.h"
 	"TestingEventVector.h"
 
-1400433399 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\eventvector.h
+1401802611 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\eventvector.h
 	<vector>
 
 1400433584 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\testingeventvector.h
+
+1401635861 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\simulationclass.h
+	"EventVector.h"
+	"PersonClass.h"
+
+1401802372 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\personclass.h
+	"EventVector.h"
+	"HCVClass.h"
+	"IDUClass.h"
+	"MortalityClass.h"
+
+1401802342 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\hcvclass.h
+	"ProbabilityFunctions.h"
+	"EventVector.h"
+
+1401622614 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\probabilityfunctions.h
+	<math.h>
+	<stdlib.h>
+
+1401637515 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\iduclass.h
+	"EventVector.h"
+
+1401630436 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\mortalityclass.h
 

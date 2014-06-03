@@ -40,7 +40,7 @@ public:
 	//0 : not on treatment
 	//1 : on treatment
 
-	EventVector AlcoholUse;
+	EventVector Alcohol; // This will be a pointer to the Alcohol use element of the person
 
 	//HCVProbabilityClass *Prob;//Some sort of pointer to a class of probabilities. This can be live updated to represent changes in the probabilities
 
@@ -98,7 +98,7 @@ void HCVClass::Reset(void)//Constructor class
 	//Genotype.Reset();
 	Diagnosed.Reset();
 	Treatment.Reset();
-	AlcoholUse.Reset();
+	Alcohol.Reset();
 	//Active=0;
 	//NextSusceptible=0;
 
@@ -110,7 +110,7 @@ void HCVClass::Start(float YearOfBirth)
 	//Genotype.Set(YearOfBirth, 0);
 	Diagnosed.Set(YearOfBirth, 0);
 	Treatment.Set(YearOfBirth, 0);
-    AlcoholUse.Set(YearOfBirth, 0);
+    Alcohol.Set(YearOfBirth, 0);
 }
 
 
