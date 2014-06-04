@@ -1,9 +1,10 @@
 # depslib dependency file v1.0
-1401848705 source:c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\main.cpp
+1401894549 source:c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\main.cpp
 	<iostream>
 	<ctime>
 	"EventVector.h"
 	"SimulationClass.h"
+	"csvread.h"
 	"TestingEventVector.h"
 
 1401854239 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\eventvector.h
@@ -33,4 +34,8 @@
 	"EventVector.h"
 
 1401630436 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\mortalityclass.h
+
+1401893919 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\csvread.h
+	<fstream>
+	<sstream>
 
