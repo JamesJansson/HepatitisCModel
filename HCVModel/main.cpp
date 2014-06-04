@@ -17,7 +17,7 @@ int main()
 {
 
 
-    if (TestingEventVector==1)
+    if (TestingEventVector)
     {
         cout << "Starting  testing" << endl;
         EVRangeTestMultiple();
