@@ -49,13 +49,66 @@ void EVSpeedTest(void)
     start = std::clock();
     for (int i=1; i<100000000; i++)
     {
-        Test.Set(2012.5+i, 3+1);
+        Test.Set(2012.5+i, 3+i);
     }
     duration = ( std::clock() - start ) / (double) CLOCKS_PER_SEC;
     std::cout<<"Time in seconds: "<< duration <<'\n';
     std::cout<<Test.Size()<<endl;
 
+}
 
 
 
+void EVRangeTest(float StartTime, float EndTime)
+{
+    EventVector Test;
+    EventData Output;
+    Test.Set(2010.1, 55);
+    Test.Set(2010.2, 56);
+    Test.Set(2010.3, 57);
+    Test.Set(2010.4, 58);
+    Test.Set(2010.5, 59);
+
+
+
+    Output=Test.Range(StartTime, EndTime);
+    Output.Times;
+    for (int c=0; c<Output.NoEvents; c++)
+    {
+        std::cout<< Output.Times[c] << " " << Output.Values[c] <<endl;
+    }
+}
+
+void EVRangeTestMultiple(void)
+{
+    float StartTime, EndTime;
+    StartTime=2009.2;
+    EndTime=2009.3;
+    std::cout<<"Testing values " << StartTime << " " <<EndTime<<endl;
+    EVRangeTest(StartTime, EndTime);
+
+    StartTime=2009.2;
+    EndTime=2010.25;
+    std::cout<<"Testing values " << StartTime << " " <<EndTime<<endl;
+    EVRangeTest(StartTime, EndTime);
+
+    StartTime=2009.2;
+    EndTime=2010.8;
+    std::cout<<"Testing values " << StartTime << " " <<EndTime<<endl;
+    EVRangeTest(StartTime, EndTime);
+
+    StartTime=2010.25;
+    EndTime=2010.8;
+    std::cout<<"Testing values " << StartTime << " " <<EndTime<<endl;
+    EVRangeTest(StartTime, EndTime);
+
+    StartTime=2010.2;
+    EndTime=2010.8;
+    std::cout<<"Testing values " << StartTime << " " <<EndTime<<endl;
+    EVRangeTest(StartTime, EndTime);
+
+    StartTime=2010.0;
+    EndTime=2010.4;
+    std::cout<<"Testing values " << StartTime << " " <<EndTime<<endl;
+    EVRangeTest(StartTime, EndTime);
 }

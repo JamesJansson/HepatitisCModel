@@ -9,7 +9,7 @@
 //#include "thread.h"
 //#include "PersonClass.h"
 
-#define TestingEventVector 0
+#define TestingEventVector 1
 
 using namespace std;
 
@@ -20,8 +20,9 @@ int main()
     if (TestingEventVector==1)
     {
         cout << "Starting  testing" << endl;
+        EVRangeTestMultiple();
         //EVSetSomeEvents();
-        EVSpeedTest();
+        //EVSpeedTest();
     }
 
 

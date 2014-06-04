@@ -7,7 +7,8 @@ using namespace std;
 
 
 typedef struct{
-    vector<int> Values,Times;
+    vector<int> Values;
+    vector<float> Times;
     int NoEvents;
 }EventData;
 
@@ -228,13 +229,15 @@ int EventVector::Size(void)
     return VectorSize;
 }
 
-EventData Range(float StartTime, float EndTime)//returns the events that occurred between this range
+EventData EventVector::Range(float StartTime, float EndTime)
 {
+    //returns the events that occurred between this range
+    // Behaviour all events >StartTime and <= EndTime
     EventData ED;
     if (LastSlot>-1)
     {
         int StartSlot=VectorPosition(StartTime);
-        int EndSlot=VectorPosition(StartTime);
+        int EndSlot=VectorPosition(EndTime);
         if (StartSlot==EndSlot)//if the time are in the same slot, including if they are both before the first entry
         {
             ED.NoEvents=0;
