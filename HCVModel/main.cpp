@@ -13,6 +13,7 @@ using namespace std;
 
 int main()
 {
+    cout << "argv and argc will determine what the program is to do (optimise, sim, load previous sim etc)" << endl;
     if (TESTOn)
     {
         cout << "Starting  testing" << endl;

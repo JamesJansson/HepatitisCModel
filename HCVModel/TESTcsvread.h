@@ -1,5 +1,14 @@
 
-void TESTcsvread(void)
+void TESTcsvreadstring(void)
+{
+    csvfile a;
+    vector<string> output;
+    string stringtoclean="Hello,nice,\"poo,\"";
+    output=a.SplitLine(stringtoclean);
+
+}
+
+void TESTsimplecsvread(void)
 {
 std::string FileName;
 	FileName = "test.csv";

@@ -1,3 +1,4 @@
+// Developed by James Jansson
 #include <fstream>
 #include <sstream>// may not be necesary in final build
 //using namespace std;
@@ -9,11 +10,11 @@ class csvfile {
     // int array to store the converted strings
     // float array to store the converted strings
 
-
-    vector<string> SplitLine(string LineString);
-
-
 public:
+    vector<string> SplitLine(const std::string&  LineString);//note that this should eventually not be public (following testing)
+
+
+
     int Open(string FileName);//loads file an data
     int ConvertToInt(void);
     int ConvertToFloat(void);
@@ -32,20 +33,82 @@ public:
 };
 
 
-int csvfile::SplitLine(string LineString)
+vector<string> csvfile::SplitLine(const std::string&  LineString)
 {
-    bool CommaOpen=1;
-    bool EntryStarted=;
-    bool QuoteOpen=0;
+    std::cout<<"Got in!"<<endl;
+
+    bool EntryEndReached;
+    bool QuoteOpen;
+
     string CurrentString;
+    vector<string> StringPart;
     //Determine the length of the string
+    int StringLength=LineString.length();
+    int charpos=0;
 
-    int charcount=0;
+    //for each of the entries
+    int EntryCount=0;
+    while (charpos<StringLength)
+    {
+        EntryCount++;
+        std::cout<<"Word "<<EntryCount<<" charpos "<<charpos<<" strlen "<<StringLength<<endl;
+        CurrentString.clear();
 
-    //any time you look at the next character, check that the current
+        EntryEndReached=false;
+        if (LineString[charpos]=='"')//is a quotemark
+        {
+            QuoteOpen=true;
+            charpos++;
+        }
+        else
+        {
+            QuoteOpen=false;
+        }
 
-    //return a vector of strings, to be converted later?
-    return 0;
+        //keep going while not the last element of the line
+        while (EntryEndReached==false && charpos<StringLength)
+        {
+            if (QuoteOpen==false && LineString[charpos]==',')//if a character is found and is not being protect by quotes being open
+            {
+                EntryEndReached=true;
+                charpos++;
+            }
+            else if (QuoteOpen==true && LineString[charpos]=='"')//is a quotemark
+            {
+                if (charpos+1==StringLength) //it is the last element of the string (to avoid accessing memory illegally)
+                {
+                    QuoteOpen=false; //it must be a quote close mark
+                    charpos++;
+                }
+                else if (LineString[charpos+1]=='"')//the next character is also a quote mark
+                {
+                    // the quote is still open
+                    // add a quote mark to the string
+                    CurrentString.push_back('"');
+                    charpos++;//jump twice because of the escape character
+                    charpos++;//jump twice because of the escape character
+                }
+                else
+                {
+                    QuoteOpen=false; //it must be a quote close mark
+                    charpos++;
+                }
+            }
+            else
+            {
+                CurrentString.push_back(LineString[charpos]);
+                charpos++;
+            }
+        }
+
+        std::cout<< CurrentString << endl;
+
+        //note that an empty string should be counted as an entry, even if it is at the end of a line
+        //Add a new entry
+        StringPart.push_back(CurrentString);
+    }
+    //return a vector of strings, to be converted later
+    return StringPart;
 }
 
 
