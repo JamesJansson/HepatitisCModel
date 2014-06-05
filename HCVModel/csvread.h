@@ -1,6 +1,80 @@
 #include <fstream>
-#include <sstream>
+#include <sstream>// may not be necesary in final build
 //using namespace std;
+
+class csvfile {
+
+    vector<string> FileLines;
+    // vector of vector of strings
+    // int array to store the converted strings
+    // float array to store the converted strings
+
+
+    vector<string> SplitLine(string LineString);
+
+
+public:
+    int Open(string FileName);//loads file an data
+    int ConvertToInt(void);
+    int ConvertToFloat(void);
+    int ReadInt(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
+    float ReadFloat(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
+    string ReadString(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
+
+    //
+    int Add(int ArrayOf, int xpos, int ypos);//
+
+
+    // SaveFile
+    // is the string contains a " or a , then the string has to be put in quotes ("_") and all quotes in the original string have to be turned into double quote marks
+
+
+};
+
+
+int csvfile::SplitLine(string LineString)
+{
+    bool CommaOpen=1;
+    bool EntryStarted=;
+    bool QuoteOpen=0;
+    string CurrentString;
+    //Determine the length of the string
+
+    int charcount=0;
+
+    //any time you look at the next character, check that the current
+
+    //return a vector of strings, to be converted later?
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 #define csvreadmaxrows 30000
 #define csvreadmaxcolumns 300

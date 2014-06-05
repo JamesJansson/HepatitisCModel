@@ -35,8 +35,12 @@ int main()
 
     //Optimise simulation
 
+    //Save optimised simulation
+        // use current time as part of the filename
+
     //Run baseline
     Simulation BaselineSim=Sim;
+    //Save baseline simulation
 
     //Create an intervention simulation
     Simulation InterventionSim=Sim;

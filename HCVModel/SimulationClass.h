@@ -103,6 +103,9 @@ int PerformSensitivityAnalysis(void)
     //The point of this function is to take in a vector of simualtions (as defined above) and look at the parameters that change between the simulations
     //The function performs a GLM over the varying parameters in the simulation for the outcomes specificed in the input of this function
 
+    // Importantly, the sensistivity analyses should not only look at absolute increase and decreases, but also proportional changes
+    // for example the starting population is very likely to affect the outcome of a simulation
+    // however, which parameter causes the greatest increase in infections?
     return 0;
 }
 
