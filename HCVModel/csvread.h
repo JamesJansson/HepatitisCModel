@@ -2,6 +2,9 @@
 #include <sstream>
 //using namespace std;
 
+#define csvreadmaxrows 30000
+#define csvreadmaxcolumns 300
+
 //int version
 int csvread(std::string FileName, int** FileData, const int ReadDimensionXStart, const int ReadDimensionXEnd, const int ReadDimensionYStart, const int ReadDimensionYEnd)
 {
@@ -17,8 +20,12 @@ int csvread(std::string FileName, int** FileData, const int ReadDimensionXStart,
 
 	int LineCount, CommaCount;
 	int ColumnCount, RowCount;
-	char Line[30000] ;
-	char CharNumber[300];
+	char Line[csvreadmaxrows] ;
+	char CharNumber[csvreadmaxcolumns];
+
+	std::cout<<"Insert into here a try catch exception to handle a lack of the appropriate file. "<<endl;
+	std::cout<<"Also try to handle exceptions to the file dimension size maximum. "<<endl;
+
     infile.open (FileName, std::ifstream::in);
 	std::string LineString;
     if (infile.is_open())
@@ -28,7 +35,7 @@ int csvread(std::string FileName, int** FileData, const int ReadDimensionXStart,
         while (infile.good())
         {
 			FileLineStream.clear();
-			infile.getline(Line, 30000, '\n');
+			infile.getline(Line, csvreadmaxrows, '\n');
 			if (LineCount>=ReadDimensionYStart && LineCount<=ReadDimensionYEnd)
 			{
 				LineString=Line;
@@ -37,7 +44,7 @@ int csvread(std::string FileName, int** FileData, const int ReadDimensionXStart,
 				CommaCount=0;
 				while (FileLineStream.good() && ColumnCount<=(ReadDimensionXEnd-ReadDimensionXStart))
 				{
-					FileLineStream.getline(CharNumber, 300, ',');
+					FileLineStream.getline(CharNumber, csvreadmaxcolumns, ',');
 
 					if (CommaCount>=ReadDimensionXStart && CommaCount<=ReadDimensionXEnd)
 					{
@@ -86,8 +93,8 @@ int csvread(std::string FileName, float** FileData, const int ReadDimensionXStar
 
 	int LineCount, CommaCount;
 	int ColumnCount, RowCount;
-	char Line[30000] ;
-	char CharNumber[300];
+	char Line[csvreadmaxrows] ;
+	char CharNumber[csvreadmaxcolumns];
     infile.open (FileName, std::ifstream::in);
 	std::string LineString;
     if (infile.is_open())
@@ -97,7 +104,7 @@ int csvread(std::string FileName, float** FileData, const int ReadDimensionXStar
         while (infile.good())
         {
 			FileLineStream.clear();
-			infile.getline(Line, 30000, '\n');
+			infile.getline(Line, csvreadmaxrows, '\n');
 			if (LineCount>=ReadDimensionYStart && LineCount<=ReadDimensionYEnd)
 			{
 				LineString=Line;
@@ -106,7 +113,7 @@ int csvread(std::string FileName, float** FileData, const int ReadDimensionXStar
 				CommaCount=0;
 				while (FileLineStream.good() && ColumnCount<=(ReadDimensionXEnd-ReadDimensionXStart))
 				{
-					FileLineStream.getline(CharNumber, 300, ',');
+					FileLineStream.getline(CharNumber, csvreadmaxcolumns, ',');
 
 					if (CommaCount>=ReadDimensionXStart && CommaCount<=ReadDimensionXEnd)
 					{
