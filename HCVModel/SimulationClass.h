@@ -97,3 +97,16 @@ int Simulation::Reset(void)
 
 
 
+
+int PerformSensitivityAnalysis(void)
+{
+    //The point of this function is to take in a vector of simualtions (as defined above) and look at the parameters that change between the simulations
+    //The function performs a GLM over the varying parameters in the simulation for the outcomes specificed in the input of this function
+
+    return 0;
+}
+
+
+
+
+
