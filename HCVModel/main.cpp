@@ -5,28 +5,23 @@
 #include "SimulationClass.h"
 #include "csvread.h"
 
-#include "TestingEventVector.h"
+#include "TEST.h"
 //#include <thread.h>
 
-#define TestingEventVector 1
+#define TESTOn 1
 
 using namespace std;
 
 int main()
 {
-
-
-    if (TestingEventVector)
+    if (TESTOn)
     {
         cout << "Starting  testing" << endl;
-        EVRangeTestMultiple();
-        //EVSetSomeEvents();
-        //EVSpeedTest();
+        TESTFunctions();
     }
 
 
     cout << "Starting model" << endl;
-
     // Load parameters and data
 
     // Create initial seed
