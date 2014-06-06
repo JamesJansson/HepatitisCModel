@@ -209,6 +209,16 @@ void csvfile::DisplayFile(void)
         }
         cout<<endl;
     }
+
+    cout<<"Float split"<<endl;
+    for(vector<float> CurrentLine : FloatMatrix )
+    {
+        for (float CurrentFloat : CurrentLine)
+        {
+            cout<<CurrentFloat<<":";
+        }
+        cout<<endl;
+    }
 }
 
 
