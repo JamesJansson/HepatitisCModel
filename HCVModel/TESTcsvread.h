@@ -1,6 +1,9 @@
 
 void TESTcsvreadstring(void)
 {
+    cout<<"This is where atoi is being tested"<<endl;
+    cout<<atoi("72")<<endl;
+    cout<<atoi("a3a")<<endl;
     csvfile a;
 
     a.Open("test.csv");

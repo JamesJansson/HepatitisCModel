@@ -5,8 +5,10 @@
 
 class csvfile {
 
-    vector<string> FileLines;
+    vector <string> FileLines;
     vector <vector <string>> StringMatrix;
+    vector <vector <int>> IntMatrix;
+    vector <vector <float>> FloatMatrix;
     // int array to store the converted strings
     // float array to store the converted strings
 
@@ -18,6 +20,8 @@ public:
     int Open(string FileName);//loads file and data
     int GetInt(int x, int y);
     int GetInt(int xStart, int xEnd, int yStart, int yEnd);
+    int GetFloat(int x, int y);
+    int GetFloat(int xStart, int xEnd, int yStart, int yEnd);
     int ConvertToInt(void);
     int ConvertToFloat(void);
     int ReadInt(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
@@ -48,6 +52,8 @@ int csvfile::Open(string FileName)
         std::cout << "\nError opening file";
         return -1;
     }
+
+    FileLines.clear();
     // Read in the files
     while (infile.good())
     {
@@ -61,6 +67,8 @@ int csvfile::Open(string FileName)
     {
         StringMatrix.push_back(SplitLine(CurrentString));//Split lines returns a vector of strings
     }
+    ConvertToInt();
+    //ConvertToFloat();
     return 0;
 }
 
@@ -138,34 +146,41 @@ vector<string> csvfile::SplitLine(const std::string&  LineString)
     return StringPart;
 }
 
-void csvfile::DisplayFile(void)
+int csvfile::ConvertToInt(void)
 {
-    for(string CurrentString : FileLines)
-        cout << "  " << CurrentString << endl;
+    //Clear out the current int values
+    vector<int> CurrentLineInt;
+    int ValueToStore;
+    for(vector<string> CurrentLine : StringMatrix )
+    {
+        CurrentLineInt.clear();
+        for (string CurrentString : CurrentLine)
+        {
+            //CurrentLineInt.push_back(atoi(CurrentString));
+            CurrentLineInt.push_back(3);
+            cout<<CurrentString<<":";
+        }
+        IntMatrix.push_back(CurrentLineInt);
+    }
+    return 0;
 }
 
 
+void csvfile::DisplayFile(void)
+{
+    //this section is used primarily for testing
+    for(string CurrentString : FileLines)
+        cout << "  " << CurrentString << endl;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    for(vector<string> CurrentLine : StringMatrix )
+    {
+        for (string CurrentString : CurrentLine)
+        {
+            cout<<CurrentString<<":";
+        }
+        cout<<endl;
+    }
+}
 
 
 
