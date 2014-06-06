@@ -6,9 +6,9 @@
 class csvfile {
 
     vector <string> FileLines;
-    vector <vector <string>> StringMatrix;
-    vector <vector <int>> IntMatrix;
-    vector <vector <float>> FloatMatrix;
+    vector <vector <string> > StringMatrix;
+    vector <vector <int> > IntMatrix;
+    vector <vector <float> > FloatMatrix;
     // int array to store the converted strings
     // float array to store the converted strings
 
@@ -45,7 +45,7 @@ int csvfile::Open(string FileName)
 {
     std::ifstream infile;
     string CurrentLine;
-    infile.open (FileName, std::ifstream::in);
+    infile.open(FileName, std::ifstream::in);
 	std::string LineString;
     if (infile.is_open()==false)
     {
