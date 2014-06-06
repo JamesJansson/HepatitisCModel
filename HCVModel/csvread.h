@@ -68,7 +68,7 @@ int csvfile::Open(string FileName)
         StringMatrix.push_back(SplitLine(CurrentString));//Split lines returns a vector of strings
     }
     ConvertToInt();
-    //ConvertToFloat();
+    ConvertToFloat();
     return 0;
 }
 
@@ -179,7 +179,7 @@ int csvfile::ConvertToFloat(void)
             istringstream ( CurrentString ) >> ValueToStore;
             CurrentLineFloat.push_back(ValueToStore);
         }
-        FloatMatrix.push_back(CurrentLineInt);
+        FloatMatrix.push_back(CurrentLineFloat);
     }
     return 0;
 }
