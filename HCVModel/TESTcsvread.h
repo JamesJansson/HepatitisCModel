@@ -2,6 +2,10 @@
 void TESTcsvreadstring(void)
 {
     csvfile a;
+
+    a.Open("test.csv");
+    a.DisplayFile();
+
     vector<string> output;
     string stringtoclean="Hello,nice,\"poo,\"";
     output=a.SplitLine(stringtoclean);

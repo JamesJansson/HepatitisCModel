@@ -6,7 +6,7 @@
 class csvfile {
 
     vector<string> FileLines;
-    // vector of vector of strings
+    vector <vector <string>> StringMatrix;
     // int array to store the converted strings
     // float array to store the converted strings
 
@@ -16,13 +16,17 @@ public:
 
 
     int Open(string FileName);//loads file and data
+    int GetInt(int x, int y);
+    int GetInt(int xStart, int xEnd, int yStart, int yEnd);
     int ConvertToInt(void);
     int ConvertToFloat(void);
     int ReadInt(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
     float ReadFloat(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
     string ReadString(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
 
-    //
+    void DisplayFile(void);
+
+    // Writing functions
     int Add(int ArrayOf, int xpos, int ypos);//
 
 
@@ -33,10 +37,10 @@ public:
 };
 
 
-int Open(string FileName)
+int csvfile::Open(string FileName)
 {
-    std::ifstream infile;;
-    string CurrentLine
+    std::ifstream infile;
+    string CurrentLine;
     infile.open (FileName, std::ifstream::in);
 	std::string LineString;
     if (infile.is_open()==false)
@@ -44,14 +48,18 @@ int Open(string FileName)
         std::cout << "\nError opening file";
         return -1;
     }
-    else
+    // Read in the files
+    while (infile.good())
     {
-        while (infile.good())
-        {
-			infile.getline(CurrentLine, '\n');
-			FileLines.push_back(CurrentLine);
-        }
-        infile.close();
+        getline(infile, CurrentLine, '\n');
+        FileLines.push_back(CurrentLine);
+    }
+    infile.close();
+
+    //Convert the file lines to individual strings
+    for(string CurrentString : FileLines)
+    {
+        StringMatrix.push_back(SplitLine(CurrentString));//Split lines returns a vector of strings
     }
     return 0;
 }
@@ -59,8 +67,6 @@ int Open(string FileName)
 
 vector<string> csvfile::SplitLine(const std::string&  LineString)
 {
-    std::cout<<"Got in!"<<endl;
-
     bool EntryEndReached;
     bool QuoteOpen;
 
@@ -75,7 +81,6 @@ vector<string> csvfile::SplitLine(const std::string&  LineString)
     while (charpos<StringLength)
     {
         EntryCount++;
-        std::cout<<"Word "<<EntryCount<<" charpos "<<charpos<<" strlen "<<StringLength<<endl;
         CurrentString.clear();
 
         EntryEndReached=false;
@@ -125,8 +130,6 @@ vector<string> csvfile::SplitLine(const std::string&  LineString)
             }
         }
 
-        std::cout<< CurrentString << endl;
-
         //note that an empty string should be counted as an entry, even if it is at the end of a line
         //Add a new entry
         StringPart.push_back(CurrentString);
@@ -135,7 +138,11 @@ vector<string> csvfile::SplitLine(const std::string&  LineString)
     return StringPart;
 }
 
-
+void csvfile::DisplayFile(void)
+{
+    for(string CurrentString : FileLines)
+        cout << "  " << CurrentString << endl;
+}
 
 
 
