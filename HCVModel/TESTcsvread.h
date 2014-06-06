@@ -6,6 +6,8 @@ void TESTcsvreadstring(void)
     string stringtoclean="Hello,nice,\"poo,\"";
     output=a.SplitLine(stringtoclean);
 
+    stringtoclean="\"Hello,\"nice,\"poo,\"";
+    output=a.SplitLine(stringtoclean);
 }
 
 void TESTsimplecsvread(void)

@@ -15,7 +15,7 @@ public:
 
 
 
-    int Open(string FileName);//loads file an data
+    int Open(string FileName);//loads file and data
     int ConvertToInt(void);
     int ConvertToFloat(void);
     int ReadInt(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
@@ -31,6 +31,30 @@ public:
 
 
 };
+
+
+int Open(string FileName)
+{
+    std::ifstream infile;;
+    string CurrentLine
+    infile.open (FileName, std::ifstream::in);
+	std::string LineString;
+    if (infile.is_open()==false)
+    {
+        std::cout << "\nError opening file";
+        return -1;
+    }
+    else
+    {
+        while (infile.good())
+        {
+			infile.getline(CurrentLine, '\n');
+			FileLines.push_back(CurrentLine);
+        }
+        infile.close();
+    }
+    return 0;
+}
 
 
 vector<string> csvfile::SplitLine(const std::string&  LineString)
