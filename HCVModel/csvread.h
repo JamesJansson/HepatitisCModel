@@ -149,6 +149,7 @@ vector<string> csvfile::SplitLine(const std::string&  LineString)
 int csvfile::ConvertToInt(void)
 {
     //Clear out the current int values
+    IntMatrix.clear();
     vector<int> CurrentLineInt;
     int ValueToStore;
     for(vector<string> CurrentLine : StringMatrix )
@@ -156,8 +157,8 @@ int csvfile::ConvertToInt(void)
         CurrentLineInt.clear();
         for (string CurrentString : CurrentLine)
         {
-            //CurrentLineInt.push_back(atoi(CurrentString));
-            CurrentLineInt.push_back(3);
+            istringstream ( CurrentString ) >> ValueToStore;
+            CurrentLineInt.push_back(ValueToStore);
             cout<<CurrentString<<":";
         }
         IntMatrix.push_back(CurrentLineInt);
