@@ -159,13 +159,30 @@ int csvfile::ConvertToInt(void)
         {
             istringstream ( CurrentString ) >> ValueToStore;
             CurrentLineInt.push_back(ValueToStore);
-            cout<<CurrentString<<":";
         }
         IntMatrix.push_back(CurrentLineInt);
     }
     return 0;
 }
 
+int csvfile::ConvertToFloat(void)
+{
+    //Clear out the current int values
+    FloatMatrix.clear();
+    vector<float> CurrentLineFloat;
+    float ValueToStore;
+    for(vector<string> CurrentLine : StringMatrix )
+    {
+        CurrentLineFloat.clear();
+        for (string CurrentString : CurrentLine)
+        {
+            istringstream ( CurrentString ) >> ValueToStore;
+            CurrentLineFloat.push_back(ValueToStore);
+        }
+        FloatMatrix.push_back(CurrentLineInt);
+    }
+    return 0;
+}
 
 void csvfile::DisplayFile(void)
 {
