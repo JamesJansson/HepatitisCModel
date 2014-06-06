@@ -170,14 +170,25 @@ int csvfile::ConvertToInt(void)
 void csvfile::DisplayFile(void)
 {
     //this section is used primarily for testing
+    cout<<"File lines"<<endl;
     for(string CurrentString : FileLines)
         cout << "  " << CurrentString << endl;
-
+    cout<<"File split"<<endl;
     for(vector<string> CurrentLine : StringMatrix )
     {
         for (string CurrentString : CurrentLine)
         {
             cout<<CurrentString<<":";
+        }
+        cout<<endl;
+    }
+
+    cout<<"Int split"<<endl;
+    for(vector<int> CurrentLine : IntMatrix )
+    {
+        for (int CurrentInt : CurrentLine)
+        {
+            cout<<CurrentInt<<":";
         }
         cout<<endl;
     }
