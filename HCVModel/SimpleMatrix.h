@@ -1,34 +1,45 @@
 // Developed by James Jansson
 
+// This library is essentially compiler candy, designed to reduce the size of matrix operations from several lines down to a single line.
+// At this stage, all operations are done elementwise.
+// Please note that none of these functions have been security tested as they are intended for scientific computing.
+
+//Settings
+int SMThreadsToUse=1;//will be used for multithreading in a future life
+int MaxEntries=100000000;
+
+
 // Class declarations
-{
+
 template <class TemplateType>
 class SimpleMatrix {
     vector<int> DimSize;
+    int TotalArraySize;//equals the dimensions of the array multiplied together
     bool Extendable=false;//determines if adding values to areas outside the matrix is allowed. At the moment, only predefined sized Matrices will be allowed for simplicity. In future releases this may be allowed, but will require a cleaver method to extend teh vector size
     TemplateType ValueArray;
 
     int FindIndex(int n, ...);//used privately to determine the internal index value of the
 
     public:
-    void SimpleMatrix(int n, ...);//constructor: n, the number of ints in the constructor
-    void SimpleMatrix(vector<int> v);//alows a vector to be used to specify the dimensions of the matrix
-    void SimpleMatrix(SimpleMatrix v);
-    void SimpleMatrix(void);//allows the quick defintion of a single value to be represented as a SimpleMatrix type to making pointer functions a whole heap easier
+    SimpleMatrix(int n, ...);//constructor: n, the number of ints in the constructor
+    //SimpleMatrix(vector<int> v);//alows a vector to be used to specify the dimensions of the matrix
+    SimpleMatrix(SimpleMatrix<int> v);
+    SimpleMatrix(void);//allows the quick defintion of a single value to be represented as a SimpleMatrix type to making pointer functions a whole heap easier
 
-    vector<int> Dimensions(void);
-    SimpleMatrix Dimensions(void);//to allow operations on dimensions, it will be amazing!
+    //vector<int> Dimensions(void);
+    SimpleMatrix<int> Dimensions(void);//to allow operations on dimensions, it will be amazing!
     int NumberOfDimensions(void);//a simple integer value of the number of dimensions
-    string DimSizeString();
+    string DimSizeString(void);
 
     //Future functions
-    TemplateType Value(int n, ...);
+    void Set(TemplateType n, ...);//allows a vector to be set for easy use of the matrix
+    TemplateType Value(int n, ...);//returns the value of the function given the arguments
     TemplateType UnitaryValue(int n, ...);//this is used to reurn a value that lies outside the dimension of the matrix in the singular dimension
     SimpleMatrix Resize(int n, ...);//increases dimensions by specified amount
-    SimpleMatrix Transpose(SimpleMatrix);//takes 1 or 2 dimension matrices only
+    SimpleMatrix Transpose(void);//takes 1 or 2 dimension matrices only
 
     // Overloading, pointer and template functions
-    SimpleMatrix SimpleMatrix::Apply(&FunctionPointer, int n, ...)
+    //SimpleMatrix SimpleMatrix::Apply(&FunctionPointer, int n, ...);
 
 
     //Testing functions
@@ -37,7 +48,8 @@ class SimpleMatrix {
 //Error: Index is larger than matrix size
 //exit(-1);
 
-void SimpleMatrix::SimpleMatrix(int n, ...)//constructor: n, the number of ints in the constructor
+template <class TemplateType>
+SimpleMatrix<TemplateType>::SimpleMatrix(int n, ...)//constructor: n, the number of ints in the constructor
 {
     //Load all the relevant parameters
     va_list vl;
@@ -56,7 +68,14 @@ void SimpleMatrix::SimpleMatrix(int n, ...)//constructor: n, the number of ints 
     //Create the necessary array of values
 }
 
-void TestConstructor(void)
+template <class TemplateType>
+SimpleMatrix<TemplateType>::SimpleMatrix(void)
+{
+    DimSize.push_back(1);
+}
+
+template <class TemplateType>
+void SimpleMatrix<TemplateType>::TestConstructor(void)
 {
     for (int val : DimSize )
         cout<< val <<", ";
@@ -64,7 +83,9 @@ void TestConstructor(void)
 }
 
 
-}
+
+
+
 
 // Operator overloading
 // http://en.wikibooks.org/wiki/C%2B%2B_Programming/Operators/Operator_Overloading
@@ -106,10 +127,11 @@ SimpleMatrix SimpleMatrix::Apply(&FunctionPointer, int n, ...)//feed in an arbit
     return ResultMatrix;
 }
 
-// ALTERNATIVE
+// ALTERNATIVE: to allow multiple matrices to work together in a function
 SimpleMatrix Apply(&FunctionPointer, SimpleMatrix A)
 {
     //for all the elements of A
+
 }
 
 SimpleMatrix Apply(&FunctionPointer, SimpleMatrix A, SimpleMatrix B)//this will allow the operator overloading to occur, especially + - * / % ^
@@ -117,6 +139,11 @@ SimpleMatrix Apply(&FunctionPointer, SimpleMatrix A, SimpleMatrix B)//this will 
 SimpleMatrix Apply(&FunctionPointer, SimpleMatrix n, ...) // for an arbitrary number of simple matrices.
 
 
-
+// From this point on are the declarations of template functions that allow the operator overloads to work
+template <class TemplateType>
+TemplateType SMMultiply(TemplateType a, TemplateType b)
+{
+    return a*b;
+}
 
 

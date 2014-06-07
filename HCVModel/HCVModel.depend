@@ -35,13 +35,14 @@
 
 1401630436 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\mortalityclass.h
 
-1402149583 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\csvread.h
+1402166168 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\csvread.h
 	<fstream>
 	<sstream>
 
-1402136155 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\test.h
+1402172204 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\test.h
 	"TESTcsvread.h"
 	"TESTEventVector.h"
+	"SimpleMatrix.h"
 
 1402149635 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\testcsvread.h
 
@@ -92,4 +93,6 @@
 1402045289 c:\users\james\documents\github\hepatitiscmodel\hcvmodel\testcsvread.h
 
 1402016862 c:\users\james\documents\github\hepatitiscmodel\hcvmodel\testeventvector.h
+
+1402172256 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\simplematrix.h
 
