@@ -274,6 +274,7 @@ float csvfile::GetFloat(int x, int y)//not that the first element is x=0
 /*vector<vector<int>> csvfile::GetInt(int xStart, int xEnd, int yStart, int yEnd)
 {
     vector<vector<int>> ReturnMatrix;
+    SimpleMatrix<int> ReturnMatrix;
     for (ycount=yStart; ycount<yEnd; ycount++
     {
         for (xcount=xStart; xcount<xEnd; xcount++
