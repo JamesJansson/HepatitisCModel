@@ -20,8 +20,8 @@ public:
     int Open(string FileName);//loads file and data
     int GetInt(int x, int y);
     int GetInt(int xStart, int xEnd, int yStart, int yEnd);
-    int GetFloat(int x, int y);
-    int GetFloat(int xStart, int xEnd, int yStart, int yEnd);
+    float GetFloat(int x, int y);
+    float GetFloat(int xStart, int xEnd, int yStart, int yEnd);
     int ConvertToInt(void);
     int ConvertToFloat(void);
     int ReadInt(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
@@ -221,9 +221,59 @@ void csvfile::DisplayFile(void)
     }
 }
 
+int csvfile::GetInt(int x, int y)//not that the first element is x=0
+{
+    //determine if the y dimension is big enough
+    if (y>=IntMatrix.size())
+    {
+        return 0;
+    }
+    else
+    {
+        vector<int>Row;
+        Row=IntMatrix[y];
+        if (x>=Row.size())
+        {
+            return 0;
+        }
+        else
+        {
+            return Row[x];
+        }
+    }
+}
+
+float csvfile::GetFloat(int x, int y)//not that the first element is x=0
+{
+    //determine if the y dimension is big enough
+    if (y>=FloatMatrix.size())
+    {
+        return 0;
+    }
+    else
+    {
+        vector<float>Row;
+        Row=FloatMatrix[y];
+        if (x>=Row.size())
+        {
+            return 0;
+        }
+        else
+        {
+            return Row[x];
+        }
+    }
+}
 
 
 
+
+
+
+
+
+
+/*
 #define csvreadmaxrows 30000
 #define csvreadmaxcolumns 300
 
@@ -388,4 +438,4 @@ int csvwrite(std::string FileName, float** FileData, int DimensionX, int Dimensi
 	return 0;
 }
 
-
+*/

@@ -1,4 +1,62 @@
 
+void TESTCSVGetInt(void)
+{
+    csvfile a;
+    a.Open("test.csv");
+    a.DisplayFile();
+
+    int x, y;
+    x=2;
+    y=3;
+    cout<<x<<" "<<y<<": "<<a.GetInt(x, y)<<endl;
+
+    x=3;
+    y=2;
+    cout<<x<<" "<<y<<": "<<a.GetInt(x, y)<<endl;
+
+    x=10;
+    y=2;
+    cout<<x<<" "<<y<<": "<<a.GetInt(x, y)<<endl;
+
+    x=0;
+    y=9;
+    cout<<x<<" "<<y<<": "<<a.GetInt(x, y)<<endl;
+
+    x=1;
+    y=9;
+    cout<<x<<" "<<y<<": "<<a.GetInt(x, y)<<endl;
+
+    x=2;
+    y=9;
+    cout<<x<<" "<<y<<": "<<a.GetInt(x, y)<<endl;
+
+    x=3;
+    y=9;
+    cout<<x<<" "<<y<<": "<<a.GetInt(x, y)<<endl;
+
+    x=4;
+    y=9;
+    cout<<x<<" "<<y<<": "<<a.GetInt(x, y)<<endl;
+
+    x=5;
+    y=9;
+    cout<<x<<" "<<y<<": "<<a.GetInt(x, y)<<endl;
+
+    x=4;
+    y=9;
+    cout<<x<<" "<<y<<": "<<a.GetFloat(x, y)<<endl;
+
+    x=1;
+    y=3;
+    cout<<x<<" "<<y<<": "<<a.GetFloat(x, y)<<endl;
+}
+
+
+
+
+
+
+
 void TESTcsvreadstring(void)
 {
     csvfile a;
@@ -8,16 +66,18 @@ void TESTcsvreadstring(void)
     a.DisplayFile();
 
     vector<string> output;
-    string stringtoclean="Hello,nice,\"poo,\"";
+    string stringtoclean="Hello,nice,\"abc,\"";
     output=a.SplitLine(stringtoclean);
 
-    stringtoclean="\"Hello,\"nice,\"poo,\"";
+    stringtoclean="\"Hello,\"nice,\"abc,\"";
     output=a.SplitLine(stringtoclean);
 }
 
-void TESTsimplecsvread(void)
+/*void TESTsimplecsvread(void)
 {
-std::string FileName;
+    // this won't work because it is using the old CSV read library
+
+    std::string FileName;
 	FileName = "test.csv";
 	std::cout << "\n" << FileName;
 	int a;
@@ -45,6 +105,6 @@ std::string FileName;
 	}
 
 
-}
+}*/
 
 

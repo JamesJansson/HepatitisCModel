@@ -5,8 +5,8 @@
 
 void TESTFunctions(void)
 {
-    TESTcsvreadstring();
-
+    //TESTcsvreadstring();
+    TESTCSVGetInt();
     //EVRangeTestMultiple();
     //EVSetSomeEvents();
     //EVSpeedTest();
