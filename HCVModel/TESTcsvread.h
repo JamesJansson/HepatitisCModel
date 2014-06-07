@@ -53,7 +53,7 @@ void TESTCSVGetInt(void)
 
     cout<<"X size: "<<a.xSize()<<endl;
     cout<<"Y size: "<<a.ySize()<<endl;
-    cout<<"Last line: "<<a.FileLines[9]<<endl;
+
 }
 
 

@@ -3,24 +3,7 @@
 #include <sstream>// may not be necesary in final build
 //using namespace std;
 
-template <class T>
-class SimpleMatrix {
-    vector<int> DimSize;
-    bool Extendable=true;
 
-    public:
-
-    float avg()
-
-    v();
-};
-//Error: Index is larger than matrix size
-//exit(-1);
-
-float avg (float n, ...)
-{
-
-}
 
 
 
