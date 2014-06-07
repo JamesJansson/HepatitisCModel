@@ -6,7 +6,11 @@
 void TESTFunctions(void)
 {
     SimpleMatrix<int> A(2,3,4);
-    cout<<A.TestConstructor()<<endl;
+    A.TestConstructor();
+
+    SimpleMatrix<int> B(5,4,5, 6, 7);
+    B.TestConstructor();
+//    std::cout<<<<endl;
 
     //TESTcsvreadstring();
     //TESTCSVGetInt();
