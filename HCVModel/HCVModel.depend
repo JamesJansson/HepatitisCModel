@@ -39,10 +39,9 @@
 	<fstream>
 	<sstream>
 
-1402173368 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\test.h
+1402178484 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\test.h
 	"TESTcsvread.h"
 	"TESTEventVector.h"
-	"SimpleMatrix.h"
 
 1402149635 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\testcsvread.h
 
@@ -94,6 +93,6 @@
 
 1402016862 c:\users\james\documents\github\hepatitiscmodel\hcvmodel\testeventvector.h
 
-1402173358 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\simplematrix.h
+1402177712 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\simplematrix.h
 	<stdarg.h>
 
