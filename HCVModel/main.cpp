@@ -1,3 +1,5 @@
+//please use c++11 setting for compiler
+
 #include <iostream>
 #include <ctime>
 

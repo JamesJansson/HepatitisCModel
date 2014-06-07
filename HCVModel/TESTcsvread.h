@@ -49,6 +49,11 @@ void TESTCSVGetInt(void)
     x=1;
     y=3;
     cout<<x<<" "<<y<<": "<<a.GetFloat(x, y)<<endl;
+
+
+    cout<<"X size: "<<a.xSize()<<endl;
+    cout<<"Y size: "<<a.ySize()<<endl;
+    cout<<"Last line: "<<a.FileLines[9]<<endl;
 }
 
 

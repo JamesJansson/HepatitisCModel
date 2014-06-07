@@ -3,6 +3,27 @@
 #include <sstream>// may not be necesary in final build
 //using namespace std;
 
+template <class T>
+class SimpleMatrix {
+    vector<int> DimSize;
+    bool Extendable=true;
+
+    public:
+
+    float avg()
+
+    v();
+};
+//Error: Index is larger than matrix size
+//exit(-1);
+
+float avg (float n, ...)
+{
+
+}
+
+
+
 class csvfile {
 
     vector <string> FileLines;
@@ -27,6 +48,8 @@ public:
     int ReadInt(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
     float ReadFloat(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
     string ReadString(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
+    int xSize(void);
+    int ySize(void);
 
     void DisplayFile(void);
 
@@ -265,8 +288,30 @@ float csvfile::GetFloat(int x, int y)//not that the first element is x=0
     }
 }
 
+/*vector<vector<int>> csvfile::GetInt(int xStart, int xEnd, int yStart, int yEnd)
+{
+    vector<vector<int>> ReturnMatrix;
+    for (ycount=yStart; ycount<yEnd; ycount++
+    {
+        for (xcount=xStart; xcount<xEnd; xcount++
+        {
 
+        }
+    }
+}*/
 
+int csvfile::ySize(void)
+{
+    return StringMatrix.size(); //note that excel adds an empty line at the end of csv files
+}
+
+int csvfile::xSize(void)
+{
+    int LargestX=0;
+    for(vector<string> CurrentLine : StringMatrix )
+        LargestX=(CurrentLine.size()>LargestX)?CurrentLine.size():LargestX;
+    return LargestX;
+}
 
 
 
