@@ -23,24 +23,26 @@ class SimpleMatrix {
 
     int FindIndex(int n, ...);//used privately to determine the internal index value of the
 
-
+public:
     //this is a recursive argument counter, as described here: http://stackoverflow.com/a/16338804/1275985
     int NumArgs; //should be set to zero when using CountArgs
     template <typename CountTemplateType>
     int CountArgs(CountTemplateType t)
     {
         NumArgs++;
+        cout<<"End: "<<NumArgs<<endl;
         return NumArgs;
     }
     template<typename CountTemplateType, typename... Args>
     int CountArgs(CountTemplateType t, Args... args)
     {
         NumArgs++;
+        cout<<"Splitter: "<<NumArgs<<endl;
         return CountArgs(args...);
     }
 
-    public:
-    SimpleMatrix(...);//constructor: n, the number of ints in the constructor
+
+    SimpleMatrix(int... );//constructor: n, the number of ints in the constructor
     SimpleMatrix(vector<int> v);//alows a vector to be used to specify the dimensions of the matrix
     //SimpleMatrix(SimpleMatrix<int> v);
     SimpleMatrix(void);//allows the quick defintion of a single value to be represented as a SimpleMatrix type to making pointer functions a whole heap easier
@@ -89,12 +91,12 @@ int CountArgs(CountTemplateType t, ArgType... args)
 
 //Contructors
 template <typename TemplateType>
-SimpleMatrix<TemplateType>::SimpleMatrix(...)//constructor: n, the number of ints in the constructor
+SimpleMatrix<TemplateType>::SimpleMatrix(int... )//constructor: n, the number of ints in the constructor
 {
     va_list args;
     //Determine number of args
     NumArgs=0;
-    int TotalArgs=CountArgs(args...);
+    int TotalArgs=CountArgs(args);
 
 
     va_start(args, TotalArgs);//Initialize a variable argument list

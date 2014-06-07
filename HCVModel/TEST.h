@@ -1,7 +1,7 @@
 
 #include "TESTcsvread.h"
 #include "TESTEventVector.h"
-//#include "SimpleMatrix.h"
+#include "SimpleMatrix.h"
 
 
 
@@ -48,14 +48,18 @@ void TESTFunctions(void)
 {
     cout<<"started simplepf"<<endl;
 
-    simpleprintf("%", "A1", "B2", "C3", "D4");
+    simpleprintf("This % then % and again", "A1", "B2", "C3", "D4");
     cout<<"end simplepf"<<endl;
     cout<<"end simplepf"<<endl;
-    //SimpleMatrix<int> A(2,3,4);
-    //A.TestConstructor();
+    SimpleMatrix<int> A(2,3,4);
+    A.TestConstructor();
 
-    //SimpleMatrix<int> B(5,4,5, 6, 7);
-    //B.TestConstructor();
+    SimpleMatrix<int> B(5,4,5, 6, 7);
+    B.TestConstructor();
+    cout<<endl;
+
+    A.NumArgs=0;
+    A.CountArgs((int)12, (int)23, (int)34);
 //    std::cout<<<<endl;
 
     //TESTcsvreadstring();
