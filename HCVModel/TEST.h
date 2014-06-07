@@ -1,7 +1,7 @@
 
 #include "TESTcsvread.h"
 #include "TESTEventVector.h"
-#include "SimpleMatrix.h"
+//#include "SimpleMatrix.h"
 
 
 
@@ -43,6 +43,48 @@ void simpleprintf(const char *s, T value, Args... args)
 
 
 
+    int NumArgs; //should be set to zero when using CountArgs
+    template <typename CountTemplateType>
+    int CountArgs(CountTemplateType t)
+    {
+        NumArgs++;
+        cout<<"End: "<<NumArgs<<endl;
+        return NumArgs;
+    }
+    template<typename CountTemplateType, typename... Args>
+    int CountArgs(CountTemplateType t, Args... args)
+    {
+        NumArgs++;
+        cout<<"Splitter: "<<NumArgs<<endl;
+        return CountArgs(args...);
+    }
+
+template< typename... Args>
+void ProxyCount(Args... args)
+{
+    NumArgs=0;
+    CountArgs(args...);
+}
+
+
+
+
+    int CountIntArgs(int t)
+    {
+        NumArgs++;
+        cout<<"End: "<<NumArgs<<": "<< t <<endl;
+        return NumArgs;
+    }
+    template<typename... Args>
+    int CountIntArgs(int t, Args... args)
+    {
+        NumArgs++;
+        cout<<"Splitter: "<<NumArgs<<": "<< t <<endl;
+        return CountIntArgs(args...);
+    }
+
+
+
 
 void TESTFunctions(void)
 {
@@ -51,7 +93,22 @@ void TESTFunctions(void)
     simpleprintf("This % then % and again", "A1", "B2", "C3", "D4");
     cout<<"end simplepf"<<endl;
     cout<<"end simplepf"<<endl;
-    SimpleMatrix<int> A(2,3,4);
+
+    NumArgs=0;
+    CountArgs(3, 4, 5);
+
+    NumArgs=0;
+    CountIntArgs(3, 4, 5);
+
+    NumArgs=0;
+    float sss=3.5;
+    CountIntArgs(sss, 4, 5);
+
+
+    //ProxyCount(3, 4, 5);
+
+
+    /*SimpleMatrix<int> A(2,3,4);
     A.TestConstructor();
 
     SimpleMatrix<int> B(5,4,5, 6, 7);
@@ -59,7 +116,7 @@ void TESTFunctions(void)
     cout<<endl;
 
     A.NumArgs=0;
-    A.CountArgs((int)12, (int)23, (int)34);
+    A.CountArgs((int)12, (int)23, (int)34);*/
 //    std::cout<<<<endl;
 
     //TESTcsvreadstring();

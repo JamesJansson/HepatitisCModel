@@ -41,8 +41,8 @@ public:
         return CountArgs(args...);
     }
 
-
-    SimpleMatrix(int... );//constructor: n, the number of ints in the constructor
+    template<int... Args>
+    SimpleMatrix(int&&... args);//constructor: n, the number of ints in the constructor
     SimpleMatrix(vector<int> v);//alows a vector to be used to specify the dimensions of the matrix
     //SimpleMatrix(SimpleMatrix<int> v);
     SimpleMatrix(void);//allows the quick defintion of a single value to be represented as a SimpleMatrix type to making pointer functions a whole heap easier
@@ -91,7 +91,7 @@ int CountArgs(CountTemplateType t, ArgType... args)
 
 //Contructors
 template <typename TemplateType>
-SimpleMatrix<TemplateType>::SimpleMatrix(int... )//constructor: n, the number of ints in the constructor
+SimpleMatrix<TemplateType>::SimpleMatrix(int&&... args)//constructor: n, the number of ints in the constructor
 {
     va_list args;
     //Determine number of args
