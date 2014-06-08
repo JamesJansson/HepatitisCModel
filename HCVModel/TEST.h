@@ -88,7 +88,7 @@ void ProxyCount(Args... args)
 
 void TESTFunctions(void)
 {
-    cout<<"started simplepf"<<endl;
+    /*cout<<"started simplepf"<<endl;
 
     simpleprintf("This % then % and again", "A1", "B2", "C3", "D4");
     cout<<"end simplepf"<<endl;
@@ -102,14 +102,19 @@ void TESTFunctions(void)
 
     NumArgs=0;
     float sss=3.5;
-    CountIntArgs(sss, 4, 5);
+    CountIntArgs(sss, 4, 5);*/
 
     //string AA, BB, CC;
     //NumArgs=0;
     //CountIntArgs(AA, BB, CC); doesn't work, as planned
 
 
+    SimpleMatrix<int> A(2,3,4);
+    A.TestConstructor();
 
+    SimpleMatrix<int> B(5);
+    B.TestConstructor();
+    //A.TestConstructor();
 
 
     //ProxyCount(3, 4, 5);
