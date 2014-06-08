@@ -69,7 +69,9 @@ class SimpleMatrix {
     void Set(vector<int> Index, TemplateType SetValue);//this version should represent an array of indices
     void Set(const SimpleMatrix<int>& Index, TemplateType SetValue);
     void Set(TemplateType SetValue, int FirstIndex, ...);//allows a vector to be set for easy use of the matrix
+    void Set(bool CheckDimension, vector<int> Index, TemplateType SetValue);//to allow faster execution without checking
     void SetAll(TemplateType SetValue);
+
     TemplateType Value(int FirstIndex, ...);//returns the value of the matrix given the arguments
     TemplateType UnitaryValue(int FirstIndex, ...);//this is used to return all values including those that lies outside the dimension of the matrix in the singular dimension
     SimpleMatrix Resize(int FirstIndex, ...);//increases dimensions by specified amount
@@ -294,25 +296,51 @@ SimpleMatrix SimpleMatrix::Apply(&FunctionPointer, int n, ...)//feed in an arbit
     return ResultMatrix;
 }*/
 
-/*
+
 // ALTERNATIVE: to allow multiple matrices to work together in a function
-SimpleMatrix Apply(&FunctionPointer, SimpleMatrix A)
+/*template <typename TemplateType>
+SimpleMatrix Apply(&FunctionPointer, SimpleMatrix<TemplateType> A)
 {
+    SimpleMatrix<TemplateType> C=A;
     //for all the elements of A
 
-}
+    return C;
+}*/
 
+/*
 SimpleMatrix Apply(&FunctionPointer, SimpleMatrix A, SimpleMatrix B);//this will allow the operator overloading to occur, especially + - * / % ^
 
 SimpleMatrix Apply(&FunctionPointer, SimpleMatrix n, ...);// for an arbitrary number of simple matrices.
 */
 
 // From this point on are the declarations of template functions that allow the operator overloads to work
+
+
 template <typename TemplateType>
-TemplateType SMMultiply(TemplateType a, TemplateType b)
+TemplateType Add(TemplateType a, TemplateType b)
+{
+    return a+b;
+}
+
+template <typename TemplateType>
+TemplateType Minus(TemplateType a, TemplateType b)
+{
+    return a-b;
+}
+
+template <typename TemplateType>
+TemplateType Multiply(TemplateType a, TemplateType b)
 {
     return a*b;
 }
+
+template <typename TemplateType>
+TemplateType Divide(TemplateType a, TemplateType b)
+{
+    return a/b;
+}
+
+
 
     //Use this in in countintargs to only run if ints
     //http://www.cplusplus.com/reference/type_traits/enable_if/
