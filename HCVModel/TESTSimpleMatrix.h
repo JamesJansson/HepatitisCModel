@@ -40,6 +40,13 @@ void TESTSimpleMatrixIndices(void)
 }
 
 
+void TESTSimpleMatrixSetAll(void)
+{
+    SimpleMatrix<int> A(2,3,4);
+    A.TestDisplayAll();
+    A.SetAll(3);
+    A.TestDisplayAll();
+}
 
 
 

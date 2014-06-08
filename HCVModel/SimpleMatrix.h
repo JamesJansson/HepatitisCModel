@@ -8,8 +8,8 @@
 #include <stdarg.h>
 
 //Settings
-int SMThreadsToUse=1;//will be used for multithreading in a future life
-int SMMaxEntries=10000000;//used to prevent memory explosions
+//int SMThreadsToUse=1;//will be used for multithreading in a future life
+//int SMMaxEntries=10000000;//used to prevent memory explosions
 
 
 // Class declarations
@@ -84,6 +84,7 @@ class SimpleMatrix {
     void TestConstructor(void);
     void TestIndexingFunctions(void);
     void TestIndexingFunctions(vector<int> Index);
+    void TestDisplayAll(void);
 };
 
 // Indexing functions
@@ -193,6 +194,16 @@ void SimpleMatrix<TemplateType>::CreateValueArray(void)
 }
 
 
+// Setting functions
+
+template <typename TemplateType>
+void SimpleMatrix<TemplateType>::SetAll(TemplateType SetValue)
+{
+    for (int i=0; i< TotalArraySize; i++)
+        ValueArray[i]=SetValue;
+}
+
+
 
 //Testing functions
 template <typename TemplateType>
@@ -220,8 +231,14 @@ void SimpleMatrix<TemplateType>::TestIndexingFunctions(vector<int> Index)
     cout<<"Value of index specified: "<< IndexPosCheck(Index)<<endl;
 }
 
-
-
+template <typename TemplateType>
+void SimpleMatrix<TemplateType>::TestDisplayAll(void)
+{
+    cout<<"Contents: ";
+    for (int i=0; i< TotalArraySize; i++)
+        cout<<ValueArray[i]<<", ";
+    cout<<endl;
+}
 
 
 // Operator overloading

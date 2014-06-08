@@ -9,7 +9,8 @@
 
 void TESTFunctions(void)
 {
-    TESTSimpleMatrixIndices();
+    //TESTSimpleMatrixIndices();
+    TESTSimpleMatrixSetAll();
 
     //TESTcsvreadstring();
     //TESTCSVGetInt();
