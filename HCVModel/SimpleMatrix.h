@@ -90,6 +90,7 @@ class SimpleMatrix {
 template <typename TemplateType>
 bool SimpleMatrix<TemplateType>::InRange(vector<int> Index) //used privately to determine that the index is in the range sepcified
 {
+    cout<<"got into inrange"<<endl;
     //Check the size of dimension vectors (want to avoid [4][5][6] vs [1][2])
     if (NDimSize<Index.size())
     {
@@ -99,10 +100,14 @@ bool SimpleMatrix<TemplateType>::InRange(vector<int> Index) //used privately to 
     int DimCount=0;
     for (int CurrentDim : DimSize)
     {
-        if (Index[DimCount]>CurrentDim)
+        cout<< "dims: " << CurrentDim <<" "<< Index[DimCount]<<endl;
+        if (Index[DimCount]<0||(Index[DimCount]>CurrentDim-1))//because the indicies got from 0 to i-1
+        {
             return false;
+        }
         DimCount++;
     }
+    cout<<"Seems to have succeeded"<<endl;
     return true;
 }
 
@@ -159,7 +164,7 @@ SimpleMatrix<TemplateType>::SimpleMatrix(vector<int> TempDimSize)
 
 
 template <typename TemplateType>
-SimpleMatrix<TemplateType>::SimpleMatrix(void)
+SimpleMatrix<TemplateType>::SimpleMatrix(void)//used to define a variable extremely quickly
 {
     DimSize.push_back(1);
     TotalArraySize=1;

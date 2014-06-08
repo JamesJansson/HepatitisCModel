@@ -2,7 +2,7 @@
 
 #include "SimpleMatrix.h"
 
-void TESTSimpleMatrix(void)
+void TESTSimpleMatrixIndices(void)
 {
     SimpleMatrix<int> A(2,3,4);
     A.TestConstructor();
@@ -25,9 +25,18 @@ void TESTSimpleMatrix(void)
         }
     }
 
+    TestingIndex.clear();
+    //TestingIndex.push_back(1); TestingIndex.push_back(1); TestingIndex.push_back(1); TestingIndex.push_back(1);//wrong size
+    //TestingIndex.push_back(-1); TestingIndex.push_back(1); TestingIndex.push_back(1);//negative
+    //TestingIndex.push_back(2); TestingIndex.push_back(1); TestingIndex.push_back(1);//too big
+    //TestingIndex.push_back(1); TestingIndex.push_back(4); TestingIndex.push_back(1);//too big
+    TestingIndex.push_back(1); TestingIndex.push_back(1); TestingIndex.push_back(1);
+    A.TestIndexingFunctions(TestingIndex);
+
 
     SimpleMatrix<int> B(5);
     B.TestConstructor();
+
 }
 
 
