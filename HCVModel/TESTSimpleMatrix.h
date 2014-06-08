@@ -56,6 +56,17 @@ void TESTSimpleMatrixSetAll(void)
     TestingIndex[0]=1; TestingIndex[1]=0; TestingIndex[2]=2;
     A.Set(TestingIndex, 5);
     A.TestDisplayAll();
+
+    cout<<"Returned Value: "<<A.Value(TestingIndex)<<endl;
+    TestingIndex[0]=1; TestingIndex[1]=0; TestingIndex[2]=3;
+    cout<<"Returned Value: "<<A.Value(TestingIndex)<<endl;
+
+    cout<<"Returned Value: "<<A.Value(0,0,0)<<endl;
+    cout<<"Returned Value: "<<A.Value(1,0,0)<<endl;
+
+    A.Set(10,0, 0, 0);
+    A.TestDisplayAll();
+
 }
 
 

@@ -68,11 +68,16 @@ class SimpleMatrix {
     //Future functions
     void Set(vector<int> Index, TemplateType SetValue);//this version should represent an array of indices
     void Set(const SimpleMatrix<int>& Index, TemplateType SetValue);
-    void Set(TemplateType SetValue, int FirstIndex, ...);//allows a vector to be set for easy use of the matrix
+    template <typename... ArgType>
+    void Set( TemplateType SetValue, int FirstIndex, ArgType... args);//allows a vector to be set for easy use of the matrix
     void Set(bool CheckDimension, vector<int> Index, TemplateType SetValue);//to allow faster execution without checking
+    void SetAll(vector<TemplateType> VectorOfValues);//Allows the user to set the matrix to be a vector
     void SetAll(TemplateType SetValue);
 
+    TemplateType Value(vector<int> Index);//returns the value of the matrix given the arguments
     TemplateType Value(int FirstIndex, ...);//returns the value of the matrix given the arguments
+    template <typename... ArgType>
+    TemplateType Value(int FirstIndex, ArgType... args);//special user specified version
     TemplateType UnitaryValue(int FirstIndex, ...);//this is used to return all values including those that lies outside the dimension of the matrix in the singular dimension
     SimpleMatrix Resize(int FirstIndex, ...);//increases dimensions by specified amount
     SimpleMatrix Transpose(void);//takes 1 or 2 dimension matrices only
@@ -145,7 +150,6 @@ SimpleMatrix<TemplateType>::SimpleMatrix(int FirstIndex, ArgType... args)//const
     TempArgsNum=0;
     TempArgStorage.clear();
     NDimSize=CountIntArgs(FirstIndex, args...);
-
     DimSize=TempArgStorage;
 
     //Assign memory size of matrix
@@ -206,6 +210,32 @@ void SimpleMatrix<TemplateType>::SetAll(TemplateType SetValue)
     for (int i=0; i< TotalArraySize; i++)
         ValueArray[i]=SetValue;
 }
+template <typename TemplateType> template <typename... ArgType>
+void SimpleMatrix<TemplateType>::Set( TemplateType SetValue, int FirstIndex, ArgType... args)
+{
+    TempArgsNum=0;
+    TempArgStorage.clear();
+    CountIntArgs(FirstIndex, args...);
+    Set(TempArgStorage, SetValue);
+}
+
+// Value functions
+template <typename TemplateType>
+TemplateType SimpleMatrix<TemplateType>:: Value(vector<int> Index)
+{
+    //Check the index is right
+    return ValueArray[IndexPosCheck(Index)];
+}
+
+template <typename TemplateType> template <typename... ArgType>
+TemplateType SimpleMatrix<TemplateType>::Value(int FirstIndex, ArgType... args)
+{
+    TempArgsNum=0;
+    TempArgStorage.clear();
+    CountIntArgs(FirstIndex, args...);
+    return ValueArray[IndexPosCheck(TempArgStorage)];//Check then look up the linear index specificed by TempArgStorage, find the associated value then return.
+}
+
 
 
 
