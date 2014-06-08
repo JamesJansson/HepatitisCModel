@@ -111,6 +111,8 @@ void TESTFunctions(void)
 
     SimpleMatrix<int> A(2,3,4);
     A.TestConstructor();
+    A.TestIndexingFunctions();
+
 
     SimpleMatrix<int> B(5);
     B.TestConstructor();

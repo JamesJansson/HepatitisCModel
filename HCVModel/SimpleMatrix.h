@@ -17,17 +17,16 @@ int SMMaxEntries=10000000;//used to prevent memory explosions
 template <typename TemplateType>
 class SimpleMatrix {
     vector<int> DimSize;
+    int NDimSize;
     int TotalArraySize;//equals the dimensions of the array multiplied together
     bool Extendable=false;//determines if adding values to areas outside the matrix is allowed. At the moment, only predefined sized Matrices will be allowed for simplicity. In future releases this may be allowed, but will require a cleaver method to extend teh vector size
+    //Data is stores in the value array
     vector<TemplateType> ValueArray;
+    vector<int> Base;//used to reference cells in the matrix
 
-    int FindIndex(int n, ...);//used privately to determine the internal index value of the
 
-public:
-    //Use this in in countintargs to only run if ints
-    //http://www.cplusplus.com/reference/type_traits/enable_if/
 
-    //this is a recursive argument counter, as described here: http://stackoverflow.com/a/16338804/1275985
+    //This is a recursive argument counter, as described here: http://stackoverflow.com/a/16338804/1275985
     int TempArgsNum; //should be set to zero when using CountArgs
     vector<int> TempArgStorage;
     int CountIntArgs(int t)
@@ -46,17 +45,20 @@ public:
         return CountIntArgs(args...);
     }
 
+    //Look up functions designed to references to the correct memory locations
+    bool InRange(vector<int> Index);//used privately to determine that the index is in the range sepcified
+    int IndexPos(vector<int> Index);//used privately to determine the linear array
+    int IndexPosCheck(vector<int> Index);
+    public:
     //Constructors
     template <typename... ArgType>
-    SimpleMatrix(ArgType... args);//constructor ,args wil be converted to ints if not an int
-    //SimpleMatrix(vector<int> v);//alows a vector to be used to specify the dimensions of the matrix
-    SimpleMatrix(const SimpleMatrix<int>& v);
+    SimpleMatrix(int FirstIndex, ArgType... args);//constructor should force all in specified matrices pass through this function while not diverting other defintitions such as vector<int>
+    SimpleMatrix(vector<int> TempDimSize);//alows a vector to be used to specify the dimensions of the matrix
+    SimpleMatrix(const SimpleMatrix<int>& TempDimSize);
     SimpleMatrix(void);//allows the quick defintion of a single value to be represented as a SimpleMatrix type to making pointer functions a whole heap easier
     void CreateValueArray(void);
 
-    //Look up functions designed to references to the correct memory locations
-    bool InRange(vector<int> Index);
-    int IndexPos(vector<int> Index);//returns the index in the linear array
+
 
     //vector<int> Dimensions(void);
     SimpleMatrix<int> Dimensions(void);//to allow operations on dimensions, it will be amazing!
@@ -64,14 +66,13 @@ public:
     //string DimSizeString(void);
 
     //Future functions
-    void Set(TemplateType SetValue, vector<int> Index);
+    void Set(TemplateType SetValue, vector<int> Index);//this version should represent an array of indices
     void Set(TemplateType SetValue, const SimpleMatrix<int>& Index);
-    //void Set(TemplateType SetValue, vector<int> Index);//this version should represent an array of indices
-    void Set(TemplateType SetValue, ...);//allows a vector to be set for easy use of the matrix
+    void Set(TemplateType SetValue, int FirstIndex, ...);//allows a vector to be set for easy use of the matrix
     void SetAll(TemplateType SetValue);
-    TemplateType Value(int n, ...);//returns the value of the matrix given the arguments
-    TemplateType UnitaryValue(int n, ...);//this is used to return all values including those that lies outside the dimension of the matrix in the singular dimension
-    SimpleMatrix Resize(int n, ...);//increases dimensions by specified amount
+    TemplateType Value(int FirstIndex, ...);//returns the value of the matrix given the arguments
+    TemplateType UnitaryValue(int FirstIndex, ...);//this is used to return all values including those that lies outside the dimension of the matrix in the singular dimension
+    SimpleMatrix Resize(int FirstIndex, ...);//increases dimensions by specified amount
     SimpleMatrix Transpose(void);//takes 1 or 2 dimension matrices only
 
 
@@ -81,34 +82,58 @@ public:
 
     //Testing functions
     void TestConstructor(void);
+    void TestIndexingFunctions(void);
 };
 //Error: Index is larger than matrix size
 //exit(-1);
 
 
-
-/*template <typename CountTemplateType>
-int CountArgs(CountTemplateType t)
+template <typename TemplateType>
+bool SimpleMatrix<TemplateType>::InRange(vector<int> Index) //used privately to determine that the index is in the range sepcified
 {
-    NumArgs++;
-    return NumArgs;
+    //Check the size of dimension vectors (want to avoid [4][5][6] vs [1][2])
+    if (NDimSize<Index.size())
+    {
+        return false;
+    }
+    //Check each of the individual dim
+    int DimCount=0;
+    for (int CurrentDim : DimSize)
+    {
+        if (Index[DimCount]>CurrentDim)
+            return false;
+        DimCount++;
+    }
+    return true;
 }
 
-template<typename CountTemplateType, typename... ArgType>
-int CountArgs(CountTemplateType t, ArgType... args)
+template <typename TemplateType>
+int SimpleMatrix<TemplateType>::IndexPos(vector<int> Index)//used privately to determine the linear array
 {
-    NumArgs++;
-    return CountArgs(args...);
-}*/
+    return 0;
+}
+
+template <typename TemplateType>
+int SimpleMatrix<TemplateType>::IndexPosCheck(vector<int> Index)
+{
+    //Determine if in range
+    if (InRange(Index)==false)
+    {
+        //Error: Index is larger than matrix size
+        cout<<"Error: Index is larger than matrix size";
+        exit(-1);
+    }
+    return IndexPos(Index);
+}
 
 //Contructors
 template <typename TemplateType> template <typename... ArgType>
-SimpleMatrix<TemplateType>::SimpleMatrix(ArgType... args)//constructor: n, the number of ints in the constructor
+SimpleMatrix<TemplateType>::SimpleMatrix(int FirstIndex, ArgType... args)//constructor should force all in specified matrices pass through this function while not diverting other defintitions such as vector<int>
 {
     //Determine number of args
     TempArgsNum=0;
     TempArgStorage.clear();
-    int TotalArgs=CountIntArgs(args...);
+    NDimSize=CountIntArgs(FirstIndex, args...);
 
     DimSize=TempArgStorage;
 
@@ -118,11 +143,23 @@ SimpleMatrix<TemplateType>::SimpleMatrix(ArgType... args)//constructor: n, the n
 }
 
 template <typename TemplateType>
+SimpleMatrix<TemplateType>::SimpleMatrix(vector<int> TempDimSize)
+{
+    DimSize=TempDimSize;
+    NDimSize=DimSize.size();
+    //Assign memory size of matrix
+    CreateValueArray();
+}
+
+
+template <typename TemplateType>
 SimpleMatrix<TemplateType>::SimpleMatrix(void)
 {
     DimSize.push_back(1);
+    TotalArraySize=1;
+    ValueArray.resize(1);
+    Base.push_back(1);
 }
-
 
 
 template <typename TemplateType>
@@ -130,22 +167,43 @@ void SimpleMatrix<TemplateType>::CreateValueArray(void)
 {
     TotalArraySize=1;
     for (int val : DimSize )
+    {
         TotalArraySize=TotalArraySize*val;
+    }
     //extend the memory space of the storage array
     ValueArray.resize(TotalArraySize);
+    //Determine the base for indexing the array
+    int BaseMultiplier=1;
+    for (int val : DimSize )
+    {
+        Base.push_back(BaseMultiplier);
+        BaseMultiplier=BaseMultiplier*val;
+    }
 }
 
 
-//Find: is it outside the memory space?
+//indexing: is it outside the memory space?
 
 
 
 template <typename TemplateType>
 void SimpleMatrix<TemplateType>::TestConstructor(void)
 {
+    //Basic constructor of variable index size appears to be working well
     for (int val : DimSize )
         cout<< val <<", ";
     cout<<endl;
+}
+
+template <typename TemplateType>
+void SimpleMatrix<TemplateType>::TestIndexingFunctions(void)
+{
+    //Display the base: base construction works
+    cout<<"Base construction"<<endl;
+    for (int val : Base )
+        cout<< val <<", ";
+    cout<<endl;
+    //diaplay the
 }
 
 
@@ -220,4 +278,5 @@ TemplateType SMMultiply(TemplateType a, TemplateType b)
     return a*b;
 }
 
-
+    //Use this in in countintargs to only run if ints
+    //http://www.cplusplus.com/reference/type_traits/enable_if/
