@@ -1,7 +1,7 @@
 
 #include "TESTcsvread.h"
 #include "TESTEventVector.h"
-//#include "SimpleMatrix.h"
+#include "SimpleMatrix.h"
 
 
 
@@ -103,6 +103,13 @@ void TESTFunctions(void)
     NumArgs=0;
     float sss=3.5;
     CountIntArgs(sss, 4, 5);
+
+    //string AA, BB, CC;
+    //NumArgs=0;
+    //CountIntArgs(AA, BB, CC); doesn't work, as planned
+
+
+
 
 
     //ProxyCount(3, 4, 5);

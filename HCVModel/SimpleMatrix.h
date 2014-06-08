@@ -24,41 +24,44 @@ class SimpleMatrix {
     int FindIndex(int n, ...);//used privately to determine the internal index value of the
 
 public:
+    //Use this in in countintargs to only run if ints
+    //http://www.cplusplus.com/reference/type_traits/enable_if/
+
     //this is a recursive argument counter, as described here: http://stackoverflow.com/a/16338804/1275985
     int NumArgs; //should be set to zero when using CountArgs
-    template <typename CountTemplateType>
-    int CountArgs(CountTemplateType t)
+    int CountIntArgs(int t)
     {
         NumArgs++;
-        cout<<"End: "<<NumArgs<<endl;
+        cout<<"End: "<<NumArgs<<endl; //will want to make these functions save the Args to a vector for use later
         return NumArgs;
     }
-    template<typename CountTemplateType, typename... Args>
-    int CountArgs(CountTemplateType t, Args... args)
+    template<typename... Args>
+    int CountIntArgs(int t, Args... args)
     {
         NumArgs++;
         cout<<"Splitter: "<<NumArgs<<endl;
-        return CountArgs(args...);
+        return CountIntArgs(args...);
     }
 
-    template<int... Args>
-    SimpleMatrix(int&&... args);//constructor: n, the number of ints in the constructor
-    SimpleMatrix(vector<int> v);//alows a vector to be used to specify the dimensions of the matrix
-    //SimpleMatrix(SimpleMatrix<int> v);
+    //Constructors
+    template <typename... ArgType>
+    SimpleMatrix(ArgType... args);//constructor ,args wil be converted to ints if not an int
+    //SimpleMatrix(vector<int> v);//alows a vector to be used to specify the dimensions of the matrix
+    SimpleMatrix(SimpleMatrix<int> v);
     SimpleMatrix(void);//allows the quick defintion of a single value to be represented as a SimpleMatrix type to making pointer functions a whole heap easier
 
 
 
 
-    vector<int> Dimensions(void);
-    //SimpleMatrix<int> Dimensions(void);//to allow operations on dimensions, it will be amazing!
+    //vector<int> Dimensions(void);
+    SimpleMatrix<int> Dimensions(void);//to allow operations on dimensions, it will be amazing!
     int NumberOfDimensions(void);//a simple integer value of the number of dimensions
     string DimSizeString(void);
 
     //Future functions
     void Set(TemplateType n, ...);//allows a vector to be set for easy use of the matrix
     TemplateType Value(int n, ...);//returns the value of the function given the arguments
-    TemplateType UnitaryValue(int n, ...);//this is used to reurn a value that lies outside the dimension of the matrix in the singular dimension
+    TemplateType UnitaryValue(int n, ...);//this is used to return alll values including those that lies outside the dimension of the matrix in the singular dimension
     SimpleMatrix Resize(int n, ...);//increases dimensions by specified amount
     SimpleMatrix Transpose(void);//takes 1 or 2 dimension matrices only
 
@@ -90,13 +93,13 @@ int CountArgs(CountTemplateType t, ArgType... args)
 }*/
 
 //Contructors
-template <typename TemplateType>
-SimpleMatrix<TemplateType>::SimpleMatrix(int&&... args)//constructor: n, the number of ints in the constructor
+template <typename TemplateType> template <typename... ArgType>
+SimpleMatrix<TemplateType>::SimpleMatrix(ArgType... args)//constructor: n, the number of ints in the constructor
 {
-    va_list args;
+    //va_list args;
     //Determine number of args
     NumArgs=0;
-    int TotalArgs=CountArgs(args);
+    int TotalArgs=CountIntArgs(args...);
 
 
     va_start(args, TotalArgs);//Initialize a variable argument list
