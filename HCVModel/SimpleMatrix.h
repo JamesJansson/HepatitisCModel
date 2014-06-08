@@ -66,8 +66,8 @@ class SimpleMatrix {
     //string DimSizeString(void);
 
     //Future functions
-    void Set(TemplateType SetValue, vector<int> Index);//this version should represent an array of indices
-    void Set(TemplateType SetValue, const SimpleMatrix<int>& Index);
+    void Set(vector<int> Index, TemplateType SetValue);//this version should represent an array of indices
+    void Set(const SimpleMatrix<int>& Index, TemplateType SetValue);
     void Set(TemplateType SetValue, int FirstIndex, ...);//allows a vector to be set for easy use of the matrix
     void SetAll(TemplateType SetValue);
     TemplateType Value(int FirstIndex, ...);//returns the value of the matrix given the arguments
@@ -91,7 +91,6 @@ class SimpleMatrix {
 template <typename TemplateType>
 bool SimpleMatrix<TemplateType>::InRange(vector<int> Index) //used privately to determine that the index is in the range sepcified
 {
-    cout<<"got into inrange"<<endl;
     //Check the size of dimension vectors (want to avoid [4][5][6] vs [1][2])
     if (NDimSize<Index.size())
     {
@@ -101,14 +100,12 @@ bool SimpleMatrix<TemplateType>::InRange(vector<int> Index) //used privately to 
     int DimCount=0;
     for (int CurrentDim : DimSize)
     {
-        cout<< "dims: " << CurrentDim <<" "<< Index[DimCount]<<endl;
         if (Index[DimCount]<0||(Index[DimCount]>CurrentDim-1))//because the indicies got from 0 to i-1
         {
             return false;
         }
         DimCount++;
     }
-    cout<<"Seems to have succeeded"<<endl;
     return true;
 }
 
@@ -195,6 +192,11 @@ void SimpleMatrix<TemplateType>::CreateValueArray(void)
 
 
 // Setting functions
+template <typename TemplateType>
+void SimpleMatrix<TemplateType>::Set( vector<int> Index, TemplateType SetValue)
+{
+    ValueArray[IndexPosCheck(Index)]=SetValue;
+}
 
 template <typename TemplateType>
 void SimpleMatrix<TemplateType>::SetAll(TemplateType SetValue)

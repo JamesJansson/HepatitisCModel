@@ -46,6 +46,16 @@ void TESTSimpleMatrixSetAll(void)
     A.TestDisplayAll();
     A.SetAll(3);
     A.TestDisplayAll();
+
+    vector<int> TestingIndex;
+    TestingIndex.push_back(0); TestingIndex.push_back(0); TestingIndex.push_back(0);
+
+    A.Set(TestingIndex, 5);
+    A.TestDisplayAll();
+
+    TestingIndex[0]=1; TestingIndex[1]=0; TestingIndex[2]=2;
+    A.Set(TestingIndex, 5);
+    A.TestDisplayAll();
 }
 
 
