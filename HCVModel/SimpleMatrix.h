@@ -83,11 +83,10 @@ class SimpleMatrix {
     //Testing functions
     void TestConstructor(void);
     void TestIndexingFunctions(void);
+    void TestIndexingFunctions(vector<int> Index);
 };
-//Error: Index is larger than matrix size
-//exit(-1);
 
-
+// Indexing functions
 template <typename TemplateType>
 bool SimpleMatrix<TemplateType>::InRange(vector<int> Index) //used privately to determine that the index is in the range sepcified
 {
@@ -110,7 +109,14 @@ bool SimpleMatrix<TemplateType>::InRange(vector<int> Index) //used privately to 
 template <typename TemplateType>
 int SimpleMatrix<TemplateType>::IndexPos(vector<int> Index)//used privately to determine the linear array
 {
-    return 0;
+    int ReturnIndexValue=0;
+    int IndexCount=0;
+    for (int ThisIndex: Index)
+    {
+        ReturnIndexValue=ReturnIndexValue+ThisIndex*Base[IndexCount];
+        IndexCount++;
+    }
+    return ReturnIndexValue;
 }
 
 template <typename TemplateType>
@@ -126,7 +132,7 @@ int SimpleMatrix<TemplateType>::IndexPosCheck(vector<int> Index)
     return IndexPos(Index);
 }
 
-//Contructors
+// Contructors
 template <typename TemplateType> template <typename... ArgType>
 SimpleMatrix<TemplateType>::SimpleMatrix(int FirstIndex, ArgType... args)//constructor should force all in specified matrices pass through this function while not diverting other defintitions such as vector<int>
 {
@@ -182,10 +188,8 @@ void SimpleMatrix<TemplateType>::CreateValueArray(void)
 }
 
 
-//indexing: is it outside the memory space?
 
-
-
+//Testing functions
 template <typename TemplateType>
 void SimpleMatrix<TemplateType>::TestConstructor(void)
 {
@@ -203,8 +207,15 @@ void SimpleMatrix<TemplateType>::TestIndexingFunctions(void)
     for (int val : Base )
         cout<< val <<", ";
     cout<<endl;
-    //diaplay the
 }
+
+template <typename TemplateType>
+void SimpleMatrix<TemplateType>::TestIndexingFunctions(vector<int> Index)
+{
+    cout<<"Value of index specified: "<< IndexPosCheck(Index)<<endl;
+}
+
+
 
 
 
@@ -243,7 +254,8 @@ template <typename TemplateType>
 SimpleMatrix<TemplateType> Join(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B, int Dimension)
 {
     SimpleMatrix<TemplateType> ReturnMatrix;
-    //check that all other dimensions are equal (except the dimension that we want to join along
+    //check that all other dimensions are equal (except the dimension that we want to join along)
+    //for (int ThisDim :A.Dimensions)
     return ReturnMatrix;
 }
 
