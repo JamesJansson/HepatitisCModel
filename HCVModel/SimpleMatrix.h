@@ -49,6 +49,8 @@ class SimpleMatrix {
     bool InRange(vector<int> Index);//used privately to determine that the index is in the range sepcified
     int IndexPos(vector<int> Index);//used privately to determine the linear array
     int IndexPosCheck(vector<int> Index);
+
+
     public:
     //Constructors
     template <typename... ArgType>
@@ -56,10 +58,8 @@ class SimpleMatrix {
     SimpleMatrix(vector<int> TempDimSize);//alows a vector to be used to specify the dimensions of the matrix
     //SimpleMatrix(const SimpleMatrix<int>& TempDimSize);
     SimpleMatrix(void);//allows the quick defintion of a single value to be represented as a SimpleMatrix type to making pointer functions a whole heap easier
-    void CreateValueArray(void);
 
-
-
+    void CreateValueArray(void);//sets up memory to do operations on
 
     vector<int> Dimensions(void);
     //SimpleMatrix<int> Dimensions(void);//to allow operations on dimensions, it will be amazing!
@@ -68,11 +68,13 @@ class SimpleMatrix {
     //string DimSizeString(void);
 
     //Future functions
-    void Set(vector<int> Index, TemplateType SetValue);//this version should represent an array of indices
-    void Set(const SimpleMatrix<int>& Index, TemplateType SetValue);
+    void Set( TemplateType SetValue, vector<int> Index);//this version should represent an array of indices
+    //void Set(const SimpleMatrix<int>& Index, TemplateType SetValue);
     template <typename... ArgType>
-    void Set( TemplateType SetValue, int FirstIndex, ArgType... args);//allows a vector to be set for easy use of the matrix
-    void Set(bool CheckDimension, vector<int> Index, TemplateType SetValue);//to allow faster execution without checking
+    void Set( TemplateType SetValue, int FirstIndex, int SecondIndex, ArgType... args);//allows a vector to be set for easy use of the matrix
+    void Set( TemplateType SetValue, int LinerIndex);//allows a vector to be set for easy use of the matrix
+    void SetLinearIndex( TemplateType SetValue, int LinerIndex);//allows a vector to be set for easy use of the matrix
+    void Set(bool CheckDimension,  TemplateType SetValue, vector<int> Index);//to allow faster execution without checking
     template <typename CopyFromType>
     void Set(SimpleMatrix<CopyFromType> SimpleMatrixToCopy);// deletes everything, copies data. Use to change the type of one matrix to another
 
@@ -81,7 +83,8 @@ class SimpleMatrix {
 
     TemplateType Value(vector<int> Index);//returns the value of the matrix given the arguments
     TemplateType Value(int LinearIndex);//used for 1-d matrices and for speed in copying functions
-    //TemplateType Value(int FirstIndex, ...);//returns the value of the matrix given the arguments
+    TemplateType ValueLinearIndex(int LinearIndex);//used for 1-d matrices and for speed in copying functions
+    TemplateType Value(bool CheckDimension, vector<int> Index);
     template <typename... ArgType>
     TemplateType Value(int FirstIndex, int SecondIndex, ArgType... args);//special user specified version
     TemplateType UnitaryValue(int FirstIndex, ...);//this is used to return all values including those that lies outside the dimension of the matrix in the singular dimension
@@ -226,9 +229,45 @@ int SimpleMatrix<TemplateType>::TotalElements(void)//allows
 
 // Setting functions
 template <typename TemplateType>
-void SimpleMatrix<TemplateType>::Set( vector<int> Index, TemplateType SetValue)
+void SimpleMatrix<TemplateType>::Set(TemplateType SetValue, vector<int> Index)
 {
     ValueArray[IndexPosCheck(Index)]=SetValue;
+}
+
+template <typename TemplateType> template <typename... ArgType>
+void SimpleMatrix<TemplateType>::Set( TemplateType SetValue, int FirstIndex, int SecondIndex, ArgType... args)//allows arbitrary indices to be set
+{
+    TempArgsNum=0;
+    TempArgStorage.clear();
+    CountIntArgs(FirstIndex, SecondIndex, args...);
+    Set(SetValue, TempArgStorage);//TempArgStorage is the index in vector form
+}
+
+template <typename TemplateType>
+void SimpleMatrix<TemplateType>::Set( TemplateType SetValue, int LinearIndex)//allows 1-D access
+{
+    if (LinearIndex>=0 && LinearIndex<TotalArraySize && NDimSize==1)
+        ValueArray[LinearIndex]=SetValue;
+    else
+    {
+        if (NDimSize>1)
+            cout<<"Linear access to multidimensional matrix attempted. If this was intentional, try .SetLinearIndex "<<endl;
+        else
+            cout<<"Linear index " << LinearIndex << " outside bounds of matrix total size " << TotalArraySize<<endl;
+        exit(-1);
+    }
+}
+
+template <typename TemplateType>
+void SimpleMatrix<TemplateType>::SetLinearIndex( TemplateType SetValue, int LinearIndex)//allows high speed linear access to the data
+{
+    if (LinearIndex>=0 && LinearIndex<TotalArraySize)
+        ValueArray[LinearIndex]=SetValue;
+    else
+    {
+        cout<<"Linear index " << LinearIndex << " outside bounds of matrix total size " << TotalArraySize<<endl;
+        exit(-1);
+    }
 }
 
 template <typename TemplateType>
@@ -237,16 +276,8 @@ void SimpleMatrix<TemplateType>::SetAll(TemplateType SetValue)
     for (int i=0; i< TotalArraySize; i++)
         ValueArray[i]=SetValue;
 }
-template <typename TemplateType> template <typename... ArgType>
-void SimpleMatrix<TemplateType>::Set( TemplateType SetValue, int FirstIndex, ArgType... args)
-{
-    cout<<"At line 232, first index: "<<FirstIndex<<endl;
-    TempArgsNum=0;
-    TempArgStorage.clear();
-    CountIntArgs(FirstIndex, args...);
-    cout<<"At line 236, size: "<<TempArgStorage.size()<<endl;
-    Set(TempArgStorage, SetValue);
-}
+
+
 
 // Value functions
 template <typename TemplateType>
@@ -257,7 +288,21 @@ TemplateType SimpleMatrix<TemplateType>:: Value(vector<int> Index)
 }
 
 template <typename TemplateType>
-TemplateType SimpleMatrix<TemplateType>:: Value(int LinearIndex)//used for 1-D entries and superfast speed
+TemplateType SimpleMatrix<TemplateType>:: Value(int LinearIndex)//used for 1-D entries
+{
+    if (LinearIndex>=0 && LinearIndex<TotalArraySize && NDimSize==1)
+        return ValueArray[LinearIndex];
+    else
+    {
+        if (NDimSize>1)
+            cout<<"Linear access to multidimensional matrix attempted. If this was intentional, try .ValueLinearIndex "<<endl;
+        else
+            cout<<"Linear index " << LinearIndex << " outside bounds of matrix total size " << TotalArraySize<<endl;
+        exit(-1);
+    }
+}
+template <typename TemplateType>
+TemplateType SimpleMatrix<TemplateType>:: ValueLinearIndex(int LinearIndex)//used for superfast speed
 {
     if (LinearIndex>=0 && LinearIndex<TotalArraySize)
         return ValueArray[LinearIndex];
@@ -267,7 +312,6 @@ TemplateType SimpleMatrix<TemplateType>:: Value(int LinearIndex)//used for 1-D e
         exit(-1);
     }
 }
-
 
 template <typename TemplateType> template <typename... ArgType>
 TemplateType SimpleMatrix<TemplateType>::Value(int FirstIndex, int SecondIndex, ArgType... args)//only use if there are 2 or more int indices

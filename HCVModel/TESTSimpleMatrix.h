@@ -50,11 +50,11 @@ void TESTSimpleMatrixSetAll(void)
     vector<int> TestingIndex;
     TestingIndex.push_back(0); TestingIndex.push_back(0); TestingIndex.push_back(0);
 
-    A.Set(TestingIndex, 5);
+    A.Set(5, TestingIndex);
     A.TestDisplayAll();
 
     TestingIndex[0]=1; TestingIndex[1]=0; TestingIndex[2]=2;
-    A.Set(TestingIndex, 5);
+    A.Set(5, TestingIndex);
     A.TestDisplayAll();
 
     cout<<"Returned Value: "<<A.Value(TestingIndex)<<endl;
@@ -125,18 +125,27 @@ void TESTSimpleMatrixLinearIndexAccess(void)
                 TestingIndex.clear();
                 TestingIndex.push_back(i); TestingIndex.push_back(j); TestingIndex.push_back(k);
                 A.TestIndexingFunctions(TestingIndex);
-                A.Set(TestingIndex, StoreCount);
+                A.Set(StoreCount, TestingIndex);
             }
         }
     }
 
 
     A.TestDisplayAll();
-    cout<<A.Value(7)<<endl;
-    cout<<A.Value(23)<<endl;
-    cout<<A.Value(-1)<<endl;
+    cout<<A.ValueLinearIndex(7)<<endl;
+    cout<<A.ValueLinearIndex(23)<<endl;
+    //cout<<A.Value(24)<<endl;
+    //cout<<A.Value(-1)<<endl;
 
+    A.SetLinearIndex(2, 3);//linear access
+    A.TestDisplayAll();
+    A.Set(99, 1,1,1);//matrix access
+    A.TestDisplayAll();
 }
+
+
+
+
 
 
 
