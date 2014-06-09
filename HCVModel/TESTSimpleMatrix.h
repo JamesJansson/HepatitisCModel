@@ -182,9 +182,21 @@ void TESTSimpleMatrixApplyFunctionPointer(void)
     B=Apply(sin, A);
     B.TestDisplayAll();
 
+    SimpleMatrix<double> C;
+    C=Apply(sin, A);
+
 }
 
+void TESTSimpleMatrixApplyMultiDimension(void)
+{
+    cout<<"starting multidim test"<<endl;
+    SimpleMatrix<double> A(2,3,4);
+    SimpleMatrix<double> B(1,3,4);
 
+    SimpleMatrix<double> C;
+    C=Apply(sin, A, B);
+    cout<<"Ending multidim test"<<endl;
+}
 
 
 void TESTSimpleMatrixRandom(void)

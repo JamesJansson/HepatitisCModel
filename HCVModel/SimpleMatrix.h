@@ -468,6 +468,11 @@ SimpleMatrix<int> Apply(int (*FunctionPointer)(int), SimpleMatrix<int> A)//THIS 
 *************************************************************************************************************************
 */
 
+// Apply pointer function sections
+template < typename InputTemplateType>
+bool DimensionsCompatible(SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B);
+
+
 //This section works
 //template <typename InputTemplateType>
 //SimpleMatrix<InputTemplateType> Apply(InputTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A)
@@ -490,9 +495,25 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
 }
 
 
+
+
 template <typename ReturnTemplateType, typename InputTemplateType>
 SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
 {
+    if (DimensionsCompatible(A,B)==false)
+    {
+        cout<<"The dimensions of the Matrices do not match"<<endl;
+        cout<<"Matrix 1: ";
+        for (int ADim : A.Dimensions())
+            cout<<ADim <<", ";
+        cout<<endl;
+        cout<<"Matrix 2: ";
+        for (int BDim : B.Dimensions())
+            cout<<BDim <<", ";
+        exit(-1);
+    }
+
+
     ReturnTemplateType TempResultStore;
     //Determine size of input vector
     SimpleMatrix<ReturnTemplateType> RSM(A.Dimensions());
@@ -506,6 +527,30 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
     }
     return RSM;
 }
+
+template < typename InputTemplateType>
+bool DimensionsCompatible(SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
+{
+    cout<<"starting compatibility test"<<endl;
+    vector<int> ADim=A.Dimensions();
+    vector<int> BDim=A.Dimensions();
+
+    if (ADim.size()!=BDim.size())
+    {
+        return false;
+    }
+    for (int DimCount=0; DimCount<ADim.size(); DimCount++)
+    {
+        //if they are both bigger than 1 and are unequal
+        if (ADim[DimCount]>1 && BDim[DimCount]>1 && (ADim[DimCount]!= BDim[DimCount]))
+        {
+            return false;
+        }
+    }
+    return true;//no problems
+}
+
+
 
 
 

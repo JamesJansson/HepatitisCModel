@@ -17,6 +17,8 @@ void TESTFunctions(void)
 
     TESTSimpleMatrixApplyFunctionPointer();
 
+    TESTSimpleMatrixApplyMultiDimension();
+
     //TESTcsvreadstring();
     //TESTCSVGetInt();
     //EVRangeTestMultiple();
