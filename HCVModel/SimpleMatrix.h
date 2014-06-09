@@ -482,23 +482,23 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
 {
     ReturnTemplateType TempResultStore;
     //Determine size of input vector
-    SimpleMatrix<ReturnTemplateType> RSM(A.Dimensions());
+    SimpleMatrix<ReturnTemplateType> ResultSM(A.Dimensions());
 
     //for all the elements of A
     int SizeOfA=A.TotalElements();
     for (int i=0; i<SizeOfA; i++)
     {
         TempResultStore=FunctionPointer(A.ValueLinearIndex(i));
-        RSM.SetLinearIndex(TempResultStore, i);
+        ResultSM.SetLinearIndex(TempResultStore, i);
     }
-    return RSM;
+    return ResultSM;
 }
 
 
 
 
 template <typename ReturnTemplateType, typename InputTemplateType>
-SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
+SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(double, double), SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
 {
     if (DimensionsCompatible(A,B)==false)
     {
@@ -513,25 +513,33 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
         exit(-1);
     }
 
+    //Get the max of both dimensions
+
+    //
+
+
 
     ReturnTemplateType TempResultStore;
     //Determine size of input vector
-    SimpleMatrix<ReturnTemplateType> RSM(A.Dimensions());
+    SimpleMatrix<ReturnTemplateType> ResultSM(A.Dimensions());
+
 
     //for all the elements of A
     int SizeOfA=A.TotalElements();
+    cout<<"size of a: "<<SizeOfA<<endl;
+
     for (int i=0; i<SizeOfA; i++)
     {
-        TempResultStore=FunctionPointer(A.ValueLinearIndex(i));
-        RSM.SetLinearIndex(TempResultStore, i);
+        cout<<TempResultStore<<", ";
+        TempResultStore=FunctionPointer(A.ValueLinearIndex(i), B.ValueLinearIndex(i));
+        ResultSM.SetLinearIndex(TempResultStore, i);
     }
-    return RSM;
+    return ResultSM;
 }
 
 template < typename InputTemplateType>
 bool DimensionsCompatible(SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
 {
-    cout<<"starting compatibility test"<<endl;
     vector<int> ADim=A.Dimensions();
     vector<int> BDim=B.Dimensions();
 
@@ -542,7 +550,8 @@ bool DimensionsCompatible(SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputT
     for (int DimCount=0; DimCount<ADim.size(); DimCount++)
     {
         //if they are both bigger than 1 and are unequal
-        if (ADim[DimCount]>1 && BDim[DimCount]>1 && (ADim[DimCount]!= BDim[DimCount]))
+        //if (ADim[DimCount]>1 && BDim[DimCount]>1 && (ADim[DimCount]!= BDim[DimCount]))//this functionality may come in later releases
+        if ((ADim[DimCount]!= BDim[DimCount]))
         {
             return false;
         }
@@ -570,9 +579,10 @@ va_list AgumentsToGive
 
 
 //first one is if all the types are the same
-template <typename TemplateType> TemplateType Add(TemplateType a, TemplateType b) {return a+b;}
+//template <typename TemplateType> TemplateType Add(TemplateType a, TemplateType b) {return a+b;}
 int Add(int a, int b) {return a+b;}
 float Add(float a, float b) {return a+b;}
+double AddDoubles(double a, double b) {return a+b;}
 float Add(float a, int b) {return a+b;}
 float Add(int a, float b) {return a+b;}
 string Add(string a, string b) {a.append(b); return a;}

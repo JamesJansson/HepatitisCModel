@@ -153,8 +153,6 @@ int Add1(int A)
 void TESTSimpleMatrixApplyFunctionPointer(void)
 {
     SimpleMatrix<double> A(2,3,4);
-    A.TestConstructor();
-    A.TestIndexingFunctions();
 
     vector<int> TestingIndex;
     TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
@@ -191,11 +189,39 @@ void TESTSimpleMatrixApplyMultiDimension(void)
 {
     cout<<"starting multidim test"<<endl;
     SimpleMatrix<double> A(2,3,4);
-    SimpleMatrix<double> B(1,3,4);//not that this difference should be compatible
-    //SimpleMatrix<double> B(2,4,4);//not that this difference should be compatible
+    SimpleMatrix<double> B;
+    //SimpleMatrix<double> B(1,3,4);
+    //SimpleMatrix<double> B(2,4,4);
+
+    vector<int> TestingIndex;
+    TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
+    A.TestIndexingFunctions(TestingIndex);
+
+    double StoreCount=-3.2;
+    for (int k=0; k<4; k++)
+    {
+        for (int j=0; j<3; j++)
+        {
+            for (int i=0; i<2; i++)
+            {
+                StoreCount++;
+
+                TestingIndex.clear();
+                TestingIndex.push_back(i); TestingIndex.push_back(j); TestingIndex.push_back(k);
+                A.TestIndexingFunctions(TestingIndex);
+                A.Set(StoreCount, TestingIndex);
+            }
+        }
+    }
+
+    B=A;
+
+    int SizeOfA=A.TotalElements();
+    cout<<"size of a: "<<SizeOfA<<endl;
 
     SimpleMatrix<double> C;
-    C=Apply(sin, A, B);
+    C=Apply(AddDoubles, A, B);
+    C.TestDisplayAll();
     cout<<"Ending multidim test"<<endl;
 }
 
