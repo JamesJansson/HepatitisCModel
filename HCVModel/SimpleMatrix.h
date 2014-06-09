@@ -54,15 +54,15 @@ class SimpleMatrix {
     template <typename... ArgType>
     SimpleMatrix(int FirstIndex, ArgType... args);//constructor should force all in specified matrices pass through this function while not diverting other defintitions such as vector<int>
     SimpleMatrix(vector<int> TempDimSize);//alows a vector to be used to specify the dimensions of the matrix
-    SimpleMatrix(const SimpleMatrix<int>& TempDimSize);
+    //SimpleMatrix(const SimpleMatrix<int>& TempDimSize);
     SimpleMatrix(void);//allows the quick defintion of a single value to be represented as a SimpleMatrix type to making pointer functions a whole heap easier
     void CreateValueArray(void);
 
 
 
 
-    //vector<int> Dimensions(void);
-    SimpleMatrix<int> Dimensions(void);//to allow operations on dimensions, it will be amazing!
+    vector<int> Dimensions(void);
+    //SimpleMatrix<int> Dimensions(void);//to allow operations on dimensions, it will be amazing!
     int NumberOfDimensions(void);//a simple integer value of the number of dimensions
     int TotalElements(void);
     //string DimSizeString(void);
@@ -80,13 +80,15 @@ class SimpleMatrix {
     void SetAll(TemplateType SetValue);
 
     TemplateType Value(vector<int> Index);//returns the value of the matrix given the arguments
-    TemplateType Value(int FirstIndex, ...);//returns the value of the matrix given the arguments
+    TemplateType Value(int LinearIndex);//used for 1-d matrices and for speed in copying functions
+    //TemplateType Value(int FirstIndex, ...);//returns the value of the matrix given the arguments
     template <typename... ArgType>
-    TemplateType Value(int FirstIndex, ArgType... args);//special user specified version
+    TemplateType Value(int FirstIndex, int SecondIndex, ArgType... args);//special user specified version
     TemplateType UnitaryValue(int FirstIndex, ...);//this is used to return all values including those that lies outside the dimension of the matrix in the singular dimension
     SimpleMatrix Resize(int FirstIndex, ...);//increases dimensions by specified amount
     SimpleMatrix Transpose(void);//takes 1 or 2 dimension matrices only
 
+    vector<TemplateType> ConvertToVector(void);// if the matrix only has one dimension greater than 1: convert that dimension to a vector
 
     // Overloading, pointer and template functions
     //SimpleMatrix SimpleMatrix::Apply(&FunctionPointer, int n, ...);
@@ -106,6 +108,7 @@ bool SimpleMatrix<TemplateType>::InRange(vector<int> Index) //used privately to 
     //Check the size of dimension vectors (want to avoid [4][5][6] vs [1][2])
     if (NDimSize<Index.size())
     {
+        //cout<<"Got out in number of dimensions NDimSize: "<<NDimSize<<" Index.size() " << Index.size() << endl;
         return false;
     }
     //Check each of the individual dim
@@ -140,8 +143,15 @@ int SimpleMatrix<TemplateType>::IndexPosCheck(vector<int> Index)
     //Determine if in range
     if (InRange(Index)==false)
     {
-        //Error: Index is larger than matrix size
-        cout<<"Error: Index is larger than matrix size";
+        cout<<"Error: Index is larger than matrix size"<<endl;
+        cout<<"Input index size is ";
+        for (int CurrentIndex: Index)
+            cout<<CurrentIndex<<", ";
+        cout<<endl;
+        cout<<"Matrix size is ";
+        for (int CurrentDim : DimSize)
+            cout<<CurrentDim<<", ";
+        cout<<endl;
         exit(-1);
     }
     return IndexPos(Index);
@@ -176,6 +186,7 @@ template <typename TemplateType>
 SimpleMatrix<TemplateType>::SimpleMatrix(void)//used to define a variable extremely quickly
 {
     DimSize.push_back(1);
+    NDimSize=1;
     TotalArraySize=1;
     ValueArray.resize(1);
     Base.push_back(1);
@@ -229,9 +240,11 @@ void SimpleMatrix<TemplateType>::SetAll(TemplateType SetValue)
 template <typename TemplateType> template <typename... ArgType>
 void SimpleMatrix<TemplateType>::Set( TemplateType SetValue, int FirstIndex, ArgType... args)
 {
+    cout<<"At line 232, first index: "<<FirstIndex<<endl;
     TempArgsNum=0;
     TempArgStorage.clear();
     CountIntArgs(FirstIndex, args...);
+    cout<<"At line 236, size: "<<TempArgStorage.size()<<endl;
     Set(TempArgStorage, SetValue);
 }
 
@@ -243,12 +256,25 @@ TemplateType SimpleMatrix<TemplateType>:: Value(vector<int> Index)
     return ValueArray[IndexPosCheck(Index)];
 }
 
+template <typename TemplateType>
+TemplateType SimpleMatrix<TemplateType>:: Value(int LinearIndex)//used for 1-D entries and superfast speed
+{
+    if (LinearIndex>=0 && LinearIndex<TotalArraySize)
+        return ValueArray[LinearIndex];
+    else
+    {
+        cout<<"Linear index " << LinearIndex << " outside bounds of matrix total size " << TotalArraySize<<endl;
+        exit(-1);
+    }
+}
+
+
 template <typename TemplateType> template <typename... ArgType>
-TemplateType SimpleMatrix<TemplateType>::Value(int FirstIndex, ArgType... args)
+TemplateType SimpleMatrix<TemplateType>::Value(int FirstIndex, int SecondIndex, ArgType... args)//only use if there are 2 or more int indices
 {
     TempArgsNum=0;
     TempArgStorage.clear();
-    CountIntArgs(FirstIndex, args...);
+    CountIntArgs(FirstIndex, SecondIndex, args...);
     return ValueArray[IndexPosCheck(TempArgStorage)];//Check then look up the linear index specificed by TempArgStorage, find the associated value then return.
 }
 
@@ -368,9 +394,13 @@ SimpleMatrix<ReturnTemplateType> Apply(<ReturnTemplateType>(*FunctionPointer)(<I
 template <typename InputTemplateType>
 SimpleMatrix<InputTemplateType> Apply(InputTemplateType (*FunctionPointer)( InputTemplateType  *), SimpleMatrix<InputTemplateType> A)
 {
-    SimpleMatrix<InputTemplateType> RSM;
+    //Determine size of input vector
+    vector<int> DimensionsSize=A.NumberOfDimensions();
+    SimpleMatrix<InputTemplateType> RSM(DimensionsSize);
     //for all the elements of A
     int SizeOfA=A.TotalElements();
+    for (int i=0; i<SizeOfA; i++)
+        RSM.Set(i, FunctionPointer(A.Value(i)));
 
     return RSM;
 }

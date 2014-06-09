@@ -81,17 +81,20 @@ vector<int> TESTVector(void)
 
 
 template <typename TemplateType>
-SimpleMatrix<TemplateType> TESTSimpleMatrixReturn(TemplateType a)//<int>(*FunctionPointer)(<InputTemplateType> *)
+SimpleMatrix<TemplateType> TESTSimpleMatrixReturn(TemplateType a)
 {
+    cout<<"step 1"<<endl;
     SimpleMatrix<TemplateType> val;
+    cout<<"step 2"<<endl;
     val.Set(8, 0); //set position 0 to 8
+    cout<<"step 3"<<endl;
     return val;
 
 }
 
 
 template <typename TemplateType>
-SimpleMatrix<float> TESTSimpleMatrixReturn2(TemplateType a)//<int>(*FunctionPointer)(<InputTemplateType> *)
+SimpleMatrix<float> TESTSimpleMatrixReturn2(TemplateType a)
 {
     SimpleMatrix<float> val;
     val.Set(8, 0); //set position 0 to 8
@@ -100,19 +103,64 @@ SimpleMatrix<float> TESTSimpleMatrixReturn2(TemplateType a)//<int>(*FunctionPoin
 }
 
 
-/*SimpleMatrix<int> TESTSimpleMatrixReturn(void)
+void TESTSimpleMatrixLinearIndexAccess(void)
 {
-    SimpleMatrix<int> val;
-    val.Set(1, 8);
-    return val;
+    SimpleMatrix<int> A(2,3,4);
+    A.TestConstructor();
+    A.TestIndexingFunctions();
 
-}*/
+    vector<int> TestingIndex;
+    TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
+    A.TestIndexingFunctions(TestingIndex);
+
+    int StoreCount=5;
+    for (int k=0; k<4; k++)
+    {
+        for (int j=0; j<3; j++)
+        {
+            for (int i=0; i<2; i++)
+            {
+                StoreCount++;
+
+                TestingIndex.clear();
+                TestingIndex.push_back(i); TestingIndex.push_back(j); TestingIndex.push_back(k);
+                A.TestIndexingFunctions(TestingIndex);
+                A.Set(TestingIndex, StoreCount);
+            }
+        }
+    }
+
+
+    A.TestDisplayAll();
+    cout<<A.Value(7)<<endl;
+    cout<<A.Value(23)<<endl;
+    cout<<A.Value(-1)<<endl;
+
+}
 
 
 
+void TESTSimpleMatrixRandom(void)
+{
+    vector<int> a;
+    a=TESTVector();
 
+    cout<<"Got to the creation of this simple matrix"<<endl;
+    SimpleMatrix<int> b;
+    int val=1;
+    b=TESTSimpleMatrixReturn(val);
+    b.TestDisplayAll();
+    cout<<"Finished the creation of this simple matrix"<<endl;
 
+    SimpleMatrix<float> c;
+    float val2=1;
+    c=TESTSimpleMatrixReturn2(val2);
+    //cout<<c.Value(0)<<endl;//NOTE: THIS CURRENTLY DOES NOT WORK FOR 1-D MATRICES
+    c.TestDisplayAll();
 
+    //SimpleMatrix<string> c;
+    //c=TESTSimpleMatrixReturn();
+}
 
 
 
