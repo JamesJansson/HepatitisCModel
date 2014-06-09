@@ -497,7 +497,7 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
 
 
 template <typename ReturnTemplateType, typename InputTemplateType>
-SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(double, double), SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
+SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType, InputTemplateType), SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
 {
     if (DimensionsCompatible(A,B)==false)
     {
@@ -570,12 +570,17 @@ va_list AgumentsToGive
 
 //first one is if all the types are the same
 //template <typename TemplateType> TemplateType Add(TemplateType a, TemplateType b) {return a+b;}
-int Add(int a, int b) {return a+b;}
-float Add(float a, float b) {return a+b;}
+//float Add(float a, int b) {return a+b;}
+//float Add(int a, float b) {return a+b;}
+int AddInts(int a, int b) {return a+b;}
+float AddFloats(float a, float b) {return a+b;}
 double AddDoubles(double a, double b) {return a+b;}
-float Add(float a, int b) {return a+b;}
-float Add(int a, float b) {return a+b;}
-string Add(string a, string b) {a.append(b); return a;}
+string AddStrings(string a, string b) {a.append(b); return a;}
+//This section is for testing only
+float Add(float a, float b) {return a+b;}
+double Add(double a, double b) {return a+b;}
+
+
 
 template <typename TemplateType>
 TemplateType Minus(TemplateType a, TemplateType b)

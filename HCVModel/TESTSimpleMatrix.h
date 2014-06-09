@@ -222,6 +222,7 @@ void TESTSimpleMatrixApplyMultiDimension(void)
 
     SimpleMatrix<double> C;
     C=Apply(AddDoubles, A, B);
+    //C=Apply(Add, A, B);//has troubles resolving because it is overloaded to an indeterminant type
     A.TestDisplayAll();
     B.TestDisplayAll();
     C.TestDisplayAll();
