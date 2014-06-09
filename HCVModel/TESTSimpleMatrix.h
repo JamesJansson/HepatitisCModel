@@ -1,5 +1,5 @@
 
-
+#include <math.h>
 #include "SimpleMatrix.h"
 
 void TESTSimpleMatrixIndices(void)
@@ -143,8 +143,45 @@ void TESTSimpleMatrixLinearIndexAccess(void)
     A.TestDisplayAll();
 }
 
+int Add1(int A)
+{
+    //cout<<A<<", ";
+    return A+1;
+}
 
 
+void TESTSimpleMatrixApplyFunctionPointer(void)
+{
+    SimpleMatrix<int> A(2,3,4);
+    A.TestConstructor();
+    A.TestIndexingFunctions();
+
+    vector<int> TestingIndex;
+    TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
+    A.TestIndexingFunctions(TestingIndex);
+
+    int StoreCount=5;
+    for (int k=0; k<4; k++)
+    {
+        for (int j=0; j<3; j++)
+        {
+            for (int i=0; i<2; i++)
+            {
+                StoreCount++;
+
+                TestingIndex.clear();
+                TestingIndex.push_back(i); TestingIndex.push_back(j); TestingIndex.push_back(k);
+                A.TestIndexingFunctions(TestingIndex);
+                A.Set(StoreCount, TestingIndex);
+            }
+        }
+    }
+
+    A.TestDisplayAll();
+    A=Apply(Add1, A);
+    A.TestDisplayAll();
+
+}
 
 
 

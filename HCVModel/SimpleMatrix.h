@@ -67,7 +67,7 @@ class SimpleMatrix {
     int TotalElements(void);
     //string DimSizeString(void);
 
-    //Future functions
+    //Setting functions
     void Set( TemplateType SetValue, vector<int> Index);//this version should represent an array of indices
     //void Set(const SimpleMatrix<int>& Index, TemplateType SetValue);
     template <typename... ArgType>
@@ -222,7 +222,11 @@ int SimpleMatrix<TemplateType>::TotalElements(void)//allows
     return TotalArraySize;
 }
 
-
+template <typename TemplateType>
+vector<int> SimpleMatrix<TemplateType>::Dimensions(void)
+{
+    return DimSize;
+}
 
 
 
@@ -435,7 +439,29 @@ SimpleMatrix<ReturnTemplateType> Apply(<ReturnTemplateType>(*FunctionPointer)(<I
 */
 
 //note that the following "apply" is a stop gap: it only works on the same data type. This is annoying, but better than nothing while a solution is found.
-template <typename InputTemplateType>
+
+SimpleMatrix<int> Apply(int (*FunctionPointer)(int), SimpleMatrix<int> A)
+{
+    int TempResultStore;
+    //Determine size of input vector
+    SimpleMatrix<int> RSM(A.Dimensions());
+
+
+    //for all the elements of A
+    int SizeOfA=A.TotalElements();
+    for (int i=0; i<SizeOfA; i++)
+    {
+        TempResultStore=FunctionPointer(A.ValueLinearIndex(i));
+        RSM.SetLinearIndex(TempResultStore, i);
+        cout<<TempResultStore<<", ";
+    }
+    return RSM;
+}
+
+
+
+
+/*template <typename InputTemplateType>
 SimpleMatrix<InputTemplateType> Apply(InputTemplateType (*FunctionPointer)( InputTemplateType  *), SimpleMatrix<InputTemplateType> A)
 {
     //Determine size of input vector
@@ -444,10 +470,10 @@ SimpleMatrix<InputTemplateType> Apply(InputTemplateType (*FunctionPointer)( Inpu
     //for all the elements of A
     int SizeOfA=A.TotalElements();
     for (int i=0; i<SizeOfA; i++)
-        RSM.Set(i, FunctionPointer(A.Value(i)));
+        RSM.Set(FunctionPointer(A.Value(i)), i);
 
     return RSM;
-}
+}*/
 
 /*
 SimpleMatrix Apply(&FunctionPointer, SimpleMatrix A, SimpleMatrix B);//this will allow the operator overloading to occur, especially + - * / % ^

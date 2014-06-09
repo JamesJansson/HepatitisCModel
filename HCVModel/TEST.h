@@ -15,7 +15,7 @@ void TESTFunctions(void)
 
     TESTSimpleMatrixLinearIndexAccess();
 
-
+    TESTSimpleMatrixApplyFunctionPointer();
 
     //TESTcsvreadstring();
     //TESTCSVGetInt();
