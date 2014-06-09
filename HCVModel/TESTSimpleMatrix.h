@@ -191,7 +191,8 @@ void TESTSimpleMatrixApplyMultiDimension(void)
 {
     cout<<"starting multidim test"<<endl;
     SimpleMatrix<double> A(2,3,4);
-    SimpleMatrix<double> B(1,3,4);
+    SimpleMatrix<double> B(1,3,4);//not that this difference should be compatible
+    //SimpleMatrix<double> B(2,4,4);//not that this difference should be compatible
 
     SimpleMatrix<double> C;
     C=Apply(sin, A, B);

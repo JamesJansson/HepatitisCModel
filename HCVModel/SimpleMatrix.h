@@ -533,7 +533,7 @@ bool DimensionsCompatible(SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputT
 {
     cout<<"starting compatibility test"<<endl;
     vector<int> ADim=A.Dimensions();
-    vector<int> BDim=A.Dimensions();
+    vector<int> BDim=B.Dimensions();
 
     if (ADim.size()!=BDim.size())
     {
