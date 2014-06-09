@@ -468,12 +468,16 @@ SimpleMatrix<int> Apply(int (*FunctionPointer)(int), SimpleMatrix<int> A)//THIS 
 *************************************************************************************************************************
 */
 
-template <typename InputTemplateType>
-SimpleMatrix<InputTemplateType> Apply(InputTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A)
+//This section works
+//template <typename InputTemplateType>
+//SimpleMatrix<InputTemplateType> Apply(InputTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A)
+//This section also works
+template <typename ReturnTemplateType, typename InputTemplateType>
+SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A)
 {
-    InputTemplateType TempResultStore;
+    ReturnTemplateType TempResultStore;
     //Determine size of input vector
-    SimpleMatrix<InputTemplateType> RSM(A.Dimensions());
+    SimpleMatrix<ReturnTemplateType> RSM(A.Dimensions());
 
     //for all the elements of A
     int SizeOfA=A.TotalElements();
