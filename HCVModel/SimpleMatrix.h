@@ -60,9 +60,11 @@ class SimpleMatrix {
 
 
 
+
     //vector<int> Dimensions(void);
     SimpleMatrix<int> Dimensions(void);//to allow operations on dimensions, it will be amazing!
     int NumberOfDimensions(void);//a simple integer value of the number of dimensions
+    int TotalElements(void);
     //string DimSizeString(void);
 
     //Future functions
@@ -71,6 +73,9 @@ class SimpleMatrix {
     template <typename... ArgType>
     void Set( TemplateType SetValue, int FirstIndex, ArgType... args);//allows a vector to be set for easy use of the matrix
     void Set(bool CheckDimension, vector<int> Index, TemplateType SetValue);//to allow faster execution without checking
+    template <typename CopyFromType>
+    void Set(SimpleMatrix<CopyFromType> SimpleMatrixToCopy);// deletes everything, copies data. Use to change the type of one matrix to another
+
     void SetAll(vector<TemplateType> VectorOfValues);//Allows the user to set the matrix to be a vector
     void SetAll(TemplateType SetValue);
 
@@ -196,6 +201,17 @@ void SimpleMatrix<TemplateType>::CreateValueArray(void)
     }
 }
 
+//Dimension return functions
+template <typename TemplateType>
+int SimpleMatrix<TemplateType>::TotalElements(void)//allows
+{
+    return TotalArraySize;
+}
+
+
+
+
+
 
 // Setting functions
 template <typename TemplateType>
@@ -235,6 +251,8 @@ TemplateType SimpleMatrix<TemplateType>::Value(int FirstIndex, ArgType... args)
     CountIntArgs(FirstIndex, args...);
     return ValueArray[IndexPosCheck(TempArgStorage)];//Check then look up the linear index specificed by TempArgStorage, find the associated value then return.
 }
+
+//The following allows a single integer to be taken as an argument. This means that a function can loop over all of the variable quickly
 
 
 
@@ -328,29 +346,57 @@ SimpleMatrix SimpleMatrix::Apply(&FunctionPointer, int n, ...)//feed in an arbit
 
 
 // ALTERNATIVE: to allow multiple matrices to work together in a function
-/*template <typename TemplateType>
-SimpleMatrix Apply(&FunctionPointer, SimpleMatrix<TemplateType> A)
+/*template <typename  InputTemplateType>
+SimpleMatrix<int> Apply(<int>(*FunctionPointer)(<InputTemplateType> *), SimpleMatrix<InputTemplateType> A)
 {
-    SimpleMatrix<TemplateType> C=A;
+    SimpleMatrix<int> RSM();
     //for all the elements of A
 
-    return C;
-}*/
+    return RSM;
+}
+template <typename ReturnTemplateType> template <typename ReturnTemplateType, InputTemplateType>
+SimpleMatrix<ReturnTemplateType> Apply(<ReturnTemplateType>(*FunctionPointer)(<InputTemplateType> *), SimpleMatrix<InputTemplateType> A)
+{
+    SimpleMatrix<ReturnTemplateType> RSM;
+    //for all the elements of A
+
+    return RSM;
+}
+*/
+
+//note that the following "apply" is a stop gap: it only works on the same data type. This is annoying, but better than nothing while a solution is found.
+template <typename InputTemplateType>
+SimpleMatrix<InputTemplateType> Apply(InputTemplateType (*FunctionPointer)( InputTemplateType  *), SimpleMatrix<InputTemplateType> A)
+{
+    SimpleMatrix<InputTemplateType> RSM;
+    //for all the elements of A
+    int SizeOfA=A.TotalElements();
+
+    return RSM;
+}
 
 /*
 SimpleMatrix Apply(&FunctionPointer, SimpleMatrix A, SimpleMatrix B);//this will allow the operator overloading to occur, especially + - * / % ^
 
 SimpleMatrix Apply(&FunctionPointer, SimpleMatrix n, ...);// for an arbitrary number of simple matrices.
+//vectorise the inputs
+
+va_list AgumentsToGive
+
 */
 
 // From this point on are the declarations of template functions that allow the operator overloads to work
 
 
-template <typename TemplateType>
-TemplateType Add(TemplateType a, TemplateType b)
-{
-    return a+b;
-}
+
+
+//first one is if all the types are the same
+template <typename TemplateType> TemplateType Add(TemplateType a, TemplateType b) {return a+b;}
+int Add(int a, int b) {return a+b;}
+float Add(float a, float b) {return a+b;}
+float Add(float a, int b) {return a+b;}
+float Add(int a, float b) {return a+b;}
+string Add(string a, string b) {a.append(b); return a;}
 
 template <typename TemplateType>
 TemplateType Minus(TemplateType a, TemplateType b)

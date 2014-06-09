@@ -64,15 +64,49 @@ void TESTSimpleMatrixSetAll(void)
     cout<<"Returned Value: "<<A.Value(0,0,0)<<endl;
     cout<<"Returned Value: "<<A.Value(1,0,0)<<endl;
 
-    A.Set(10,0, 0, 0);
+    A.Set(10, 0, 0, 0);
     A.TestDisplayAll();
+
+}
+
+vector<int> TESTVector(void)
+{
+    vector<int> val;
+    val.push_back(7);
+    return val;
 
 }
 
 
 
 
+template <typename TemplateType>
+SimpleMatrix<TemplateType> TESTSimpleMatrixReturn(TemplateType a)//<int>(*FunctionPointer)(<InputTemplateType> *)
+{
+    SimpleMatrix<TemplateType> val;
+    val.Set(8, 0); //set position 0 to 8
+    return val;
 
+}
+
+
+template <typename TemplateType>
+SimpleMatrix<float> TESTSimpleMatrixReturn2(TemplateType a)//<int>(*FunctionPointer)(<InputTemplateType> *)
+{
+    SimpleMatrix<float> val;
+    val.Set(8, 0); //set position 0 to 8
+    return val;
+
+}
+
+
+/*SimpleMatrix<int> TESTSimpleMatrixReturn(void)
+{
+    SimpleMatrix<int> val;
+    val.Set(1, 8);
+    return val;
+
+}*/
 
 
 
