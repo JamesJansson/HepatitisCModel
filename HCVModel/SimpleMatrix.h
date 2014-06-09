@@ -440,11 +440,40 @@ SimpleMatrix<ReturnTemplateType> Apply(<ReturnTemplateType>(*FunctionPointer)(<I
 
 //note that the following "apply" is a stop gap: it only works on the same data type. This is annoying, but better than nothing while a solution is found.
 
-SimpleMatrix<int> Apply(int (*FunctionPointer)(int), SimpleMatrix<int> A)
+/*
+*************************************************************************************************************************
+*************************************************************************************************************************
+*************************************************************************************************************************
+*************************************************************************************************************************
+SimpleMatrix<int> Apply(int (*FunctionPointer)(int), SimpleMatrix<int> A)//THIS WORKS FOR INTS
 {
     int TempResultStore;
     //Determine size of input vector
     SimpleMatrix<int> RSM(A.Dimensions());
+
+
+    //for all the elements of A
+    int SizeOfA=A.TotalElements();
+    for (int i=0; i<SizeOfA; i++)
+    {
+        TempResultStore=FunctionPointer(A.ValueLinearIndex(i));
+        RSM.SetLinearIndex(TempResultStore, i);
+        cout<<TempResultStore<<", ";
+    }
+    return RSM;
+}
+
+*************************************************************************************************************************
+*************************************************************************************************************************
+*************************************************************************************************************************
+*/
+
+template <typename InputTemplateType>
+SimpleMatrix<int> Apply(int (*FunctionPointer)(int), SimpleMatrix<InputTemplateType> A)
+{
+    InputTemplateType TempResultStore;
+    //Determine size of input vector
+    SimpleMatrix<InputTemplateType> RSM(A.Dimensions());
 
 
     //for all the elements of A
