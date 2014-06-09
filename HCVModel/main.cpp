@@ -6,6 +6,7 @@
 #include "EventVector.h"
 #include "SimulationClass.h"
 #include "csvread.h"
+#include "SimpleMatrix.h"
 //#include <thread.h>
 
 #include "TEST.h"//this may be not included if testing is no longer required in the build

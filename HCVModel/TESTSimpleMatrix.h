@@ -1,6 +1,6 @@
 
 #include <math.h>
-#include "SimpleMatrix.h"
+
 
 void TESTSimpleMatrixIndices(void)
 {
@@ -187,6 +187,7 @@ void TESTSimpleMatrixApplyFunctionPointer(void)
 
 void TESTSimpleMatrixApplyMultiDimension(void)
 {
+    //Tested, works
     cout<<"starting multidim test"<<endl;
     SimpleMatrix<double> A(2,3,4);
     SimpleMatrix<double> B;
@@ -221,6 +222,8 @@ void TESTSimpleMatrixApplyMultiDimension(void)
 
     SimpleMatrix<double> C;
     C=Apply(AddDoubles, A, B);
+    A.TestDisplayAll();
+    B.TestDisplayAll();
     C.TestDisplayAll();
     cout<<"Ending multidim test"<<endl;
 }

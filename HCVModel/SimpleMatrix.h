@@ -13,7 +13,6 @@
 
 
 // Class declarations
-
 template <typename TemplateType>
 class SimpleMatrix {
     vector<int> DimSize;
@@ -513,12 +512,6 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(dou
         exit(-1);
     }
 
-    //Get the max of both dimensions
-
-    //
-
-
-
     ReturnTemplateType TempResultStore;
     //Determine size of input vector
     SimpleMatrix<ReturnTemplateType> ResultSM(A.Dimensions());
@@ -526,11 +519,8 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(dou
 
     //for all the elements of A
     int SizeOfA=A.TotalElements();
-    cout<<"size of a: "<<SizeOfA<<endl;
-
     for (int i=0; i<SizeOfA; i++)
     {
-        cout<<TempResultStore<<", ";
         TempResultStore=FunctionPointer(A.ValueLinearIndex(i), B.ValueLinearIndex(i));
         ResultSM.SetLinearIndex(TempResultStore, i);
     }
