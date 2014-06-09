@@ -490,21 +490,24 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
 }
 
 
-
-
-/*template <typename InputTemplateType>
-SimpleMatrix<InputTemplateType> Apply(InputTemplateType (*FunctionPointer)( InputTemplateType  *), SimpleMatrix<InputTemplateType> A)
+template <typename ReturnTemplateType, typename InputTemplateType>
+SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
 {
+    ReturnTemplateType TempResultStore;
     //Determine size of input vector
-    vector<int> DimensionsSize=A.NumberOfDimensions();
-    SimpleMatrix<InputTemplateType> RSM(DimensionsSize);
+    SimpleMatrix<ReturnTemplateType> RSM(A.Dimensions());
+
     //for all the elements of A
     int SizeOfA=A.TotalElements();
     for (int i=0; i<SizeOfA; i++)
-        RSM.Set(FunctionPointer(A.Value(i)), i);
-
+    {
+        TempResultStore=FunctionPointer(A.ValueLinearIndex(i));
+        RSM.SetLinearIndex(TempResultStore, i);
+    }
     return RSM;
-}*/
+}
+
+
 
 /*
 SimpleMatrix Apply(&FunctionPointer, SimpleMatrix A, SimpleMatrix B);//this will allow the operator overloading to occur, especially + - * / % ^

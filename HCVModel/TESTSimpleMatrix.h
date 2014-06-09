@@ -178,7 +178,7 @@ void TESTSimpleMatrixApplyFunctionPointer(void)
     }
 
     A.TestDisplayAll();
-    SimpleMatrix<double> B(2,3,4);
+    SimpleMatrix<double> B;
     B=Apply(sin, A);
     B.TestDisplayAll();
 
