@@ -469,12 +469,11 @@ SimpleMatrix<int> Apply(int (*FunctionPointer)(int), SimpleMatrix<int> A)//THIS 
 */
 
 template <typename InputTemplateType>
-SimpleMatrix<int> Apply(int (*FunctionPointer)(int), SimpleMatrix<InputTemplateType> A)
+SimpleMatrix<InputTemplateType> Apply(InputTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A)
 {
     InputTemplateType TempResultStore;
     //Determine size of input vector
     SimpleMatrix<InputTemplateType> RSM(A.Dimensions());
-
 
     //for all the elements of A
     int SizeOfA=A.TotalElements();
@@ -482,7 +481,6 @@ SimpleMatrix<int> Apply(int (*FunctionPointer)(int), SimpleMatrix<InputTemplateT
     {
         TempResultStore=FunctionPointer(A.ValueLinearIndex(i));
         RSM.SetLinearIndex(TempResultStore, i);
-        cout<<TempResultStore<<", ";
     }
     return RSM;
 }

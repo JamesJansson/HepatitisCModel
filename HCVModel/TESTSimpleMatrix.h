@@ -152,7 +152,7 @@ int Add1(int A)
 
 void TESTSimpleMatrixApplyFunctionPointer(void)
 {
-    SimpleMatrix<int> A(2,3,4);
+    SimpleMatrix<double> A(2,3,4);
     A.TestConstructor();
     A.TestIndexingFunctions();
 
@@ -160,7 +160,7 @@ void TESTSimpleMatrixApplyFunctionPointer(void)
     TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
     A.TestIndexingFunctions(TestingIndex);
 
-    int StoreCount=5;
+    double StoreCount=-3;
     for (int k=0; k<4; k++)
     {
         for (int j=0; j<3; j++)
@@ -178,7 +178,7 @@ void TESTSimpleMatrixApplyFunctionPointer(void)
     }
 
     A.TestDisplayAll();
-    A=Apply(Add1, A);
+    A=Apply(sin, A);
     A.TestDisplayAll();
 
 }
