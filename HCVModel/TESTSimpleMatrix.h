@@ -227,6 +227,11 @@ void TESTSimpleMatrixApplyMultiDimension(void)
     B.TestDisplayAll();
     C.TestDisplayAll();
     cout<<"Ending multidim test"<<endl;
+
+    cout<<"Testing operator overloading"<<endl;
+
+
+
 }
 
 

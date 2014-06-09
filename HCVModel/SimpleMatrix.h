@@ -93,6 +93,7 @@ class SimpleMatrix {
     vector<TemplateType> ConvertToVector(void);// if the matrix only has one dimension greater than 1: convert that dimension to a vector
 
     // Overloading, pointer and template functions
+    // http://www.thegeekstuff.com/2013/09/cpp-operator-overloading/
     //SimpleMatrix SimpleMatrix::Apply(&FunctionPointer, int n, ...);
 
 
@@ -548,6 +549,12 @@ bool DimensionsCompatible(SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputT
     }
     return true;//no problems
 }
+
+
+
+
+
+
 
 
 
