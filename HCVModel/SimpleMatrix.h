@@ -391,7 +391,7 @@ SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator+(const SimpleMat
     StopIfDimensionsIncompatible(Other);
     SimpleMatrix<TemplateType> ResultSM(DimSize);
     //for all the elements
-    for (int i=0; i<NDimSize; i++)
+    for (int i=0; i<TotalArraySize; i++)
     {
         ResultSM.ValueArray[i]=ValueArray[i]+Other.ValueArray[i];
     }

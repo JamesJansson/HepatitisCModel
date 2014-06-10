@@ -19,7 +19,9 @@ void TESTFunctions(void)
 
     TESTSimpleMatrixApplyMultiDimension();
 
-    TESTDimensionsCompatible();
+    //TESTDimensionsCompatible();
+
+    TESTSimpleMatrixOverloading();
 
     //TESTcsvreadstring();
     //TESTCSVGetInt();

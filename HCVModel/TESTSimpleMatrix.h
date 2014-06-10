@@ -257,7 +257,46 @@ void TESTDimensionsCompatible(void)
 
 }
 
+void TESTSimpleMatrixOverloading(void)
+{
+    //Tested, works
+    cout<<"starting multidim test"<<endl;
+    SimpleMatrix<double> A(2,3,4);
+    SimpleMatrix<double> B;
+    SimpleMatrix<double> C;
 
+    //SimpleMatrix<double> B(1,3,4);
+    //SimpleMatrix<double> B(2,4,4);
+
+    vector<int> TestingIndex;
+    TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
+    A.TestIndexingFunctions(TestingIndex);
+
+    double StoreCount=-3.2;
+    for (int k=0; k<4; k++)
+    {
+        for (int j=0; j<3; j++)
+        {
+            for (int i=0; i<2; i++)
+            {
+                StoreCount++;
+
+                TestingIndex.clear();
+                TestingIndex.push_back(i); TestingIndex.push_back(j); TestingIndex.push_back(k);
+                A.TestIndexingFunctions(TestingIndex);
+                A.Set(StoreCount, TestingIndex);
+            }
+        }
+    }
+    B=A;
+    C=A+B;
+
+
+    A.TestDisplayAll();
+    B.TestDisplayAll();
+    C.TestDisplayAll();
+
+}
 
 
 
