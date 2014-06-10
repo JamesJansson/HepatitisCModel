@@ -133,14 +133,13 @@ class SimpleMatrix {
         SimpleMatrix<TemplateType> ModulusByMatrix(const OtherType& Other);
 
     // http://www.thegeekstuff.com/2013/09/cpp-operator-overloading/
-    //SimpleMatrix SimpleMatrix::Apply(&FunctionPointer, int n, ...);
+    //SimpleMatrix SimpleMatrix::Apply(&FunctionPointer);
 
-
-    //Testing functions
-    void TestConstructor(void);
-    void TestIndexingFunctions(void);
-    void TestIndexingFunctions(vector<int> Index);
     void Display(void);
+    void DisplayInfo(void);
+
+
+
 };
 
 // Indexing functions
@@ -642,143 +641,6 @@ void SimpleMatrix<TemplateType>::StopIfDimensionsIncompatible(SimpleMatrix<Other
 
 
 
-
-
-//Testing functions
-template <typename TemplateType>
-void SimpleMatrix<TemplateType>::TestConstructor(void)
-{
-    //Basic constructor of variable index size appears to be working well
-    for (int val : DimSize )
-        cout<< val <<", ";
-    cout<<endl;
-}
-
-template <typename TemplateType>
-void SimpleMatrix<TemplateType>::TestIndexingFunctions(void)
-{
-    //Display the base: base construction works
-    cout<<"Base construction"<<endl;
-    for (int val : Base )
-        cout<< val <<", ";
-    cout<<endl;
-}
-
-template <typename TemplateType>
-void SimpleMatrix<TemplateType>::TestIndexingFunctions(vector<int> Index)
-{
-    cout<<"Value of index specified: "<< IndexPosCheck(Index)<<endl;
-}
-
-template <typename TemplateType>
-void SimpleMatrix<TemplateType>::Display(void)
-{
-    cout<<"Contents: ";
-    for (int i=0; i< TotalArraySize; i++)
-        cout<<ValueArray[i]<<", ";
-    cout<<endl;
-}
-
-
-
-
-
-template <typename TemplateType>
-SimpleMatrix<TemplateType> Multiply(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B)//performs an element by element multiplication
-{
-    SimpleMatrix<TemplateType> ReturnMatrix;
-    // Check the the dimensions are equal,
-    // A.NumberOfDimensions()==B.NumberOfDimensions()
-    // Then check that there are an equal number of each dimension
-    // A.Dimensions(void);
-
-    // Note that one (only) of the matrices are allowed to swap out one of more of the dimensions with '1',
-    // and every time that dimension is called it uses the [0] value
-    // e.g. A has dimensions 5,4,6 and B has 5,1,6, it will always look up the 0 for the 2nd dimension to make a matrix of 5, 4, 6
-    //CheckDimsEqual(SimpleMatrix, SimpleMatrix);//returns a vector indicating the number of dimensions that are equal
-    //SimpleMatrix
-
-    return ReturnMatrix;
-}
-
-template <typename TemplateType>
-SimpleMatrix<TemplateType> Join(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B, int Dimension)
-{
-    SimpleMatrix<TemplateType> ReturnMatrix;
-    //check that all other dimensions are equal (except the dimension that we want to join along)
-    //for (int ThisDim :A.Dimensions)
-    return ReturnMatrix;
-}
-
-/*
-// this is a method to allow function pointer, to let any function to be applied to the whole matrix
-SimpleMatrix SimpleMatrix::Apply(&FunctionPointer, int n, ...)//feed in an arbitrary number of args to the function pointer
-{
-    SimpleMatrix<> ResultMatrix;
-    //cycle through all of the elements of the entire function
-    FunctionPointer(remainingargs);
-
-    return ResultMatrix;
-}*/
-
-
-// ALTERNATIVE: to allow multiple matrices to work together in a function
-/*template <typename  InputTemplateType>
-SimpleMatrix<int> Apply(<int>(*FunctionPointer)(<InputTemplateType> *), SimpleMatrix<InputTemplateType> A)
-{
-    SimpleMatrix<int> RSM();
-    //for all the elements of A
-
-    return RSM;
-}
-template <typename ReturnTemplateType> template <typename ReturnTemplateType, InputTemplateType>
-SimpleMatrix<ReturnTemplateType> Apply(<ReturnTemplateType>(*FunctionPointer)(<InputTemplateType> *), SimpleMatrix<InputTemplateType> A)
-{
-    SimpleMatrix<ReturnTemplateType> RSM;
-    //for all the elements of A
-
-    return RSM;
-}
-*/
-
-//note that the following "apply" is a stop gap: it only works on the same data type. This is annoying, but better than nothing while a solution is found.
-
-/*
-*************************************************************************************************************************
-*************************************************************************************************************************
-*************************************************************************************************************************
-*************************************************************************************************************************
-SimpleMatrix<int> Apply(int (*FunctionPointer)(int), SimpleMatrix<int> A)//THIS WORKS FOR INTS
-{
-    int TempResultStore;
-    //Determine size of input vector
-    SimpleMatrix<int> RSM(A.Dimensions());
-
-
-    //for all the elements of A
-    int SizeOfA=A.TotalElements();
-    for (int i=0; i<SizeOfA; i++)
-    {
-        TempResultStore=FunctionPointer(A.ValueLinearIndex(i));
-        RSM.SetLinearIndex(TempResultStore, i);
-        cout<<TempResultStore<<", ";
-    }
-    return RSM;
-}
-
-*************************************************************************************************************************
-*************************************************************************************************************************
-*************************************************************************************************************************
-*/
-
-// Apply pointer function sections
-//template < typename InputTemplateType>
-//bool DimensionsCompatible(SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B);
-
-
-//This section works
-//template <typename InputTemplateType>
-//SimpleMatrix<InputTemplateType> Apply(InputTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A)
 //This section also works
 template <typename ReturnTemplateType, typename InputTemplateType>
 SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A)
@@ -799,28 +661,13 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
 
 
 
-
+//Applying a function to 2 multidimensional matrices
 template <typename ReturnTemplateType, typename InputTemplateType>
 SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType, InputTemplateType), SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
 {
     A.StopIfDimensionsIncompatible(B);
-    /*if (A.DimensionsCompatible(B)==false)
-    {
-        cout<<"The dimensions of the Matrices do not match"<<endl;
-        cout<<"Matrix 1: ";
-        for (int ADim : A.Dimensions())
-            cout<<ADim <<", ";
-        cout<<endl;
-        cout<<"Matrix 2: ";
-        for (int BDim : B.Dimensions())
-            cout<<BDim <<", ";
-        exit(-1);
-    }*/
-
     ReturnTemplateType TempResultStore;
-    //Determine size of input vector
     SimpleMatrix<ReturnTemplateType> ResultSM(A.Dimensions());
-
 
     //for all the elements of A
     int SizeOfA=A.TotalElements();
@@ -832,85 +679,56 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
     return ResultSM;
 }
 
-/*template < typename InputTemplateType>
-bool DimensionsCompatible(SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
+//Display functions
+template <typename TemplateType>
+void SimpleMatrix<TemplateType>::Display(void)
 {
-    vector<int> ADim=A.Dimensions();
-    vector<int> BDim=B.Dimensions();
+    cout<<"Contents: ";
+    for (int i=0; i< TotalArraySize; i++)
+        cout<<ValueArray[i]<<", ";
+    cout<<endl;
+}
 
-    if (ADim.size()!=BDim.size())
-    {
-        return false;
-    }
-    for (int DimCount=0; DimCount<ADim.size(); DimCount++)
-    {
-        //if they are both bigger than 1 and are unequal
-        //if (ADim[DimCount]>1 && BDim[DimCount]>1 && (ADim[DimCount]!= BDim[DimCount]))//this functionality may come in later releases
-        if ((ADim[DimCount]!= BDim[DimCount]))
-        {
-            return false;
-        }
-    }
-    return true;//no problems
-}*/
-
-
-
-
-
-
-
-
-
-
-
-/*
-SimpleMatrix Apply(&FunctionPointer, SimpleMatrix A, SimpleMatrix B);//this will allow the operator overloading to occur, especially + - * / % ^
-
-SimpleMatrix Apply(&FunctionPointer, SimpleMatrix n, ...);// for an arbitrary number of simple matrices.
-//vectorise the inputs
-
-va_list AgumentsToGive
-
-*/
-
-// From this point on are the declarations of template functions that allow the operator overloads to work
+template <typename TemplateType>
+void SimpleMatrix<TemplateType>::DisplayInfo(void)
+{
+    cout<<endl<<"Total element count: "<< TotalArraySize<<endl;
+    cout<<"Dimensions: ";
+    for (int val : DimSize )
+        cout<< val <<", ";
+    cout<<endl;
+        cout<<"Base values for indexing the content in multi-dimensions"<<endl;
+    for (int val : Base )
+        cout<< val <<", ";
+    cout<<endl;
+    cout<<"Contents: ";
+    for (int i=0; (i< TotalArraySize) && i<5 ; i++)//only a short sample
+        cout<<ValueArray[i]<<", ";
+    cout<<"..."<<endl;
+    cout<<"To see full contents use Display()"<<endl<<endl;
+}
 
 
 
 
-//first one is if all the types are the same
-//template <typename TemplateType> TemplateType Add(TemplateType a, TemplateType b) {return a+b;}
-//float Add(float a, int b) {return a+b;}
-//float Add(int a, float b) {return a+b;}
-int AddInts(int a, int b) {return a+b;}
-float AddFloats(float a, float b) {return a+b;}
-double AddDoubles(double a, double b) {return a+b;}
-string AddStrings(string a, string b) {a.append(b); return a;}
-//This section is for testing only
-float Add(float a, float b) {return a+b;}
-double Add(double a, double b) {return a+b;}
+
+
+
+
+
+
+
 
 
 
 template <typename TemplateType>
-TemplateType Minus(TemplateType a, TemplateType b)
+SimpleMatrix<TemplateType> Join(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B, int Dimension)
 {
-    return a-b;
+    SimpleMatrix<TemplateType> ReturnMatrix;
+    //check that all other dimensions are equal (except the dimension that we want to join along)
+    //for (int ThisDim :A.Dimensions)
+    return ReturnMatrix;
 }
-
-template <typename TemplateType>
-TemplateType Multiply(TemplateType a, TemplateType b)
-{
-    return a*b;
-}
-
-template <typename TemplateType>
-TemplateType Divide(TemplateType a, TemplateType b)
-{
-    return a/b;
-}
-
 
 
     //Use this in in countintargs to only run if ints

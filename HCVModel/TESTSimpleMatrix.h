@@ -5,12 +5,12 @@
 void TESTSimpleMatrixIndices(void)
 {
     SimpleMatrix<int> A(2,3,4);
-    A.TestConstructor();
-    A.TestIndexingFunctions();
+    A.DisplayInfo();
+    A.DisplayInfo();
 
     vector<int> TestingIndex;
     TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
-    A.TestIndexingFunctions(TestingIndex);
+    A.DisplayInfo();
 
     for (int k=0; k<4; k++)
     {
@@ -20,7 +20,6 @@ void TESTSimpleMatrixIndices(void)
             {
                 TestingIndex.clear();
                 TestingIndex.push_back(i); TestingIndex.push_back(j); TestingIndex.push_back(k);
-                A.TestIndexingFunctions(TestingIndex);
             }
         }
     }
@@ -31,11 +30,11 @@ void TESTSimpleMatrixIndices(void)
     //TestingIndex.push_back(2); TestingIndex.push_back(1); TestingIndex.push_back(1);//too big
     //TestingIndex.push_back(1); TestingIndex.push_back(4); TestingIndex.push_back(1);//too big
     TestingIndex.push_back(1); TestingIndex.push_back(1); TestingIndex.push_back(1);
-    A.TestIndexingFunctions(TestingIndex);
+    A.DisplayInfo();
 
 
     SimpleMatrix<int> B(5);
-    B.TestConstructor();
+    B.DisplayInfo();
 
 }
 
@@ -106,12 +105,11 @@ SimpleMatrix<float> TESTSimpleMatrixReturn2(TemplateType a)
 void TESTSimpleMatrixLinearIndexAccess(void)
 {
     SimpleMatrix<int> A(2,3,4);
-    A.TestConstructor();
-    A.TestIndexingFunctions();
+    A.DisplayInfo();
 
     vector<int> TestingIndex;
     TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
-    A.TestIndexingFunctions(TestingIndex);
+    A.DisplayInfo();
 
     int StoreCount=5;
     for (int k=0; k<4; k++)
@@ -124,7 +122,6 @@ void TESTSimpleMatrixLinearIndexAccess(void)
 
                 TestingIndex.clear();
                 TestingIndex.push_back(i); TestingIndex.push_back(j); TestingIndex.push_back(k);
-                A.TestIndexingFunctions(TestingIndex);
                 A.Set(StoreCount, TestingIndex);
             }
         }
@@ -156,7 +153,7 @@ void TESTSimpleMatrixApplyFunctionPointer(void)
 
     vector<int> TestingIndex;
     TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
-    A.TestIndexingFunctions(TestingIndex);
+    A.DisplayInfo();
 
     double StoreCount=-3.2;
     for (int k=0; k<4; k++)
@@ -169,7 +166,6 @@ void TESTSimpleMatrixApplyFunctionPointer(void)
 
                 TestingIndex.clear();
                 TestingIndex.push_back(i); TestingIndex.push_back(j); TestingIndex.push_back(k);
-                A.TestIndexingFunctions(TestingIndex);
                 A.Set(StoreCount, TestingIndex);
             }
         }
@@ -196,7 +192,7 @@ void TESTSimpleMatrixApplyMultiDimension(void)
 
     vector<int> TestingIndex;
     TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
-    A.TestIndexingFunctions(TestingIndex);
+    A.DisplayInfo();
 
     double StoreCount=-3.2;
     for (int k=0; k<4; k++)
@@ -209,7 +205,6 @@ void TESTSimpleMatrixApplyMultiDimension(void)
 
                 TestingIndex.clear();
                 TestingIndex.push_back(i); TestingIndex.push_back(j); TestingIndex.push_back(k);
-                A.TestIndexingFunctions(TestingIndex);
                 A.Set(StoreCount, TestingIndex);
             }
         }
@@ -221,7 +216,7 @@ void TESTSimpleMatrixApplyMultiDimension(void)
     cout<<"size of a: "<<SizeOfA<<endl;
 
     SimpleMatrix<double> C;
-    C=Apply(AddDoubles, A, B);
+    //C=Apply(AddDoubles, A, B);
     //C=Apply(Add, A, B);//has troubles resolving because it is overloaded to an indeterminant type
     A.Display();
     B.Display();
@@ -270,7 +265,7 @@ void TESTSimpleMatrixOverloading(void)
 
     vector<int> TestingIndex;
     TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
-    A.TestIndexingFunctions(TestingIndex);
+    A.DisplayInfo();
 
     double StoreCount=1;
     for (int k=0; k<4; k++)
@@ -283,7 +278,6 @@ void TESTSimpleMatrixOverloading(void)
 
                 TestingIndex.clear();
                 TestingIndex.push_back(i); TestingIndex.push_back(j); TestingIndex.push_back(k);
-                A.TestIndexingFunctions(TestingIndex);
                 A.Set(StoreCount, TestingIndex);
             }
         }
@@ -480,34 +474,16 @@ void TESTSimpleMatrixOld(void)
 
 
     SimpleMatrix<int> A(2,3,4);
-    A.TestConstructor();
-    A.TestIndexingFunctions();
+    A.DisplayInfo();
+    A.DisplayInfo();
 
 
     SimpleMatrix<int> B(5);
-    B.TestConstructor();
-    //A.TestConstructor();
+    B.DisplayInfo();
 
 
-    //ProxyCount(3, 4, 5);
 
 
-    /*SimpleMatrix<int> A(2,3,4);
-    A.TestConstructor();
-
-    SimpleMatrix<int> B(5,4,5, 6, 7);
-    B.TestConstructor();
-    cout<<endl;
-
-    A.NumArgs=0;
-    A.CountArgs((int)12, (int)23, (int)34);*/
-//    std::cout<<<<endl;
-
-    //TESTcsvreadstring();
-    //TESTCSVGetInt();
-    //EVRangeTestMultiple();
-    //EVSetSomeEvents();
-    //EVSpeedTest();
 
 }
 
