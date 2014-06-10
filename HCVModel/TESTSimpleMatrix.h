@@ -310,19 +310,27 @@ void TESTSimpleMatrixOverloading(void)
     C=AddVal-C;
     C.TestDisplayAll();
 
-    cout<<endl<<"Starting afresh"<<endl;
+    cout<<endl<<"Starting multiply/divide test"<<endl;
     C=A;
     C.TestDisplayAll();
-
     C=C*10;
     C.TestDisplayAll();
     C=10*C;
     C.TestDisplayAll();
-
     C=C/10;
     C.TestDisplayAll();
     C=10/C;
     C.TestDisplayAll();
+
+    cout<<endl<<"Starting minus behavious"<<endl;
+    C=A;
+    C=C+10;
+    C.TestDisplayAll();
+    C=C-10;
+    C.TestDisplayAll();
+    C=10-C;
+    C.TestDisplayAll();
+
 }
 
 
