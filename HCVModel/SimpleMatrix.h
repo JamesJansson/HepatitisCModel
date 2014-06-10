@@ -100,8 +100,37 @@ class SimpleMatrix {
 
     // Overloading, pointer and template functions
     // Good tutorial on how this works: http://www.cprogramming.com/tutorial/operator_overloading.html
-    template <typename OtherType>
-    SimpleMatrix<TemplateType> operator+(const SimpleMatrix<OtherType>& Other);
+    //Plus
+        template <typename OtherType>
+        SimpleMatrix<TemplateType> operator+(const SimpleMatrix<OtherType>& Other);
+        template <typename OtherType>
+        SimpleMatrix<TemplateType> operator+(const OtherType& Other);
+    //Minus
+        template <typename OtherType>
+        SimpleMatrix<TemplateType> operator-(const SimpleMatrix<OtherType>& Other);
+        template <typename OtherType>
+        SimpleMatrix<TemplateType> operator-(const OtherType& Other);
+        //Unary minus
+        SimpleMatrix<TemplateType> operator-(void);
+    //Times
+        template <typename OtherType>
+        SimpleMatrix<TemplateType> operator*(const SimpleMatrix<OtherType>& Other);
+        template <typename OtherType>
+        SimpleMatrix<TemplateType> operator*(const OtherType& Other);
+    //Divide
+        template <typename OtherType>
+        SimpleMatrix<TemplateType> operator/(const SimpleMatrix<OtherType>& Other);
+        template <typename OtherType>
+        SimpleMatrix<TemplateType> operator/(const OtherType& Other);
+        template <typename OtherType>
+        SimpleMatrix<TemplateType> DivideByMatrix(const OtherType& Other);
+    //Modulus
+        template <typename OtherType>
+        SimpleMatrix<TemplateType> operator%(const SimpleMatrix<OtherType>& Other);
+        template <typename OtherType>
+        SimpleMatrix<TemplateType> operator%(const OtherType& Other);
+        template <typename OtherType>
+        SimpleMatrix<TemplateType> ModulusByMatrix(const OtherType& Other);
 
     // http://www.thegeekstuff.com/2013/09/cpp-operator-overloading/
     //SimpleMatrix SimpleMatrix::Apply(&FunctionPointer, int n, ...);
@@ -373,7 +402,14 @@ void SimpleMatrix<TemplateType>::StopIfDimensionsIncompatible(SimpleMatrix<Other
     }
 }
 
-// Operator overloading
+
+
+
+
+
+
+
+/// Operator overloading
 // http://en.wikibooks.org/wiki/C%2B%2B_Programming/Operators/Operator_Overloading
 // In particular, we will be looking to overload the assignment operator to allow straighforward assignment of values
 // http://en.wikibooks.org/wiki/C%2B%2B_Programming/Operators/Operator_Overloading#Assignment_operator
@@ -385,18 +421,221 @@ void SimpleMatrix<TemplateType>::StopIfDimensionsIncompatible(SimpleMatrix<Other
 // https://gcc.gnu.org/onlinedocs/gcc-4.6.3/libstdc++/api/a01115_source.html
 
 // Good tutorial on how this works: http://www.cprogramming.com/tutorial/operator_overloading.html
-template <typename TemplateType> template <typename OtherType>
-SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator+(const SimpleMatrix<OtherType>& Other)
-{
-    StopIfDimensionsIncompatible(Other);
-    SimpleMatrix<TemplateType> ResultSM(DimSize);
-    //for all the elements
-    for (int i=0; i<TotalArraySize; i++)
-    {
-        ResultSM.ValueArray[i]=ValueArray[i]+Other.ValueArray[i];
-    }
-    return ResultSM;
-}
+
+    ///Plus
+        template <typename TemplateType> template <typename OtherType>
+        SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator+(const SimpleMatrix<OtherType>& Other)
+        {
+            StopIfDimensionsIncompatible(Other);
+            SimpleMatrix<TemplateType> ResultSM(DimSize);
+            for (int i=0; i<TotalArraySize; i++)//for all the elements
+            {
+                ResultSM.ValueArray[i]=ValueArray[i]+Other.ValueArray[i];
+            }
+            return ResultSM;
+        }
+
+        //For other types
+        template <typename TemplateType> template <typename OtherType>
+        SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator+(const OtherType& Other)
+        {
+            SimpleMatrix<TemplateType> ResultSM(DimSize);
+            for (int i=0; i<TotalArraySize; i++)    //for all the elements
+            {
+                ResultSM.ValueArray[i]=ValueArray[i]+Other;
+            }
+            return ResultSM;
+        }
+
+        //Swapping for a discrete set of functions
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator+(char Other, SimpleMatrix<TemplateType> SMClass){return (SMClass + Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator+(short Other, SimpleMatrix<TemplateType> SMClass){return (SMClass + Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator+(int Other, SimpleMatrix<TemplateType> SMClass){return (SMClass + Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator+(long Other, SimpleMatrix<TemplateType> SMClass){return (SMClass + Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator+(long long Other, SimpleMatrix<TemplateType> SMClass){return (SMClass + Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator+(float Other, SimpleMatrix<TemplateType> SMClass){return (SMClass + Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator+(double Other, SimpleMatrix<TemplateType> SMClass){return (SMClass + Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator+(long double Other, SimpleMatrix<TemplateType> SMClass){return (SMClass + Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator+(bool Other, SimpleMatrix<TemplateType> SMClass){return (SMClass + Other);}
+
+    ///Minus
+        template <typename TemplateType> template <typename OtherType>
+        SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator-(const SimpleMatrix<OtherType>& Other)
+        {
+            StopIfDimensionsIncompatible(Other);
+            SimpleMatrix<TemplateType> ResultSM(DimSize);
+            for (int i=0; i<TotalArraySize; i++)//for all the elements
+            {
+                ResultSM.ValueArray[i]=ValueArray[i]-Other.ValueArray[i];
+            }
+            return ResultSM;
+        }
+
+        //For other types
+        template <typename TemplateType> template <typename OtherType>
+        SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator-(const OtherType& Other)
+        {
+            SimpleMatrix<TemplateType> ResultSM(DimSize);
+            for (int i=0; i<TotalArraySize; i++)    //for all the elements
+            {
+                ResultSM.ValueArray[i]=ValueArray[i]-Other;
+            }
+            return ResultSM;
+        }
+
+        //Unary minus
+        template <typename TemplateType>
+        SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator-(void)
+        {
+            SimpleMatrix<TemplateType> ResultSM(DimSize);
+            for (int i=0; i<TotalArraySize; i++)    //for all the elements
+            {
+                ResultSM.ValueArray[i]=-ValueArray[i];
+            }
+            return ResultSM;
+        }
+
+        //Swapping for a discrete set of functions
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator-(char Other, SimpleMatrix<TemplateType> SMClass){return -(SMClass - Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator-(short Other, SimpleMatrix<TemplateType> SMClass){return -(SMClass - Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator-(int Other, SimpleMatrix<TemplateType> SMClass){return -(SMClass - Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator-(long Other, SimpleMatrix<TemplateType> SMClass){return -(SMClass - Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator-(long long Other, SimpleMatrix<TemplateType> SMClass){return -(SMClass - Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator-(float Other, SimpleMatrix<TemplateType> SMClass){return -(SMClass - Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator-(double Other, SimpleMatrix<TemplateType> SMClass){return -(SMClass - Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator-(long double Other, SimpleMatrix<TemplateType> SMClass){return -(SMClass - Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator-(bool Other, SimpleMatrix<TemplateType> SMClass){return -(SMClass - Other);}
+
+    ///Times
+        template <typename TemplateType> template <typename OtherType>
+        SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator*(const SimpleMatrix<OtherType>& Other)
+        {
+            StopIfDimensionsIncompatible(Other);
+            SimpleMatrix<TemplateType> ResultSM(DimSize);
+            for (int i=0; i<TotalArraySize; i++)//for all the elements
+            {
+                ResultSM.ValueArray[i]=ValueArray[i]*Other.ValueArray[i];
+            }
+            return ResultSM;
+        }
+
+        //For other types
+        template <typename TemplateType> template <typename OtherType>
+        SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator*(const OtherType& Other)
+        {
+            SimpleMatrix<TemplateType> ResultSM(DimSize);
+            for (int i=0; i<TotalArraySize; i++)    //for all the elements
+            {
+                ResultSM.ValueArray[i]=ValueArray[i]*Other;
+            }
+            return ResultSM;
+        }
+
+        //Swapping for a discrete set of functions
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator*(char Other, SimpleMatrix<TemplateType> SMClass){return (SMClass * Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator*(short Other, SimpleMatrix<TemplateType> SMClass){return (SMClass * Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator*(int Other, SimpleMatrix<TemplateType> SMClass){return (SMClass * Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator*(long Other, SimpleMatrix<TemplateType> SMClass){return (SMClass * Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator*(long long Other, SimpleMatrix<TemplateType> SMClass){return (SMClass * Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator*(float Other, SimpleMatrix<TemplateType> SMClass){return (SMClass * Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator*(double Other, SimpleMatrix<TemplateType> SMClass){return (SMClass * Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator*(long double Other, SimpleMatrix<TemplateType> SMClass){return (SMClass * Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator*(bool Other, SimpleMatrix<TemplateType> SMClass){return (SMClass * Other);}
+
+    ///Divide
+        template <typename TemplateType> template <typename OtherType>
+        SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator/(const SimpleMatrix<OtherType>& Other)
+        {
+            StopIfDimensionsIncompatible(Other);
+            SimpleMatrix<TemplateType> ResultSM(DimSize);
+            for (int i=0; i<TotalArraySize; i++)//for all the elements
+            {
+                ResultSM.ValueArray[i]=ValueArray[i]/Other.ValueArray[i];
+            }
+            return ResultSM;
+        }
+
+        //For other types
+        template <typename TemplateType> template <typename OtherType>
+        SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator/(const OtherType& Other)
+        {
+            SimpleMatrix<TemplateType> ResultSM(DimSize);
+            for (int i=0; i<TotalArraySize; i++)    //for all the elements
+            {
+                ResultSM.ValueArray[i]=ValueArray[i]/Other;
+            }
+            return ResultSM;
+        }
+
+        //Swapping for a discrete set of functions
+        template <typename TemplateType> template <typename OtherType>
+        SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::DivideByMatrix(const OtherType& Other)
+        {
+            SimpleMatrix<TemplateType> ResultSM(DimSize);
+            for (int i=0; i<TotalArraySize; i++)    //for all the elements
+            {
+                ResultSM.ValueArray[i]=Other/ValueArray[i];
+            }
+            return ResultSM;
+        }
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator/(char Other, SimpleMatrix<TemplateType> SMClass){return SMClass.DivideByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator/(short Other, SimpleMatrix<TemplateType> SMClass){return SMClass.DivideByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator/(int Other, SimpleMatrix<TemplateType> SMClass){return SMClass.DivideByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator/(long Other, SimpleMatrix<TemplateType> SMClass){return SMClass.DivideByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator/(long long Other, SimpleMatrix<TemplateType> SMClass){return SMClass.DivideByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator/(float Other, SimpleMatrix<TemplateType> SMClass){return SMClass.DivideByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator/(double Other, SimpleMatrix<TemplateType> SMClass){return SMClass.DivideByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator/(long double Other, SimpleMatrix<TemplateType> SMClass){return SMClass.DivideByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator/(bool Other, SimpleMatrix<TemplateType> SMClass){return SMClass.DivideByMatrix(Other);}
+
+    ///Modulus
+        template <typename TemplateType> template <typename OtherType>
+        SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator%(const SimpleMatrix<OtherType>& Other)
+        {
+            StopIfDimensionsIncompatible(Other);
+            SimpleMatrix<TemplateType> ResultSM(DimSize);
+            for (int i=0; i<TotalArraySize; i++)//for all the elements
+            {
+                ResultSM.ValueArray[i]=ValueArray[i]%Other.ValueArray[i];
+            }
+            return ResultSM;
+        }
+
+        //For other types
+        template <typename TemplateType> template <typename OtherType>
+        SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator%(const OtherType& Other)
+        {
+            SimpleMatrix<TemplateType> ResultSM(DimSize);
+            for (int i=0; i<TotalArraySize; i++)    //for all the elements
+            {
+                ResultSM.ValueArray[i]=ValueArray[i]%Other;
+            }
+            return ResultSM;
+        }
+
+        //Swapping for a discrete set of functions
+        template <typename TemplateType> template <typename OtherType>
+        SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::ModulusByMatrix(const OtherType& Other)
+        {
+            SimpleMatrix<TemplateType> ResultSM(DimSize);
+            for (int i=0; i<TotalArraySize; i++)    //for all the elements
+            {
+                ResultSM.ValueArray[i]=Other%ValueArray[i];
+            }
+            return ResultSM;
+        }
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator%(char Other, SimpleMatrix<TemplateType> SMClass){return SMClass.ModulusByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator%(short Other, SimpleMatrix<TemplateType> SMClass){return SMClass.ModulusByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator%(int Other, SimpleMatrix<TemplateType> SMClass){return SMClass.ModulusByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator%(long Other, SimpleMatrix<TemplateType> SMClass){return SMClass.ModulusByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator%(long long Other, SimpleMatrix<TemplateType> SMClass){return SMClass.ModulusByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator%(float Other, SimpleMatrix<TemplateType> SMClass){return SMClass.ModulusByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator%(double Other, SimpleMatrix<TemplateType> SMClass){return SMClass.ModulusByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator%(long double Other, SimpleMatrix<TemplateType> SMClass){return SMClass.ModulusByMatrix(Other);}
+        template <typename TemplateType> SimpleMatrix<TemplateType> operator%(bool Other, SimpleMatrix<TemplateType> SMClass){return SMClass.ModulusByMatrix(Other);}
+
+
+
 
 
 

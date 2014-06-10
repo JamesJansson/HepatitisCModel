@@ -272,7 +272,7 @@ void TESTSimpleMatrixOverloading(void)
     TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
     A.TestIndexingFunctions(TestingIndex);
 
-    double StoreCount=-3.2;
+    double StoreCount=1;
     for (int k=0; k<4; k++)
     {
         for (int j=0; j<3; j++)
@@ -296,6 +296,33 @@ void TESTSimpleMatrixOverloading(void)
     B.TestDisplayAll();
     C.TestDisplayAll();
 
+    double AddVal=100;
+
+    C=C+AddVal;
+    C.TestDisplayAll();
+    C=AddVal+C;
+    C.TestDisplayAll();
+
+    AddVal=50;
+
+    C=C-AddVal;
+    C.TestDisplayAll();
+    C=AddVal-C;
+    C.TestDisplayAll();
+
+    cout<<endl<<"Starting afresh"<<endl;
+    C=A;
+    C.TestDisplayAll();
+
+    C=C*10;
+    C.TestDisplayAll();
+    C=10*C;
+    C.TestDisplayAll();
+
+    C=C/10;
+    C.TestDisplayAll();
+    C=10/C;
+    C.TestDisplayAll();
 }
 
 
