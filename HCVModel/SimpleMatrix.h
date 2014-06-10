@@ -504,8 +504,8 @@ SimpleMatrix<int> Apply(int (*FunctionPointer)(int), SimpleMatrix<int> A)//THIS 
 */
 
 // Apply pointer function sections
-template < typename InputTemplateType>
-bool DimensionsCompatible(SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B);
+//template < typename InputTemplateType>
+//bool DimensionsCompatible(SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B);
 
 
 //This section works
@@ -535,7 +535,7 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
 template <typename ReturnTemplateType, typename InputTemplateType>
 SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType, InputTemplateType), SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
 {
-    if (DimensionsCompatible(A,B)==false)
+    if (A.DimensionsCompatible(B)==false)
     {
         cout<<"The dimensions of the Matrices do not match"<<endl;
         cout<<"Matrix 1: ";
@@ -563,7 +563,7 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
     return ResultSM;
 }
 
-template < typename InputTemplateType>
+/*template < typename InputTemplateType>
 bool DimensionsCompatible(SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
 {
     vector<int> ADim=A.Dimensions();
@@ -583,7 +583,7 @@ bool DimensionsCompatible(SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputT
         }
     }
     return true;//no problems
-}
+}*/
 
 
 
