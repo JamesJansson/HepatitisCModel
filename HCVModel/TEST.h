@@ -23,6 +23,9 @@ void TESTFunctions(void)
 
     TESTSimpleMatrixOverloading();
 
+    TESTMatrixh();
+
+
     //TESTcsvreadstring();
     //TESTCSVGetInt();
     //EVRangeTestMultiple();

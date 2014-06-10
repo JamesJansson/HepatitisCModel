@@ -1,6 +1,6 @@
 
 #include <math.h>
-
+#include "Matrix.h"
 
 void TESTSimpleMatrixIndices(void)
 {
@@ -140,12 +140,16 @@ void TESTSimpleMatrixLinearIndexAccess(void)
     A.Display();
 }
 
-int Add1(int A)
-{
-    //cout<<A<<", ";
-    return A+1;
-}
+//int Add1(int A)
+//{
+//    //cout<<A<<", ";
+//    return A+1;
+//}
 
+double Add1(double A)
+{
+    return A++;
+}
 
 void TESTSimpleMatrixApplyFunctionPointer(void)
 {
@@ -173,13 +177,21 @@ void TESTSimpleMatrixApplyFunctionPointer(void)
 
     A.Display();
     SimpleMatrix<double> B;
-    B=Apply(sin, A);
+    B=Apply(Add1, A);
+    //B=Apply(sin, A);
     B.Display();
 
     SimpleMatrix<double> C;
-    C=Apply(sin, A);
+    C=Apply(Add1, A);
+    //C=Apply(sin, A);
 
 }
+
+double Add(double a, double b)
+{
+    return a+b;
+}
+
 
 void TESTSimpleMatrixApplyMultiDimension(void)
 {
@@ -217,7 +229,7 @@ void TESTSimpleMatrixApplyMultiDimension(void)
 
     SimpleMatrix<double> C;
     //C=Apply(AddDoubles, A, B);
-    //C=Apply(Add, A, B);//has troubles resolving because it is overloaded to an indeterminant type
+    C=Apply(Add, A, B);//has troubles resolving because it is overloaded to an indeterminant type
     A.Display();
     B.Display();
     C.Display();
@@ -325,7 +337,36 @@ void TESTSimpleMatrixOverloading(void)
     C=10-C;
     C.Display();
 
+
+    //A=Apply(sin, C);
+    C.Apply(sin);
+    C.Display();
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -352,22 +393,10 @@ void TESTSimpleMatrixRandom(void)
     //c=TESTSimpleMatrixReturn();
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+void TESTMatrixh(void)
+{
+    //Numeric_lib::Matrix ABC;
+}
 
 void simpleprintf(const char *s)
 {

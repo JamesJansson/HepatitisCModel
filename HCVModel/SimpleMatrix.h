@@ -132,8 +132,13 @@ class SimpleMatrix {
         template <typename OtherType>
         SimpleMatrix<TemplateType> ModulusByMatrix(const OtherType& Other);
 
+    //Other operators
+    //http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B
+
     // http://www.thegeekstuff.com/2013/09/cpp-operator-overloading/
-    //SimpleMatrix SimpleMatrix::Apply(&FunctionPointer);
+    //template <typename ReturnTemplateType>
+    //SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType));
+    void Apply(TemplateType (*FunctionPointer)(TemplateType));
 
     void Display(void);
     void DisplayInfo(void);
@@ -635,13 +640,21 @@ void SimpleMatrix<TemplateType>::StopIfDimensionsIncompatible(SimpleMatrix<Other
 
 
 
+//Apply a function to the matrix
+template <typename TemplateType>
+void SimpleMatrix<TemplateType>::Apply(TemplateType (*FunctionPointer)(TemplateType))
+{
+    TemplateType TempResultStore;
+    for (int i=0; i<TotalArraySize; i++)//for all the elements
+    {
+        ValueArray[i]=FunctionPointer(ValueArray[i]);
+    }
+}
 
-
-
-
-
-
-//This section also works
+//This section works
+//template <typename InputTemplateType>
+//SimpleMatrix<InputTemplateType> Apply(InputTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A)
+//This section used to work, now broken
 template <typename ReturnTemplateType, typename InputTemplateType>
 SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A)
 {
@@ -658,8 +671,6 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
     }
     return ResultSM;
 }
-
-
 
 //Applying a function to 2 multidimensional matrices
 template <typename ReturnTemplateType, typename InputTemplateType>
@@ -678,6 +689,8 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
     }
     return ResultSM;
 }
+
+
 
 //Display functions
 template <typename TemplateType>
