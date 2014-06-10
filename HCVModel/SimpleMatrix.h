@@ -92,7 +92,15 @@ class SimpleMatrix {
 
     vector<TemplateType> ConvertToVector(void);// if the matrix only has one dimension greater than 1: convert that dimension to a vector
 
+    //Checking and error functions
+    template <typename OtherType>
+    bool DimensionsCompatible( SimpleMatrix<OtherType> Other);
     // Overloading, pointer and template functions
+    // Good tutorial on how this works: http://www.cprogramming.com/tutorial/operator_overloading.html
+
+
+    SimpleMatrix<TemplateType> operator+(const SimpleMatrix<TemplateType>& other);
+
     // http://www.thegeekstuff.com/2013/09/cpp-operator-overloading/
     //SimpleMatrix SimpleMatrix::Apply(&FunctionPointer, int n, ...);
 
@@ -326,7 +334,34 @@ TemplateType SimpleMatrix<TemplateType>::Value(int FirstIndex, int SecondIndex, 
     return ValueArray[IndexPosCheck(TempArgStorage)];//Check then look up the linear index specificed by TempArgStorage, find the associated value then return.
 }
 
-//The following allows a single integer to be taken as an argument. This means that a function can loop over all of the variable quickly
+
+template <typename TemplateType> template <typename OtherType>
+bool SimpleMatrix<TemplateType>::DimensionsCompatible(SimpleMatrix<OtherType> Other)
+{
+    if (NDimSize!=Other.NDimSize)
+    {
+        return false;
+    }
+    for (int DimCount=0; DimCount<NDimSize; DimCount++)
+    {
+        //if they are both bigger than 1 and are unequal
+        //if (ADim[DimCount]>1 && BDim[DimCount]>1 && (ADim[DimCount]!= BDim[DimCount]))//this functionality may come in later releases
+        if ((DimSize[DimCount]!= Other.DimSize[DimCount]))
+        {
+            return false;
+        }
+    }
+    return true;//no problems
+}
+
+
+
+
+
+
+
+
+
 
 
 

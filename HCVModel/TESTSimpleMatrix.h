@@ -235,6 +235,30 @@ void TESTSimpleMatrixApplyMultiDimension(void)
 }
 
 
+
+void TESTDimensionsCompatible(void)
+{
+    //Tested, works
+    cout<<"starting multidim test"<<endl;
+    SimpleMatrix<double> A(2,3,4);
+    SimpleMatrix<double> B(2,3,4);
+    SimpleMatrix<double> C(2,1,4);
+    if (A.DimensionsCompatible(B))
+        cout<<"Dimensions compatible"<<endl;
+    else
+        cout<<"Dimensions NOT compatible"<<endl;
+
+    if (A.DimensionsCompatible(C))
+        cout<<"Dimensions compatible"<<endl;
+    else
+        cout<<"Dimensions NOT compatible"<<endl;
+}
+
+
+
+
+
+
 void TESTSimpleMatrixRandom(void)
 {
     vector<int> a;

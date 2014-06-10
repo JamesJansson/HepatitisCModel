@@ -19,7 +19,7 @@ void TESTFunctions(void)
 
     TESTSimpleMatrixApplyMultiDimension();
 
-
+    TESTDimensionsCompatible();
 
     //TESTcsvreadstring();
     //TESTCSVGetInt();
