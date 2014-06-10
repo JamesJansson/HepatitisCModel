@@ -140,7 +140,7 @@ class SimpleMatrix {
     void TestConstructor(void);
     void TestIndexingFunctions(void);
     void TestIndexingFunctions(vector<int> Index);
-    void TestDisplayAll(void);
+    void Display(void);
 };
 
 // Indexing functions
@@ -671,7 +671,7 @@ void SimpleMatrix<TemplateType>::TestIndexingFunctions(vector<int> Index)
 }
 
 template <typename TemplateType>
-void SimpleMatrix<TemplateType>::TestDisplayAll(void)
+void SimpleMatrix<TemplateType>::Display(void)
 {
     cout<<"Contents: ";
     for (int i=0; i< TotalArraySize; i++)

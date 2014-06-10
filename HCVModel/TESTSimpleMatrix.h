@@ -43,19 +43,19 @@ void TESTSimpleMatrixIndices(void)
 void TESTSimpleMatrixSetAll(void)
 {
     SimpleMatrix<int> A(2,3,4);
-    A.TestDisplayAll();
+    A.Display();
     A.SetAll(3);
-    A.TestDisplayAll();
+    A.Display();
 
     vector<int> TestingIndex;
     TestingIndex.push_back(0); TestingIndex.push_back(0); TestingIndex.push_back(0);
 
     A.Set(5, TestingIndex);
-    A.TestDisplayAll();
+    A.Display();
 
     TestingIndex[0]=1; TestingIndex[1]=0; TestingIndex[2]=2;
     A.Set(5, TestingIndex);
-    A.TestDisplayAll();
+    A.Display();
 
     cout<<"Returned Value: "<<A.Value(TestingIndex)<<endl;
     TestingIndex[0]=1; TestingIndex[1]=0; TestingIndex[2]=3;
@@ -65,7 +65,7 @@ void TESTSimpleMatrixSetAll(void)
     cout<<"Returned Value: "<<A.Value(1,0,0)<<endl;
 
     A.Set(10, 0, 0, 0);
-    A.TestDisplayAll();
+    A.Display();
 
 }
 
@@ -131,16 +131,16 @@ void TESTSimpleMatrixLinearIndexAccess(void)
     }
 
 
-    A.TestDisplayAll();
+    A.Display();
     cout<<A.ValueLinearIndex(7)<<endl;
     cout<<A.ValueLinearIndex(23)<<endl;
     //cout<<A.Value(24)<<endl;
     //cout<<A.Value(-1)<<endl;
 
     A.SetLinearIndex(2, 3);//linear access
-    A.TestDisplayAll();
+    A.Display();
     A.Set(99, 1,1,1);//matrix access
-    A.TestDisplayAll();
+    A.Display();
 }
 
 int Add1(int A)
@@ -175,10 +175,10 @@ void TESTSimpleMatrixApplyFunctionPointer(void)
         }
     }
 
-    A.TestDisplayAll();
+    A.Display();
     SimpleMatrix<double> B;
     B=Apply(sin, A);
-    B.TestDisplayAll();
+    B.Display();
 
     SimpleMatrix<double> C;
     C=Apply(sin, A);
@@ -223,9 +223,9 @@ void TESTSimpleMatrixApplyMultiDimension(void)
     SimpleMatrix<double> C;
     C=Apply(AddDoubles, A, B);
     //C=Apply(Add, A, B);//has troubles resolving because it is overloaded to an indeterminant type
-    A.TestDisplayAll();
-    B.TestDisplayAll();
-    C.TestDisplayAll();
+    A.Display();
+    B.Display();
+    C.Display();
     cout<<"Ending multidim test"<<endl;
 
     cout<<"Testing operator overloading"<<endl;
@@ -292,44 +292,44 @@ void TESTSimpleMatrixOverloading(void)
     C=A+B;
 
 
-    A.TestDisplayAll();
-    B.TestDisplayAll();
-    C.TestDisplayAll();
+    A.Display();
+    B.Display();
+    C.Display();
 
     double AddVal=100;
 
     C=C+AddVal;
-    C.TestDisplayAll();
+    C.Display();
     C=AddVal+C;
-    C.TestDisplayAll();
+    C.Display();
 
     AddVal=50;
 
     C=C-AddVal;
-    C.TestDisplayAll();
+    C.Display();
     C=AddVal-C;
-    C.TestDisplayAll();
+    C.Display();
 
     cout<<endl<<"Starting multiply/divide test"<<endl;
     C=A;
-    C.TestDisplayAll();
+    C.Display();
     C=C*10;
-    C.TestDisplayAll();
+    C.Display();
     C=10*C;
-    C.TestDisplayAll();
+    C.Display();
     C=C/10;
-    C.TestDisplayAll();
+    C.Display();
     C=10/C;
-    C.TestDisplayAll();
+    C.Display();
 
     cout<<endl<<"Starting minus behavious"<<endl;
     C=A;
     C=C+10;
-    C.TestDisplayAll();
+    C.Display();
     C=C-10;
-    C.TestDisplayAll();
+    C.Display();
     C=10-C;
-    C.TestDisplayAll();
+    C.Display();
 
 }
 
@@ -345,14 +345,14 @@ void TESTSimpleMatrixRandom(void)
     SimpleMatrix<int> b;
     int val=1;
     b=TESTSimpleMatrixReturn(val);
-    b.TestDisplayAll();
+    b.Display();
     cout<<"Finished the creation of this simple matrix"<<endl;
 
     SimpleMatrix<float> c;
     float val2=1;
     c=TESTSimpleMatrixReturn2(val2);
     //cout<<c.Value(0)<<endl;//NOTE: THIS CURRENTLY DOES NOT WORK FOR 1-D MATRICES
-    c.TestDisplayAll();
+    c.Display();
 
     //SimpleMatrix<string> c;
     //c=TESTSimpleMatrixReturn();
