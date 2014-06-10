@@ -95,11 +95,14 @@ class SimpleMatrix {
     //Checking and error functions
     template <typename OtherType>
     bool DimensionsCompatible( SimpleMatrix<OtherType> Other);
+    template <typename OtherType>
+    void StopIfDimensionsIncompatible( SimpleMatrix<OtherType> Other);
+
     // Overloading, pointer and template functions
     // Good tutorial on how this works: http://www.cprogramming.com/tutorial/operator_overloading.html
 
-
-    SimpleMatrix<TemplateType> operator+(const SimpleMatrix<TemplateType>& other);
+    template <typename OtherType>
+    SimpleMatrix<TemplateType> operator+(const SimpleMatrix<OtherType>& Other);
 
     // http://www.thegeekstuff.com/2013/09/cpp-operator-overloading/
     //SimpleMatrix SimpleMatrix::Apply(&FunctionPointer, int n, ...);
@@ -354,9 +357,33 @@ bool SimpleMatrix<TemplateType>::DimensionsCompatible(SimpleMatrix<OtherType> Ot
     return true;//no problems
 }
 
+template <typename TemplateType> template <typename OtherType>
+void SimpleMatrix<TemplateType>::StopIfDimensionsIncompatible(SimpleMatrix<OtherType> Other)
+{
+    if (DimensionsCompatible(Other)==false)
+    {
+        cout<<"The dimensions of the matrices do not match"<<endl;
+        cout<<"Matrix 1: ";
+        for (int ThisDim : DimSize)
+            cout<<ThisDim <<", ";
+        cout<<endl;
+        cout<<"Matrix 2: ";
+        for (int OtherDim : Other.DimSize)
+            cout<<OtherDim <<", ";
+        exit(-1);
+    }
+}
 
+// Operator overloading
+// http://en.wikibooks.org/wiki/C%2B%2B_Programming/Operators/Operator_Overloading
+// In particular, we will be looking to overload the assignment operator to allow straighforward assignment of values
+// http://en.wikibooks.org/wiki/C%2B%2B_Programming/Operators/Operator_Overloading#Assignment_operator
+// we will also make use of the subscript operator []
+// we may be able to use the subscript operator [][][] by iterating over the subscript operator multiple times
+// http://stackoverflow.com/questions/6969881/operator-overload
 
-
+// This source code has the basis for the overwhelming marjority of the operators that we wish to work on. Just search for "operator"
+// https://gcc.gnu.org/onlinedocs/gcc-4.6.3/libstdc++/api/a01115_source.html
 
 
 
@@ -402,18 +429,8 @@ void SimpleMatrix<TemplateType>::TestDisplayAll(void)
 }
 
 
-// Operator overloading
-// http://en.wikibooks.org/wiki/C%2B%2B_Programming/Operators/Operator_Overloading
-// In particular, we will be looking to overload the assignment operator to allow straighforward assignment of values
-// http://en.wikibooks.org/wiki/C%2B%2B_Programming/Operators/Operator_Overloading#Assignment_operator
-// we will also make use of the subscript operator []
-// we may be able to use the subscript operator [][][] by iterating over the subscript operator multiple times
-// http://stackoverflow.com/questions/6969881/operator-overload
 
-// This source code has the basis for the overwhelming marjority of the operators that we wish to work on. Just search for "operator"
-// https://gcc.gnu.org/onlinedocs/gcc-4.6.3/libstdc++/api/a01115_source.html
 
-//We will also look to overload all of the regular
 
 template <typename TemplateType>
 SimpleMatrix<TemplateType> Multiply(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B)//performs an element by element multiplication
@@ -535,7 +552,8 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
 template <typename ReturnTemplateType, typename InputTemplateType>
 SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType, InputTemplateType), SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
 {
-    if (A.DimensionsCompatible(B)==false)
+    A.StopIfDimensionsIncompatible(B);
+    /*if (A.DimensionsCompatible(B)==false)
     {
         cout<<"The dimensions of the Matrices do not match"<<endl;
         cout<<"Matrix 1: ";
@@ -546,7 +564,7 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
         for (int BDim : B.Dimensions())
             cout<<BDim <<", ";
         exit(-1);
-    }
+    }*/
 
     ReturnTemplateType TempResultStore;
     //Determine size of input vector
