@@ -389,17 +389,11 @@ template <typename TemplateType> template <typename OtherType>
 SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator+(const SimpleMatrix<OtherType>& Other)
 {
     StopIfDimensionsIncompatible(Other);
-    ReturnTemplateType TempResultStore;
-    //Determine size of input vector
-    SimpleMatrix<ReturnTemplateType> ResultSM(A.Dimensions());
-
-
-    //for all the elements of A
-    int SizeOfA=A.TotalElements();
-    for (int i=0; i<SizeOfA; i++)
+    SimpleMatrix<TemplateType> ResultSM(DimSize);
+    //for all the elements
+    for (int i=0; i<NDimSize; i++)
     {
-        TempResultStore=FunctionPointer(A.ValueLinearIndex(i), B.ValueLinearIndex(i));
-        ResultSM.SetLinearIndex(TempResultStore, i);
+        ResultSM.ValueArray[i]=ValueArray[i]+Other.ValueArray[i];
     }
     return ResultSM;
 }
