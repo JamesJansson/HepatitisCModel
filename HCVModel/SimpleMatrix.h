@@ -100,7 +100,6 @@ class SimpleMatrix {
 
     // Overloading, pointer and template functions
     // Good tutorial on how this works: http://www.cprogramming.com/tutorial/operator_overloading.html
-
     template <typename OtherType>
     SimpleMatrix<TemplateType> operator+(const SimpleMatrix<OtherType>& Other);
 
@@ -385,6 +384,25 @@ void SimpleMatrix<TemplateType>::StopIfDimensionsIncompatible(SimpleMatrix<Other
 // This source code has the basis for the overwhelming marjority of the operators that we wish to work on. Just search for "operator"
 // https://gcc.gnu.org/onlinedocs/gcc-4.6.3/libstdc++/api/a01115_source.html
 
+// Good tutorial on how this works: http://www.cprogramming.com/tutorial/operator_overloading.html
+template <typename TemplateType> template <typename OtherType>
+SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator+(const SimpleMatrix<OtherType>& Other)
+{
+    StopIfDimensionsIncompatible(Other);
+    ReturnTemplateType TempResultStore;
+    //Determine size of input vector
+    SimpleMatrix<ReturnTemplateType> ResultSM(A.Dimensions());
+
+
+    //for all the elements of A
+    int SizeOfA=A.TotalElements();
+    for (int i=0; i<SizeOfA; i++)
+    {
+        TempResultStore=FunctionPointer(A.ValueLinearIndex(i), B.ValueLinearIndex(i));
+        ResultSM.SetLinearIndex(TempResultStore, i);
+    }
+    return ResultSM;
+}
 
 
 
