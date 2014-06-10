@@ -131,6 +131,12 @@ class SimpleMatrix {
         SimpleMatrix<TemplateType> operator%(const OtherType& Other);
         template <typename OtherType>
         SimpleMatrix<TemplateType> ModulusByMatrix(const OtherType& Other);
+    // []
+    //<TemplateType> operator [](int i) const    {return ValueArray[i];}
+    //<TemplateType> & operator [](int i) {return ValueArray[i];}
+    // recursively call
+    // Pull off first index
+    // use () instead http://stackoverflow.com/questions/2533235/operator-c
 
     //Other operators
     //http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B
