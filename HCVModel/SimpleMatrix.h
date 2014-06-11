@@ -100,6 +100,15 @@ class SimpleMatrix {
 
     // Overloading, pointer and template functions
     // Good tutorial on how this works: http://www.cprogramming.com/tutorial/operator_overloading.html
+    // Index overloading
+    //THESE OVERLOADS ARE BAD BECAUSE THEY DON'T DO ANY RANGE CHECKING
+    TemplateType operator()(int i)const{return ValueArray[i];}//for getting values
+    TemplateType operator()(int FirstIndex, int SecondIndex, ArgType ... args)const{return ValueArray[i];}//for getting values
+    TemplateType & operator()(int i){return ValueArray[i];}//return a pointing for setting values
+    // recursively call
+    // Pull off first index
+    // use () instead http://stackoverflow.com/questions/2533235/operator-c
+
     //Plus
         template <typename OtherType>
         SimpleMatrix<TemplateType> operator+(const SimpleMatrix<OtherType>& Other);
@@ -131,12 +140,7 @@ class SimpleMatrix {
         SimpleMatrix<TemplateType> operator%(const OtherType& Other);
         template <typename OtherType>
         SimpleMatrix<TemplateType> ModulusByMatrix(const OtherType& Other);
-    // []
-    //<TemplateType> operator [](int i) const    {return ValueArray[i];}
-    //<TemplateType> & operator [](int i) {return ValueArray[i];}
-    // recursively call
-    // Pull off first index
-    // use () instead http://stackoverflow.com/questions/2533235/operator-c
+
 
     //Other operators
     //http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B

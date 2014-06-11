@@ -1,0 +1,17 @@
+System to view and edit data in HTML
+
+https://github.com/okfn/recline
+
+
+Demo
+http://okfnlabs.org/recline/demos/multiview/
+
+
+System to select and visualise data 
+http://dc-js.github.io/dc.js/
+
+Selecting data
+http://square.github.io/crossfilter/
+
+Visualising dat
+http://d3js.org/

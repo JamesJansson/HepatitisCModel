@@ -2,7 +2,7 @@
 #include "TESTcsvread.h"
 #include "TESTEventVector.h"
 #include "TESTSimpleMatrix.h"
-
+//#include "Matrix.h"
 
 
 
@@ -23,7 +23,9 @@ void TESTFunctions(void)
 
     TESTSimpleMatrixOverloading();
 
-    TESTMatrixh();
+    //TESTMatrixh();
+
+    TESTIndexOverloading();
 
 
     //TESTcsvreadstring();

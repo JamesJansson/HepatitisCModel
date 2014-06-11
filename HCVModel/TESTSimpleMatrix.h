@@ -1,6 +1,6 @@
 
 #include <math.h>
-#include "Matrix.h"
+
 
 void TESTSimpleMatrixIndices(void)
 {
@@ -344,7 +344,46 @@ void TESTSimpleMatrixOverloading(void)
 }
 
 
+void TESTIndexOverloading(void)
+{
+    //Tested, works
+    cout<<"starting multidim test"<<endl;
+    SimpleMatrix<double> A(2,3,4);
+    SimpleMatrix<double> B;
+    SimpleMatrix<double> C;
 
+    //SimpleMatrix<double> B(1,3,4);
+    //SimpleMatrix<double> B(2,4,4);
+
+    vector<int> TestingIndex;
+    TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
+    A.DisplayInfo();
+
+    double StoreCount=1;
+    for (int k=0; k<4; k++)
+    {
+        for (int j=0; j<3; j++)
+        {
+            for (int i=0; i<2; i++)
+            {
+                StoreCount++;
+
+                TestingIndex.clear();
+                TestingIndex.push_back(i); TestingIndex.push_back(j); TestingIndex.push_back(k);
+                A.Set(StoreCount, TestingIndex);
+            }
+        }
+    }
+    A.DisplayInfo();
+    A.Display();
+
+
+    cout<<"Value 5: "<<A(5)<<endl;
+
+    A(5)=9876;
+    A.Display();
+
+}
 
 
 
