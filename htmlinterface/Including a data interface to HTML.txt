@@ -13,5 +13,8 @@ http://dc-js.github.io/dc.js/
 Selecting data
 http://square.github.io/crossfilter/
 
-Visualising dat
+Visualising data
 http://d3js.org/
+
+Examples of D3 (see basic charts)
+https://github.com/mbostock/d3/wiki/Gallery
