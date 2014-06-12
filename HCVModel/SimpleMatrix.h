@@ -786,6 +786,7 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
     for (int i=0; i<SizeOfA; i++)
     {
         TempResultStore=FunctionPointer(A(i));
+        cout<<"Output: "<<TempResultStore<<" "<<A(i)<<endl;
         ResultSM.SetLinearIndex(TempResultStore, i);
     }
     return ResultSM;

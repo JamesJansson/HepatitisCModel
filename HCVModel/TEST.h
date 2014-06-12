@@ -13,9 +13,9 @@
 void TESTFunctions(void)
 {
     //TESTDimensionsCompatible();
-    TESTSimpleMatrixGeneral();
+    //TESTSimpleMatrixGeneral();
 
-
+    TESTSimpleMatrixOverload();
 
 
 
