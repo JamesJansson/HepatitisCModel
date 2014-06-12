@@ -223,8 +223,8 @@ int SimpleMatrix<TemplateType>::CreateIndexLinear(int i)
 {
     if (i<0 || i>=TotalArraySize)
     {
-        cout<<"Error in accessing linear index"<<endl;
-        cout<<"Attempting to access: "<<i<<endl;
+        cout<<"Error: Accessing outside range of linear index"<<endl;
+        cout<<"Attempting to access:   "<<i<<endl;
         cout<<"This matrix total size: "<<TotalArraySize<<endl;
         cout<<"Matrix size is ";
         for (int CurrentDim : DimSize)
@@ -240,9 +240,9 @@ int SimpleMatrix<TemplateType>::CreateIndex2D(int i, int j)
 {
     if (NDimSize!=2)
     {
-        cout<<"Incorrect dimensions specified in matrix"<<endl;
+        cout<<"Error: Incorrect dimensions specified in matrix"<<endl;
         cout<<"Number of dimensions of matrix: "<<NDimSize<<endl;
-        cout<<"Number of dimensions of index: 2"<<endl;
+        cout<<"Number of dimensions of index : 2"<<endl;
         exit(-1);
     }
     ThisIndex[0]=i;
@@ -295,11 +295,11 @@ int SimpleMatrix<TemplateType>::IndexPosCheck(vector<int> Index)
     if (InRange(Index)==false)
     {
         cout<<"Error: Index is incorrect size"<<endl;
-        cout<<"Input index size is ";
+        cout<<"Input index size is: ";
         for (int CurrentIndex: Index)
             cout<<CurrentIndex<<", ";
         cout<<endl;
-        cout<<"Matrix size is ";
+        cout<<"Matrix size is:      ";
         for (int CurrentDim : DimSize)
             cout<<CurrentDim<<", ";
         cout<<endl;
@@ -328,7 +328,7 @@ SimpleMatrix<TemplateType>::SimpleMatrix(int FirstIndex, ArgType... args)//const
     ConstructorArgStorage.clear();
     NDimSize=CountConstructorArgs(FirstIndex, args...);
     DimSize=ConstructorArgStorage;
-
+    ThisIndex.resize(NDimSize);//an unchanging vector for accessing relevant indicies
     //Assign memory size of matrix
     CreateValueArray();
 
@@ -339,6 +339,7 @@ SimpleMatrix<TemplateType>::SimpleMatrix(vector<int> TempDimSize)
 {
     DimSize=TempDimSize;
     NDimSize=DimSize.size();
+    ThisIndex.resize(NDimSize);//an unchanging vector for accessing relevant indicies
     //Assign memory size of matrix
     CreateValueArray();
 }
@@ -349,6 +350,7 @@ SimpleMatrix<TemplateType>::SimpleMatrix(void)//used to define a variable extrem
 {
     DimSize.push_back(1);
     NDimSize=1;
+    ThisIndex.resize(NDimSize);//an unchanging vector for accessing relevant indicies
     TotalArraySize=1;
     ValueArray.resize(1);
     Base.push_back(1);

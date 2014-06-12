@@ -1,5 +1,7 @@
 
 #include <math.h>
+#include <time.h>
+#include <stdio.h>
 
 double Add1(double A)
 {
@@ -74,6 +76,43 @@ void TESTSimpleMatrixOverload(void)
     D.Display();
     D(1, 1, 1)=0;
     D.Display();
+    //D(1, 1)=0;
+    //D(2, 1, 1)=0;
+    //D.Display();
+
+
+    D=D*D;
+    D.Display();
+
+    int MatrixSize=4000;
+    SimpleMatrix<double> E(MatrixSize, MatrixSize);
+    SimpleMatrix<double> F(MatrixSize, MatrixSize);
+    E.DisplayInfo();
+
+    clock_t startTime;
+    double secondsPassed;
+
+
+
+
+
+    cout<<"Adding with loops and checks"<<endl;
+    startTime=clock();
+    for (int i=0; i<(MatrixSize*MatrixSize); i++)
+        E(i)=i;
+    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+    cout<<"Milliseconds "<<secondsPassed<<endl;
+
+
+    cout<<"Adding as a matrix"<<endl;
+    startTime=clock();
+    D=E+1;
+    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+    cout<<"Milliseconds "<<secondsPassed<<endl;
+
+
+    char buffer;
+    cin>>buffer;
 }
 
 
