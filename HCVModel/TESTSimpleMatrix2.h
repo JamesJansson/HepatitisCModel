@@ -84,7 +84,7 @@ void TESTSimpleMatrixOverload(void)
     D=D*D;
     D.Display();
 
-    int MatrixSize=4000;
+    int MatrixSize=20;
     SimpleMatrix<double> E(MatrixSize, MatrixSize);
     SimpleMatrix<double> F(MatrixSize, MatrixSize);
     E.DisplayInfo();
@@ -92,23 +92,91 @@ void TESTSimpleMatrixOverload(void)
     clock_t startTime;
     double secondsPassed;
 
+    MatrixSize=10000;
+    E.Resize(MatrixSize, MatrixSize);
+    cout<<"Works"<<endl;
 
-
-
-
-    cout<<"Adding with loops and checks"<<endl;
+    cout<<"Setting with loops and checks"<<endl;
     startTime=clock();
     for (int i=0; i<(MatrixSize*MatrixSize); i++)
         E(i)=i;
     secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-    cout<<"Milliseconds "<<secondsPassed<<endl;
+    cout<<"    Milliseconds "<<secondsPassed<<endl;
 
+    cout<<"Adding with loops and checks"<<endl;
+    startTime=clock();
+    for (int i=0; i<(MatrixSize*MatrixSize); i++)
+        E(i)=E(i)+1;
+    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+    cout<<"    Milliseconds "<<secondsPassed<<endl;
 
     cout<<"Adding as a matrix"<<endl;
     startTime=clock();
-    D=E+1;
+    E=E+1;
+    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+    cout<<"    Milliseconds "<<secondsPassed<<endl;
+
+    cout<<"Sin"<<endl;
+    startTime=clock();
+    E.Apply(sin);
+    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+    cout<<"    Milliseconds "<<secondsPassed<<endl;
+
+    cout<<"Sin 2nd application"<<endl;
+    startTime=clock();
+    E.Apply(sin);
+    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+    cout<<"    Milliseconds "<<secondsPassed<<endl;
+
+    cout<<"E times E"<<endl;
+    startTime=clock();
+    F=E*E;
+    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+    cout<<"    Milliseconds "<<secondsPassed<<endl;
+
+    //matlab version of the above
+//    MatrixSize=4000;
+//disp('Setting with loops and checks');
+//    tic
+//        E=1:(MatrixSize*MatrixSize);
+//    toc
+//disp('Adding with loops and checks');
+//    tic
+//    for i=1:(MatrixSize*MatrixSize)
+//        E(i)=E(i)+1;
+//    end
+//    toc
+//disp('Adding as a matrix');
+//    tic
+//    E=E+1;
+//    toc
+//disp('Sin');
+//    tic
+//    E=sin(E);
+//    toc
+//disp('Sin 2nd application');
+//    tic
+//    E=sin(E);
+//    toc
+//disp('E times E');
+//tic
+//F=E.*E;
+//toc
+
+    cout<<"Setting with loops and checks"<<endl;
+    startTime=clock();
+    vector<double> VecOnly;
+    VecOnly.resize(MatrixSize*MatrixSize);
     secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
     cout<<"Milliseconds "<<secondsPassed<<endl;
+
+    startTime=clock();
+    for (int i=0; i<(MatrixSize*MatrixSize); i++)
+        VecOnly[i]=i;
+    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+    cout<<"Milliseconds "<<secondsPassed<<endl;
+
+
 
 
     char buffer;

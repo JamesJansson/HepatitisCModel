@@ -111,7 +111,9 @@ class SimpleMatrix {
 
 
         TemplateType UnitaryValue(int FirstIndex, ...);//this is used to return all values including those that lies outside the dimension of the matrix in the singular dimension
-        SimpleMatrix Resize(int FirstIndex, ...);//increases dimensions by specified amount
+
+        template <typename... ArgType>
+        void Resize(int FirstIndex, ArgType... args);//increases dimensions by specified amount
         SimpleMatrix Transpose(void);//takes 1 or 2 dimension matrices only
 
         vector<TemplateType> ConvertToVector(void);// if the matrix only has one dimension greater than 1: convert that dimension to a vector
@@ -313,81 +315,78 @@ int SimpleMatrix<TemplateType>::IndexPosCheck(vector<int> Index)
 
 
 
-
-
-
-
-
-
 // Contructors
-template <typename TemplateType> template <typename... ArgType>
-SimpleMatrix<TemplateType>::SimpleMatrix(int FirstIndex, ArgType... args)//constructor should force all in specified matrices pass through this function while not diverting other defintitions such as vector<int>
-{
-    //Determine number of args
-    NumConstructorArgs=0;
-    ConstructorArgStorage.clear();
-    NDimSize=CountConstructorArgs(FirstIndex, args...);
-    DimSize=ConstructorArgStorage;
-    ThisIndex.resize(NDimSize);//an unchanging vector for accessing relevant indicies
-    //Assign memory size of matrix
-    CreateValueArray();
-
-}
-
-template <typename TemplateType>
-SimpleMatrix<TemplateType>::SimpleMatrix(vector<int> TempDimSize)
-{
-    DimSize=TempDimSize;
-    NDimSize=DimSize.size();
-    ThisIndex.resize(NDimSize);//an unchanging vector for accessing relevant indicies
-    //Assign memory size of matrix
-    CreateValueArray();
-}
-
-
-template <typename TemplateType>
-SimpleMatrix<TemplateType>::SimpleMatrix(void)//used to define a variable extremely quickly
-{
-    DimSize.push_back(1);
-    NDimSize=1;
-    ThisIndex.resize(NDimSize);//an unchanging vector for accessing relevant indicies
-    TotalArraySize=1;
-    ValueArray.resize(1);
-    Base.push_back(1);
-}
-
-
-template <typename TemplateType>
-void SimpleMatrix<TemplateType>::CreateValueArray(void)
-{
-    TotalArraySize=1;
-    for (int val : DimSize )
+    template <typename TemplateType> template <typename... ArgType>
+    SimpleMatrix<TemplateType>::SimpleMatrix(int FirstIndex, ArgType... args)//constructor should force all in specified matrices pass through this function while not diverting other defintitions such as vector<int>
     {
-        TotalArraySize=TotalArraySize*val;
+        //Determine number of args
+        NumConstructorArgs=0;
+        ConstructorArgStorage.clear();
+        NDimSize=CountConstructorArgs(FirstIndex, args...);
+        DimSize=ConstructorArgStorage;
+        ThisIndex.resize(NDimSize);//an unchanging vector for accessing relevant indicies
+        //Assign memory size of matrix
+        CreateValueArray();
+
     }
-    //extend the memory space of the storage array
-    ValueArray.resize(TotalArraySize);
-    //Determine the base for indexing the array
-    int BaseMultiplier=1;
-    for (int val : DimSize )
+
+    template <typename TemplateType>
+    SimpleMatrix<TemplateType>::SimpleMatrix(vector<int> TempDimSize)
     {
-        Base.push_back(BaseMultiplier);
-        BaseMultiplier=BaseMultiplier*val;
+        DimSize=TempDimSize;
+        NDimSize=DimSize.size();
+        ThisIndex.resize(NDimSize);//an unchanging vector for accessing relevant indicies
+        //Assign memory size of matrix
+        CreateValueArray();
     }
-}
+
+    template <typename TemplateType>
+    SimpleMatrix<TemplateType>::SimpleMatrix(void)//used to define a variable extremely quickly
+    {
+        DimSize.push_back(1);
+        NDimSize=1;
+        ThisIndex.resize(NDimSize);//an unchanging vector for accessing relevant indicies
+        TotalArraySize=1;
+        ValueArray.resize(1);
+        Base.push_back(1);
+    }
+
+    template <typename TemplateType>
+    void SimpleMatrix<TemplateType>::CreateValueArray(void)
+    {
+        TotalArraySize=1;
+        for (int val : DimSize )
+        {
+            TotalArraySize=TotalArraySize*val;
+        }
+        //extend the memory space of the storage array
+        ValueArray.resize(TotalArraySize);
+        //Determine the base for indexing the array
+        int BaseMultiplier=1;
+        for (int val : DimSize )
+        {
+            Base.push_back(BaseMultiplier);
+            BaseMultiplier=BaseMultiplier*val;
+        }
+    }
+
+
+
+
+
 
 //Dimension return functions
-template <typename TemplateType>
-int SimpleMatrix<TemplateType>::TotalElements(void)//allows
-{
-    return TotalArraySize;
-}
+    template <typename TemplateType>
+    int SimpleMatrix<TemplateType>::TotalElements(void)//allows
+    {
+        return TotalArraySize;
+    }
 
-template <typename TemplateType>
-vector<int> SimpleMatrix<TemplateType>::Dim(void)
-{
-    return DimSize;
-}
+    template <typename TemplateType>
+    vector<int> SimpleMatrix<TemplateType>::Dim(void)
+    {
+        return DimSize;
+    }
 
 
 
@@ -528,7 +527,23 @@ void SimpleMatrix<TemplateType>::StopIfDimensionsIncompatible(SimpleMatrix<Other
 }
 
 
+template <typename TemplateType> template <typename... ArgType>
+void SimpleMatrix<TemplateType>::Resize(int FirstIndex, ArgType... args)
+{
+    DimSize.clear();
+    ThisIndex.clear();
+    ValueArray.clear();
+    Base.clear();
 
+    //Determine number of args
+    NumConstructorArgs=0;
+    ConstructorArgStorage.clear();
+    NDimSize=CountConstructorArgs(FirstIndex, args...);
+    DimSize=ConstructorArgStorage;
+    ThisIndex.resize(NDimSize);//an unchanging vector for accessing relevant indicies
+    //Assign memory size of matrix
+    CreateValueArray();
+}
 
 
 
