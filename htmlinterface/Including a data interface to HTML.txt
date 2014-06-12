@@ -1,10 +1,16 @@
+
+
+
+
 System to view and edit data in HTML
-
 https://github.com/okfn/recline
-
-
 Demo
 http://okfnlabs.org/recline/demos/multiview/
+
+Read in CSV
+http://okfnlabs.org/recline//docs/src/backend.csv.html
+
+
 
 
 System to select and visualise data 
