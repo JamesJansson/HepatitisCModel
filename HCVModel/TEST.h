@@ -1,7 +1,10 @@
 
 #include "TESTcsvread.h"
 #include "TESTEventVector.h"
-#include "TESTSimpleMatrix.h"
+//#include "TESTSimpleMatrix.h"
+
+#include "TESTSimpleMatrix2.h"
+
 //#include "Matrix.h"
 
 
@@ -9,23 +12,26 @@
 
 void TESTFunctions(void)
 {
+    //TESTDimensionsCompatible();
+    TESTSimpleMatrixGeneral();
+
+
+
+
+
     //TESTSimpleMatrixIndices();
-    TESTSimpleMatrixSetAll();
-
-
-    TESTSimpleMatrixLinearIndexAccess();
-
-    TESTSimpleMatrixApplyFunctionPointer();
-
-    TESTSimpleMatrixApplyMultiDimension();
+    //TESTSimpleMatrixSetAll();
+    //TESTSimpleMatrixLinearIndexAccess();
+    //TESTSimpleMatrixApplyFunctionPointer();
+    //TESTSimpleMatrixApplyMultiDimension();
 
     //TESTDimensionsCompatible();
 
-    TESTSimpleMatrixOverloading();
+    //TESTSimpleMatrixOverloading();
 
     //TESTMatrixh();
 
-    TESTIndexOverloading();
+    //TESTIndexOverloading();
 
 
     //TESTcsvreadstring();
