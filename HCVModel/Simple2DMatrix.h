@@ -96,10 +96,10 @@ class SimpleMatrix {
     void Apply(TemplateType (*FunctionPointer)(TemplateType));
     //returns a new matrix
     template <typename ReturnTemplateType>
-    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType), const SimpleMatrix<InputTemplateType> & A);
+    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType), const SimpleMatrix<TemplateType> A);
     //returns a new matrix, two input matrices
     template <typename ReturnTemplateType>
-    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType), const SimpleMatrix<InputTemplateType> & A, const SimpleMatrix<InputTemplateType> & B);
+    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType, TemplateType), const SimpleMatrix<TemplateType> A, const SimpleMatrix<TemplateType> B);
 
     //Display functions
     void Display(void);
@@ -460,20 +460,16 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
 {
     ReturnTemplateType TempResultStore;
     //Determine size of input vector
-    SimpleMatrix<ReturnTemplateType> ResultSM(A.Dim());
+    SimpleMatrix<ReturnTemplateType> ResultSM(A.xdimsize, A.ydimsize);
 
     //for all the elements of A
-    for (int i=0; i<xdimsize; i++)
-        for (int j=0; j<ydimsize; j++)
-        {
-            TempResultStore=FunctionPointer(A[i][j]);
-            ResultSM.SetLinearIndex(TempResultStore, i);
-        }
-    int SizeOfA=A.TotalElements();
-    for (int i=0; i<SizeOfA; i++)
+    for (int i=0; i<A.xdimsize; i++)
     {
-        TempResultStore=FunctionPointer(A(i));
-        ResultSM.SetLinearIndex(TempResultStore, i);
+        for (int j=0; j<A.ydimsize; j++)
+        {
+            TempResultStore=FunctionPointer(A.values[i][j]);
+            ResultSM.values[i][j]=TempResultStore;
+        }
     }
     return ResultSM;
 }
@@ -484,14 +480,16 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
 {
     A.StopIfDimensionsIncompatible(B);
     ReturnTemplateType TempResultStore;
-    SimpleMatrix<ReturnTemplateType> ResultSM(A.Dim());
+    SimpleMatrix<ReturnTemplateType> ResultSM(A.xdimsize, A.ydimsize);
 
     //for all the elements of A
-    int SizeOfA=A.TotalElements();
-    for (int i=0; i<SizeOfA; i++)
+    for (int i=0; i<A.xdimsize; i++)
     {
-        TempResultStore=FunctionPointer(A.ValueLinearIndex(i), B.ValueLinearIndex(i));
-        ResultSM.SetLinearIndex(TempResultStore, i);
+        for (int j=0; j<A.ydimsize; j++)
+        {
+            TempResultStore=FunctionPointer(A.values[i][j],  A.values[i][j]);
+            ResultSM.values[i][j]=TempResultStore;
+        }
     }
     return ResultSM;
 }
