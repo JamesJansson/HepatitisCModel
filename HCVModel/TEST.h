@@ -17,6 +17,7 @@ void TESTFunctions(void)
 
     TESTSimpleMatrixOverload();
 
+    TESTSimpleMatrixHeap();
 
 
     //TESTSimpleMatrixIndices();

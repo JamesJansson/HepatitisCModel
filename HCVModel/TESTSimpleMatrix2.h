@@ -92,14 +92,17 @@ void TESTSimpleMatrixOverload(void)
     clock_t startTime;
     double secondsPassed;
 
-    MatrixSize=10000;
-    E.Resize(MatrixSize, MatrixSize);
-    cout<<"Works"<<endl;
+    MatrixSize=2000;
+
+
 
     cout<<"Setting with loops and checks"<<endl;
     startTime=clock();
-    for (int i=0; i<(MatrixSize*MatrixSize); i++)
-        E(i)=i;
+    E.Resize(MatrixSize, MatrixSize);
+    for (int i=0; i<(MatrixSize); i++)
+        for (int j=0; j<(MatrixSize); j++)
+            E(i, j)=i+MatrixSize*j;
+
     secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
     cout<<"    Milliseconds "<<secondsPassed<<endl;
 
@@ -135,6 +138,42 @@ void TESTSimpleMatrixOverload(void)
     cout<<"    Milliseconds "<<secondsPassed<<endl;
 
     //matlab version of the above
+//    MatrixSize=2000;
+//disp('Setting with loops and checks');
+//    tic
+//        E=zeros(MatrixSize, MatrixSize);
+//        for i=1:MatrixSize
+//            for j=1:MatrixSize
+//                E(i,j)=i+j*MatrixSize;
+//            end
+//        end
+//        E=1:(MatrixSize*MatrixSize);
+//    toc
+//disp('Adding with loops and checks');
+//    tic
+//    for i=1:(MatrixSize*MatrixSize)
+//        E(i)=E(i)+1;
+//    end
+//    toc
+//disp('Adding as a matrix');
+//    tic
+//    E=E+1;
+//    toc
+//disp('Sin');
+//    tic
+//    E=sin(E);
+//    toc
+//disp('Sin 2nd application');
+//    tic
+//    E=sin(E);
+//    toc
+//disp('E times E');
+//tic
+//F=E.*E;
+//toc
+
+
+//matlab version of the above
 //    MatrixSize=4000;
 //disp('Setting with loops and checks');
 //    tic
@@ -182,6 +221,36 @@ void TESTSimpleMatrixOverload(void)
     char buffer;
     cin>>buffer;
 }
+
+
+
+SimpleMatrix<double> HeapSMA;
+SimpleMatrix<double> HeapSMB;
+
+
+void TESTSimpleMatrixHeap(void)
+{
+    int MatrixSize=10000;
+    HeapSMA.Resize(MatrixSize, MatrixSize);
+
+    clock_t startTime;
+    double secondsPassed;
+
+    startTime=clock();
+    for (int i=0; i<(MatrixSize*MatrixSize); i++)
+        HeapSMA(i)=i;
+
+    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+    cout<<"Allocating values in a loop "<<secondsPassed<<endl;
+
+    startTime=clock();
+    HeapSMB=HeapSMA+HeapSMA;
+    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+    cout<<"Adding matrices "<<secondsPassed<<endl;
+
+
+}
+
 
 
 
