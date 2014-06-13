@@ -18,20 +18,24 @@ class SimpleMatrix {
     vector<TemplateType> values;//Data is stored in the value array
     int xdimsize;
     int ydimsize;
-    bool validref(int xindex, int yindex)
+    bool validref(int xindex, int yindex);
 
     public:
-    //Constructors
+    /// Constructors
     SimpleMatrix(int xsize, int ysize);//alows a vector to be used to specify the dimensions of the matrix
     SimpleMatrix(void);
-    SimpleMatrix(vector<int> dim);//alows a vector to be used to specify the dimensions of the matrix
+    SimpleMatrix(vector<int> dimensions);//alows a vector to be used to specify the dimensions of the matrix
     void Resize(int xsize, int ysize);
-    void Resize(int xsize, int ysize);
+    void Resize(vector<int> dimensions);
 
+    /// Dimensions
     vector<int> dim(void);
     int xsize(void);
     int ysize(void);
-    //maybe bool DimensionsCompatible( SimpleMatrix<OtherType> Other);
+    template <typename OtherType>
+    bool DimensionsCompatible( SimpleMatrix<OtherType> Other);
+    template <typename OtherType>
+    void StopIfDimensionsIncompatible(SimpleMatrix<OtherType> Other);
     // void StopIfDimensionsIncompatible( SimpleMatrix<OtherType> Other);
     void SetAll(TemplateType SetValue);
     SimpleMatrix<TemplateType> Transpose(void);
@@ -100,10 +104,7 @@ class SimpleMatrix {
 
 
 
-// Contructors
-    SimpleMatrix(int xsize, int ysize);//alows a vector to be used to specify the dimensions of the matrix
-    SimpleMatrix(void);
-    SimpleMatrix(vector<int> dim);//alows a vector to be used to specify the dimensions of the matrix
+/// Contructors
 
     template <typename TemplateType>
     SimpleMatrix<TemplateType>::SimpleMatrix(int xsize, int ysize)
@@ -143,18 +144,22 @@ class SimpleMatrix {
 
 
     template <typename TemplateType>
-    SimpleMatrix<TemplateType>::Resize(int xsize, int ysize)
+    void SimpleMatrix<TemplateType>::Resize(int xsize, int ysize)
     {
         xdimsize=xsize;
         ydimsize=ysize;
 
-        values.resize(ydimsize);
-        for (thisvector : values)
-            thisvector.resize(xdimsize);
+        values.resize(xdimsize);
+
+        for (int i=0; i<xdimsize; i++)
+        {
+            values[i].resize(ydimsize);
+        }
+
     }
 
     template <typename TemplateType>
-    SimpleMatrix<TemplateType>::Resize(vector<int> dimensions)
+    void SimpleMatrix<TemplateType>::Resize(vector<int> dimensions)
     {
         if (dimensions.size()!=2)
         {
@@ -172,9 +177,7 @@ class SimpleMatrix {
 
 
 
-
-
-
+///Dimension checking
     template <typename TemplateType>
     vector<int> SimpleMatrix<TemplateType>::dim(void)
     {
@@ -184,130 +187,49 @@ class SimpleMatrix {
         return DimSize;
     }
 
-
-
-
-
-template <typename TemplateType>
-void SimpleMatrix<TemplateType>::SetLinearIndex( TemplateType SetValue, int LinearIndex)//allows high speed linear access to the data
-{
-    if (LinearIndex>=0 && LinearIndex<TotalArraySize)
-        ValueArray[LinearIndex]=SetValue;
-    else
+    template <typename TemplateType>
+    int SimpleMatrix<TemplateType>::xsize(void)
     {
-        cout<<"Linear index " << LinearIndex << " outside bounds of matrix total size " << TotalArraySize<<endl;
-        exit(-1);
+        return xdimsize;
     }
-}
 
-template <typename TemplateType>
-void SimpleMatrix<TemplateType>::SetAll(TemplateType SetValue)
-{
-    for (int i=0; i< TotalArraySize; i++)
-        ValueArray[i]=SetValue;
-}
-
-
-
-//// Value functions
-//template <typename TemplateType>
-//TemplateType SimpleMatrix<TemplateType>:: Value(vector<int> Index)
-//{
-//    //Check the index is right
-//    return ValueArray[IndexPosCheck(Index)];
-//}
-//
-//template <typename TemplateType>
-//TemplateType SimpleMatrix<TemplateType>:: Value(int LinearIndex)//used for 1-D entries
-//{
-//    if (LinearIndex>=0 && LinearIndex<TotalArraySize && NDimSize==1)
-//        return ValueArray[LinearIndex];
-//    else
-//    {
-//        if (NDimSize>1)
-//            cout<<"Linear access to multidimensional matrix attempted. If this was intentional, try .ValueLinearIndex "<<endl;
-//        else
-//            cout<<"Linear index " << LinearIndex << " outside bounds of matrix total size " << TotalArraySize<<endl;
-//        exit(-1);
-//    }
-//}
-//template <typename TemplateType>
-//TemplateType SimpleMatrix<TemplateType>:: ValueLinearIndex(int LinearIndex)//used for superfast speed
-//{
-//    if (LinearIndex>=0 && LinearIndex<TotalArraySize)
-//        return ValueArray[LinearIndex];
-//    else
-//    {
-//        cout<<"Linear index " << LinearIndex << " outside bounds of matrix total size " << TotalArraySize<<endl;
-//        exit(-1);
-//    }
-//}
-//
-//template <typename TemplateType> template <typename... ArgType>
-//TemplateType SimpleMatrix<TemplateType>::Value(int FirstIndex, int SecondIndex, ArgType... args)//only use if there are 2 or more int indices
-//{
-//    NumConstructorArgs=0;
-//    ConstructorArgStorage.clear();
-//    CountConstructorArgs(FirstIndex, SecondIndex, args...);
-//    return ValueArray[IndexPosCheck(ConstructorArgStorage)];//Check then look up the linear index specificed by ConstructorArgStorage, find the associated value then return.
-//}
-
-
-template <typename TemplateType> template <typename OtherType>
-bool SimpleMatrix<TemplateType>::DimensionsCompatible(SimpleMatrix<OtherType> Other)
-{
-    if (NDimSize!=Other.NDimSize)
+    template <typename TemplateType>
+    int SimpleMatrix<TemplateType>::ysize(void)
     {
-        return false;
+        return ydimsize;
     }
-    for (int DimCount=0; DimCount<NDimSize; DimCount++)
+
+    template <typename TemplateType> template <typename OtherType>
+    bool SimpleMatrix<TemplateType>::DimensionsCompatible(SimpleMatrix<OtherType> Other)
     {
-        //if they are both bigger than 1 and are unequal
-        //if (ADim[DimCount]>1 && BDim[DimCount]>1 && (ADim[DimCount]!= BDim[DimCount]))//this functionality may come in later releases
-        if ((DimSize[DimCount]!= Other.DimSize[DimCount]))
-        {
+        if (xdimsize!=Other.xdimsize || ydimsize!=Other.ydimsize)
             return false;
+
+        return true;//no problems
+    }
+
+    template <typename TemplateType> template <typename OtherType>
+    void SimpleMatrix<TemplateType>::StopIfDimensionsIncompatible(SimpleMatrix<OtherType> Other)
+    {
+        if (DimensionsCompatible(Other)==false)
+        {
+            cout<<"Error: dimensions incompatible ("<<xdimsize<<","<<ydimsize<<") and ("<<Other.xdimsize<<","<<Other.ydimsize<<")."<<endl;
+            exit(-1);
         }
     }
-    return true;//no problems
-}
 
-template <typename TemplateType> template <typename OtherType>
-void SimpleMatrix<TemplateType>::StopIfDimensionsIncompatible(SimpleMatrix<OtherType> Other)
-{
-    if (DimensionsCompatible(Other)==false)
+///Matrix operations
+    template <typename TemplateType>
+    void SimpleMatrix<TemplateType>::SetAll(TemplateType SetValue)
     {
-        cout<<"The dimensions of the matrices do not match"<<endl;
-        cout<<"Matrix 1: ";
-        for (int ThisDim : DimSize)
-            cout<<ThisDim <<", ";
-        cout<<endl;
-        cout<<"Matrix 2: ";
-        for (int OtherDim : Other.DimSize)
-            cout<<OtherDim <<", ";
-        exit(-1);
+        for (int i=0; i<xdimsize; i++)
+        {
+            for (int j=0; j<ydimsize; j++)
+            {
+                values[i][j]=SetValue;
+            }
+        }
     }
-}
-
-
-template <typename TemplateType> template <typename... ArgType>
-void SimpleMatrix<TemplateType>::Resize(int FirstIndex, ArgType... args)
-{
-    DimSize.clear();
-    ThisIndex.clear();
-    ValueArray.clear();
-    Base.clear();
-
-    //Determine number of args
-    NumConstructorArgs=0;
-    ConstructorArgStorage.clear();
-    NDimSize=CountConstructorArgs(FirstIndex, args...);
-    DimSize=ConstructorArgStorage;
-    ThisIndex.resize(NDimSize);//an unchanging vector for accessing relevant indicies
-    //Assign memory size of matrix
-    CreateValueArray();
-}
-
 
 
 
@@ -596,7 +518,7 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
 template <typename TemplateType>
 void SimpleMatrix<TemplateType>::Display(void)
 {
-    cout<<"Contents: ";
+    cout<<"Contents: "<<endl;
     for (int i=0; i< TotalArraySize; i++)
         cout<<ValueArray[i]<<", ";
     cout<<endl;
