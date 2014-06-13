@@ -28,6 +28,8 @@ void TESTFunctions(void)
 
     A[1][3]=3;
 
+    TESTSimple2DMatrix();
+
 
 
 
