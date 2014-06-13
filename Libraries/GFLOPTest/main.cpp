@@ -11,7 +11,7 @@ int main()
     clock_t startTime;
     double millisecondsPassed;
     float FloatOperand=0.9;
-    int TotalLoops=250000000;
+    int TotalLoops=1000000000;
     float TotalCalculations, GFLOPS;
 
 
@@ -23,7 +23,7 @@ int main()
     }
     millisecondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
 
-    TotalCalculations=TotalLoops*4;
+    TotalCalculations=(float)TotalLoops*4;
     GFLOPS=((TotalCalculations/millisecondsPassed)*1000)/1000000000;
 
     cout<<"    Milliseconds: "<<millisecondsPassed<<endl;
