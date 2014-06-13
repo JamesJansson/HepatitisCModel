@@ -18,10 +18,30 @@ void TESTSimple2DMatrix(void)
 
     /// Constructors
 //    SimpleMatrix(int xsize, int ysize);//alows a vector to be used to specify the dimensions of the matrix
+    SimpleMatrix<double> A(2, 3);
+    cout<<"2x3"<<endl;
+    A.DisplayInfo();
 //    SimpleMatrix(void);
+    SimpleMatrix<double> U;
+    cout<<"1x1"<<endl;
+    U.DisplayInfo();
 //    SimpleMatrix(vector<int> dimensions);//alows a vector to be used to specify the dimensions of the matrix
+    vector<int> SizingVector;
+    SizingVector.push_back(5);
+    SizingVector.push_back(6);
+    SimpleMatrix<double> B(SizingVector);
+    cout<<"5x6 vector"<<endl;
+    B.DisplayInfo();
 //    void Resize(int xsize, int ysize);
+    B.Resize(3, 4);
+    cout<<"3x4 Resize down using ints"<<endl;
+    B.DisplayInfo();
 //    void Resize(vector<int> dimensions);
+    SizingVector[0]=3;
+    SizingVector[1]=4;
+    A.Resize(SizingVector);
+    cout<<"3x4 Resize up using vector"<<endl;
+    B.DisplayInfo();
 //
     /// Dimensions
 //    vector<int> dim(void);
