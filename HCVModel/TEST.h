@@ -12,12 +12,20 @@
 
 void TESTFunctions(void)
 {
+    vector<vector <int>> A;
+
+
+
     //TESTDimensionsCompatible();
     //TESTSimpleMatrixGeneral();
 
-    TESTSimpleMatrixOverload();
+    //TESTSimpleMatrixOverload();
 
-    TESTSimpleMatrixHeap();
+    //TESTSimpleMatrixHeap();
+
+
+
+
 
 
     //TESTSimpleMatrixIndices();
