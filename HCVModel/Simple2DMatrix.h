@@ -18,7 +18,7 @@ class SimpleMatrix {
     vector<TemplateType> values;//Data is stored in the value array
     int xdimsize;
     int ydimsize;
-    bool validref(int xindex, int yindex);
+    //bool validref(int xindex, int yindex);
 
     public:
     /// Constructors
