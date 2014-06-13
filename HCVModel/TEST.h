@@ -7,7 +7,7 @@
 
 
 
-//#include "TESTSimple2DMatrix.h"
+#include "TESTSimple2DMatrix.h"
 #include <time.h>
 //#include "Matrix.h"
 

@@ -48,10 +48,10 @@ class SimpleMatrix {
     // Index overloading
     // use () instead http://stackoverflow.com/questions/2533235/operator-c
     ///Getting values
-        TemplateType operator()(int i, int j)const;
+        TemplateType operator()(int i, int j)const{ return values[i][j];};
 
     ///Setting Values
-        TemplateType & operator()(int i, int j);
+        TemplateType & operator()(int i, int j){ return values[i][j];};
 
 
     //Plus
@@ -89,12 +89,19 @@ class SimpleMatrix {
 
     //Other operators
     //http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B
-
     // http://www.thegeekstuff.com/2013/09/cpp-operator-overloading/
-    //template <typename ReturnTemplateType>
-    //SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType));
-    void Apply(TemplateType (*FunctionPointer)(TemplateType));
 
+    //
+    //Changes this matrix
+    void Apply(TemplateType (*FunctionPointer)(TemplateType));
+    //returns a new matrix
+    template <typename ReturnTemplateType>
+    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType), const SimpleMatrix<InputTemplateType> & A);
+    //returns a new matrix, two input matrices
+    template <typename ReturnTemplateType>
+    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType), const SimpleMatrix<InputTemplateType> & A, const SimpleMatrix<InputTemplateType> & B);
+
+    //Display functions
     void Display(void);
     void DisplayInfo(void);
 
@@ -105,57 +112,43 @@ class SimpleMatrix {
 
 
 /// Contructors
-
     template <typename TemplateType>
     SimpleMatrix<TemplateType>::SimpleMatrix(int xsize, int ysize)
     {
-        if (xsize<=0 || ysize<=0)
-        {
-            cout<<"Error: cannot create a matrix of size less than zero"<<endl;
-            exit(-1);
-        }
-
         Resize(xsize, ysize);
     }
-
 
     template <typename TemplateType>
     SimpleMatrix<TemplateType>::SimpleMatrix(void)
     {
-        Resize(1, 1);
+        xdimsize=1;
+        ydimsize=1;
+        values.resize(xdimsize);
+        values[0].resize(ydimsize);
     }
 
     template <typename TemplateType>
     SimpleMatrix<TemplateType>::SimpleMatrix(vector<int> dimensions)
     {
-        if (dimensions.size()!=2)
-        {
-            cout<<"Error: cannot create a matrix which is larger or smaller than 2 dimensions"<<endl;
-            exit(-1);
-        }
+        Resize(dimensions);
+    }
+
+    template <typename TemplateType>
+    void SimpleMatrix<TemplateType>::Resize(int xsize, int ysize)
+    {
         if (xsize<=0 || ysize<=0)
         {
             cout<<"Error: cannot create a matrix of size less than zero"<<endl;
             exit(-1);
         }
-
-        Resize(dimensions[0], dimensions[1]);
-    }
-
-
-    template <typename TemplateType>
-    void SimpleMatrix<TemplateType>::Resize(int xsize, int ysize)
-    {
         xdimsize=xsize;
         ydimsize=ysize;
-
         values.resize(xdimsize);
 
         for (int i=0; i<xdimsize; i++)
         {
             values[i].resize(ydimsize);
         }
-
     }
 
     template <typename TemplateType>
@@ -166,14 +159,10 @@ class SimpleMatrix {
             cout<<"Error: cannot create a matrix which is larger or smaller than 2 dimensions"<<endl;
             exit(-1);
         }
-        if (xsize<=0 || ysize<=0)
-        {
-            cout<<"Error: cannot create a matrix of size less than zero"<<endl;
-            exit(-1);
-        }
-
         Resize(dimensions[0], dimensions[1]);
     }
+
+
 
 
 
@@ -286,11 +275,10 @@ class SimpleMatrix {
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator-(const SimpleMatrix<OtherType>& Other)
         {
             StopIfDimensionsIncompatible(Other);
-            SimpleMatrix<TemplateType> ResultSM(DimSize);
-            for (int i=0; i<TotalArraySize; i++)//for all the elements
-            {
-                ResultSM.ValueArray[i]=ValueArray[i]-Other.ValueArray[i];
-            }
+            SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
+            for (int i=0; i<xdimsize; i++)
+                for (int j=0; j<ydimsize; j++)
+                    ResultSM.values[i][j]=values[i][j]-Other.values[i][j];
             return ResultSM;
         }
 
@@ -298,23 +286,22 @@ class SimpleMatrix {
         template <typename TemplateType> template <typename OtherType>
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator-(const OtherType& Other)
         {
-            SimpleMatrix<TemplateType> ResultSM(DimSize);
-            for (int i=0; i<TotalArraySize; i++)    //for all the elements
-            {
-                ResultSM.ValueArray[i]=ValueArray[i]-Other;
-            }
+            SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
+            for (int i=0; i<xdimsize; i++)
+                for (int j=0; j<ydimsize; j++)
+                    ResultSM.values[i][j]=values[i][j]-Other;
             return ResultSM;
         }
+
 
         //Unary minus
         template <typename TemplateType>
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator-(void)
         {
-            SimpleMatrix<TemplateType> ResultSM(DimSize);
-            for (int i=0; i<TotalArraySize; i++)    //for all the elements
-            {
-                ResultSM.ValueArray[i]=-ValueArray[i];
-            }
+            SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
+            for (int i=0; i<xdimsize; i++)
+                for (int j=0; j<ydimsize; j++)
+                    ResultSM.values[i][j]=-values[i][j];
             return ResultSM;
         }
 
@@ -334,11 +321,10 @@ class SimpleMatrix {
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator*(const SimpleMatrix<OtherType>& Other)
         {
             StopIfDimensionsIncompatible(Other);
-            SimpleMatrix<TemplateType> ResultSM(DimSize);
-            for (int i=0; i<TotalArraySize; i++)//for all the elements
-            {
-                ResultSM.ValueArray[i]=ValueArray[i]*Other.ValueArray[i];
-            }
+            SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
+            for (int i=0; i<xdimsize; i++)
+                for (int j=0; j<ydimsize; j++)
+                    ResultSM.values[i][j]=values[i][j]*Other.values[i][j];
             return ResultSM;
         }
 
@@ -346,13 +332,14 @@ class SimpleMatrix {
         template <typename TemplateType> template <typename OtherType>
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator*(const OtherType& Other)
         {
-            SimpleMatrix<TemplateType> ResultSM(DimSize);
-            for (int i=0; i<TotalArraySize; i++)    //for all the elements
-            {
-                ResultSM.ValueArray[i]=ValueArray[i]*Other;
-            }
+            SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
+            for (int i=0; i<xdimsize; i++)
+                for (int j=0; j<ydimsize; j++)
+                    ResultSM.values[i][j]=values[i][j]*Other;
             return ResultSM;
         }
+
+
 
         //Swapping for a discrete set of functions
         template <typename TemplateType> SimpleMatrix<TemplateType> operator*(char Other, SimpleMatrix<TemplateType> SMClass){return (SMClass * Other);}
@@ -370,11 +357,10 @@ class SimpleMatrix {
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator/(const SimpleMatrix<OtherType>& Other)
         {
             StopIfDimensionsIncompatible(Other);
-            SimpleMatrix<TemplateType> ResultSM(DimSize);
-            for (int i=0; i<TotalArraySize; i++)//for all the elements
-            {
-                ResultSM.ValueArray[i]=ValueArray[i]/Other.ValueArray[i];
-            }
+            SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
+            for (int i=0; i<xdimsize; i++)
+                for (int j=0; j<ydimsize; j++)
+                    ResultSM.values[i][j]=values[i][j]/Other.values[i][j];
             return ResultSM;
         }
 
@@ -382,11 +368,10 @@ class SimpleMatrix {
         template <typename TemplateType> template <typename OtherType>
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator/(const OtherType& Other)
         {
-            SimpleMatrix<TemplateType> ResultSM(DimSize);
-            for (int i=0; i<TotalArraySize; i++)    //for all the elements
-            {
-                ResultSM.ValueArray[i]=ValueArray[i]/Other;
-            }
+            SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
+            for (int i=0; i<xdimsize; i++)
+                for (int j=0; j<ydimsize; j++)
+                    ResultSM.values[i][j]=values[i][j]/Other;
             return ResultSM;
         }
 
@@ -394,11 +379,10 @@ class SimpleMatrix {
         template <typename TemplateType> template <typename OtherType>
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::DivideByMatrix(const OtherType& Other)
         {
-            SimpleMatrix<TemplateType> ResultSM(DimSize);
-            for (int i=0; i<TotalArraySize; i++)    //for all the elements
-            {
-                ResultSM.ValueArray[i]=Other/ValueArray[i];
-            }
+            SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
+            for (int i=0; i<xdimsize; i++)
+                for (int j=0; j<ydimsize; j++)
+                    ResultSM.values[i][j]=Other/values[i][j];
             return ResultSM;
         }
         template <typename TemplateType> SimpleMatrix<TemplateType> operator/(char Other, SimpleMatrix<TemplateType> SMClass){return SMClass.DivideByMatrix(Other);}
@@ -416,11 +400,10 @@ class SimpleMatrix {
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator%(const SimpleMatrix<OtherType>& Other)
         {
             StopIfDimensionsIncompatible(Other);
-            SimpleMatrix<TemplateType> ResultSM(DimSize);
-            for (int i=0; i<TotalArraySize; i++)//for all the elements
-            {
-                ResultSM.ValueArray[i]=ValueArray[i]%Other.ValueArray[i];
-            }
+            SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
+            for (int i=0; i<xdimsize; i++)
+                for (int j=0; j<ydimsize; j++)
+                    ResultSM.values[i][j]=values[i][j]%Other.values[i][j];
             return ResultSM;
         }
 
@@ -428,11 +411,10 @@ class SimpleMatrix {
         template <typename TemplateType> template <typename OtherType>
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator%(const OtherType& Other)
         {
-            SimpleMatrix<TemplateType> ResultSM(DimSize);
-            for (int i=0; i<TotalArraySize; i++)    //for all the elements
-            {
-                ResultSM.ValueArray[i]=ValueArray[i]%Other;
-            }
+            SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
+            for (int i=0; i<xdimsize; i++)
+                for (int j=0; j<ydimsize; j++)
+                    ResultSM.values[i][j]=values[i][j]%Other;
             return ResultSM;
         }
 
@@ -440,13 +422,14 @@ class SimpleMatrix {
         template <typename TemplateType> template <typename OtherType>
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::ModulusByMatrix(const OtherType& Other)
         {
-            SimpleMatrix<TemplateType> ResultSM(DimSize);
-            for (int i=0; i<TotalArraySize; i++)    //for all the elements
-            {
-                ResultSM.ValueArray[i]=Other%ValueArray[i];
-            }
+            SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
+            for (int i=0; i<xdimsize; i++)
+                for (int j=0; j<ydimsize; j++)
+                    ResultSM.values[i][j]=Other%values[i][j];
             return ResultSM;
         }
+
+
         template <typename TemplateType> SimpleMatrix<TemplateType> operator%(char Other, SimpleMatrix<TemplateType> SMClass){return SMClass.ModulusByMatrix(Other);}
         template <typename TemplateType> SimpleMatrix<TemplateType> operator%(short Other, SimpleMatrix<TemplateType> SMClass){return SMClass.ModulusByMatrix(Other);}
         template <typename TemplateType> SimpleMatrix<TemplateType> operator%(int Other, SimpleMatrix<TemplateType> SMClass){return SMClass.ModulusByMatrix(Other);}
@@ -463,11 +446,9 @@ class SimpleMatrix {
 template <typename TemplateType>
 void SimpleMatrix<TemplateType>::Apply(TemplateType (*FunctionPointer)(TemplateType))
 {
-    TemplateType TempResultStore;
-    for (int i=0; i<TotalArraySize; i++)//for all the elements
-    {
-        ValueArray[i]=FunctionPointer(ValueArray[i]);
-    }
+    for (int i=0; i<xdimsize; i++)
+        for (int j=0; j<ydimsize; j++)
+            values[i][j]=FunctionPointer(values[i][j]);
 }
 
 //This section works
@@ -482,11 +463,16 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
     SimpleMatrix<ReturnTemplateType> ResultSM(A.Dim());
 
     //for all the elements of A
+    for (int i=0; i<xdimsize; i++)
+        for (int j=0; j<ydimsize; j++)
+        {
+            TempResultStore=FunctionPointer(A[i][j]);
+            ResultSM.SetLinearIndex(TempResultStore, i);
+        }
     int SizeOfA=A.TotalElements();
     for (int i=0; i<SizeOfA; i++)
     {
         TempResultStore=FunctionPointer(A(i));
-        cout<<"Output: "<<TempResultStore<<" "<<A(i)<<endl;
         ResultSM.SetLinearIndex(TempResultStore, i);
     }
     return ResultSM;
@@ -517,26 +503,27 @@ template <typename TemplateType>
 void SimpleMatrix<TemplateType>::Display(void)
 {
     cout<<"Contents: "<<endl;
-    for (int i=0; i< TotalArraySize; i++)
-        cout<<ValueArray[i]<<", ";
-    cout<<endl;
+    for (int j=0; j<ydimsize; j++)
+    {
+        for (int i=0; i<xdimsize; i++)
+            cout<<values[i][j]<<", ";
+        cout<<endl;
+    }
+
 }
 
 template <typename TemplateType>
 void SimpleMatrix<TemplateType>::DisplayInfo(void)
 {
-    cout<<endl<<"Total element count: "<< TotalArraySize<<endl;
-    cout<<"Dimensions: ";
-    for (int val : DimSize )
-        cout<< val <<", ";
-    cout<<endl;
-        cout<<"Base values for indexing the content in multi-dimensions"<<endl;
-    for (int val : Base )
-        cout<< val <<", ";
-    cout<<endl;
-    cout<<"Contents: ";
-    for (int i=0; (i< TotalArraySize) && i<5 ; i++)//only a short sample
-        cout<<ValueArray[i]<<", ";
+    cout<<"Dimensions: ( "<< xdimsize << ", " << ydimsize <<")"<<endl;
+
+    cout<<"Contents summary: ";
+    for (int j=0; j<ydimsize && j<5 ; j++)//limit to a 5 by 5 display of content
+    {
+        for (int i=0; i<xdimsize && i<5; i++)
+            cout<<values[i][j]<<", ";
+        cout<<endl;
+    }
     cout<<"..."<<endl;
     cout<<"To see full contents use Display()"<<endl<<endl;
 }
@@ -558,8 +545,7 @@ template <typename TemplateType>
 SimpleMatrix<TemplateType> Join(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B, int Dimension)
 {
     SimpleMatrix<TemplateType> ReturnMatrix;
-    //check that all other dimensions are equal (except the dimension that we want to join along)
-    //for (int ThisDim :A.Dimensions)
+    //check that  other dimension is equal
     return ReturnMatrix;
 }
 

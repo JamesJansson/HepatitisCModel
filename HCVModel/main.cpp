@@ -9,7 +9,7 @@
 //#include "SimpleMatrix.h"
 
 
-//#include "Simple2DMatrix.h"
+#include "Simple2DMatrix.h"
 
 //#include <thread.h>
 
