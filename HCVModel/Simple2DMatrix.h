@@ -252,11 +252,10 @@ class SimpleMatrix {
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator+(const SimpleMatrix<OtherType>& Other)
         {
             StopIfDimensionsIncompatible(Other);
-            SimpleMatrix<TemplateType> ResultSM(DimSize);
-            for (int i=0; i<TotalArraySize; i++)//for all the elements
-            {
-                ResultSM.ValueArray[i]=ValueArray[i]+Other.ValueArray[i];
-            }
+            SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
+            for (int i=0; i<xdimsize; i++)
+                for (int j=0; j<ydimsize; j++)
+                    ResultSM.values[i][j]=values[i][j]+Other.values[i][j];
             return ResultSM;
         }
 
@@ -264,11 +263,10 @@ class SimpleMatrix {
         template <typename TemplateType> template <typename OtherType>
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator+(const OtherType& Other)
         {
-            SimpleMatrix<TemplateType> ResultSM(DimSize);
-            for (int i=0; i<TotalArraySize; i++)    //for all the elements
-            {
-                ResultSM.ValueArray[i]=ValueArray[i]+Other;
-            }
+            SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
+            for (int i=0; i<xdimsize; i++)
+                for (int j=0; j<ydimsize; j++)
+                    ResultSM.values[i][j]=values[i][j]+Other;
             return ResultSM;
         }
 

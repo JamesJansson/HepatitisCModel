@@ -7,8 +7,8 @@
 
 
 
-#include "TESTSimple2DMatrix.h"
-
+//#include "TESTSimple2DMatrix.h"
+#include <time.h>
 //#include "Matrix.h"
 
 
@@ -27,9 +27,9 @@ void TESTFunctions(void)
 
 
     A[1][3]=3;
-    //vector<int> *B;
-    //B=A[1];
-    //(*B)[2]=9;
+
+
+
 
     //TESTDimensionsCompatible();
     //TESTSimpleMatrixGeneral();
