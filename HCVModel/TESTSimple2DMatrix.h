@@ -3,12 +3,17 @@
 #include <time.h>
 #include <stdio.h>
 
+    SimpleMatrix<float> D;//declaring outside allows you to use up to the total 2GB available to any 32bit program
+    SimpleMatrix<float> E;
+    SimpleMatrix<float> F;
+
+
 double Add1(double A)
 {
-    //A++;
-    return A++;
+    A=A+1;
+    return A;
 }
-//double Mult2(double A){return A*2;}
+double Mult(float A, int B){return A*B;}
 
 void TESTSimple2DMatrix(void)
 {
@@ -241,24 +246,65 @@ void TESTSimple2DMatrix(void)
 //    //returns a new matrix, two input matrices
 //    template <typename ReturnTemplateType>
 //    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType, TemplateType), const SimpleMatrix<TemplateType> A, const SimpleMatrix<TemplateType> B);
+    cout<<"Applying add 1 to A"<<endl;
+    A.Apply(Add1);
+    A.DisplayInfo();
+
+    //B=Apply( A);
+    //B=Apply(Add1, A);
+    //B.DisplayInfo();
+
+
+
 //
 //    //Display functions
 //    void Display(void);
 //    void DisplayInfo(void);
 
 
-    cout<<"starting speed run"<<endl;
+
+
+
+
+
+    cout<<"Starting speed run, check memory space"<<endl;
+    char buffer;
+    cin>>buffer;
+
+
+
+
+    int xdim=10000;
+    int ydim=10000;
+    D.Resize(xdim, ydim);
+    E.Resize(xdim, ydim);
+
+    int DSize=sizeof(D);
+    cout<<"The size of a 10000x10000 vector is "<<DSize<<endl;
+
+    for (int i=0; i<(xdim); i++)
+        for (int j=0; j<(ydim); j++)
+            D(i, j)=ydim*i+j;
+
+
+    cout<<"Adding"<<endl;
     startTime=clock();
-
-
-
+    E=D+2;
     millisecondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-    cout<<"Milliseconds "<<millisecondsPassed<<endl;
+    cout<<"Milliseconds: "<<millisecondsPassed<<endl;
 
+    cout<<"Dividing"<<endl;
+    startTime=clock();
+    F=D/E;
+    millisecondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+    cout<<"Milliseconds: "<<millisecondsPassed<<endl;
 
-
-
-
+    cout<<"Dividing into preallocated space"<<endl;// is prealloacted becaur C is currently the right size
+    F.SetAll(0.5);
+    startTime=clock();
+    F=D/E;
+    millisecondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+    cout<<"Milliseconds: "<<millisecondsPassed<<endl;
 
 
 

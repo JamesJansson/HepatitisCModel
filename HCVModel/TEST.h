@@ -12,7 +12,7 @@
 //#include "Matrix.h"
 
 
-
+//int Big[100000000];
 
 void TESTFunctions(void)
 {
@@ -34,6 +34,9 @@ void TESTFunctions(void)
     A=B;
 
     A[1][3]=3;
+
+//    for (int i=0; i<100000000; i++)
+//        Big[i]=i;
 
     TESTSimple2DMatrix();
 

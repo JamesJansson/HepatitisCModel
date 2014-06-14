@@ -18,7 +18,13 @@ class SimpleMatrix {
     vector<vector<TemplateType>> values;//Data is stored in the value array
     int xdimsize;
     int ydimsize;
-    //bool validref(int xindex, int yindex);
+
+//    int** ary = new int*[sizeX];
+//    for(int i = 0; i < sizeX; ++i)
+//        ary[i] = new int[sizeY];
+// And clean up
+//    for(int i = 0; i < sizeY; ++i)
+//        delete [] ary[i];
 
     public:
     /// Constructors
@@ -98,8 +104,8 @@ class SimpleMatrix {
     template <typename ReturnTemplateType>
     friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType), const SimpleMatrix<TemplateType> A);
     //returns a new matrix, two input matrices
-    template <typename ReturnTemplateType>
-    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType, TemplateType), const SimpleMatrix<TemplateType> A, const SimpleMatrix<TemplateType> B);
+    template <typename ReturnTemplateType, typename TemplateTypeA, typename TemplateTypeB>
+    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType, TemplateType), const SimpleMatrix<TemplateTypeA> A, const SimpleMatrix<TemplateTypeB> B);
 
     //Display functions
     void Display(void);
@@ -470,8 +476,8 @@ void SimpleMatrix<TemplateType>::Apply(TemplateType (*FunctionPointer)(TemplateT
 //template <typename InputTemplateType>
 //SimpleMatrix<InputTemplateType> Apply(InputTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A)
 //This section used to work, now broken
-template <typename ReturnTemplateType, typename InputTemplateType>
-SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType), SimpleMatrix<InputTemplateType> A)
+template <typename ReturnTemplateType, typename TemplateType>
+SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType), SimpleMatrix<TemplateType> A)
 {
     ReturnTemplateType TempResultStore;
     //Determine size of input vector
@@ -489,9 +495,11 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
     return ResultSM;
 }
 
+
+
 //Applying a function to 2 multidimensional matrices
-template <typename ReturnTemplateType, typename InputTemplateType>
-SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateType, InputTemplateType), SimpleMatrix<InputTemplateType> A, SimpleMatrix<InputTemplateType> B)
+template <typename ReturnTemplateType, typename InputTemplateTypeA, typename InputTemplateTypeB>
+SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateTypeA, InputTemplateTypeB), SimpleMatrix<InputTemplateTypeA> A, SimpleMatrix<InputTemplateTypeB> B)
 {
     A.StopIfDimensionsIncompatible(B);
     ReturnTemplateType TempResultStore;
@@ -502,7 +510,7 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Inp
     {
         for (int j=0; j<A.ydimsize; j++)
         {
-            TempResultStore=FunctionPointer(A.values[i][j],  A.values[i][j]);
+            TempResultStore=FunctionPointer(A.values[i][j],  B.values[i][j]);
             ResultSM.values[i][j]=TempResultStore;
         }
     }
