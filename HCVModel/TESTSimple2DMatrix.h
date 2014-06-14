@@ -13,7 +13,7 @@ double Add1(double A)
 void TESTSimple2DMatrix(void)
 {
     clock_t startTime;
-    double secondsPassed;
+    double millisecondsPassed;
 
 
     /// Constructors
@@ -41,42 +41,98 @@ void TESTSimple2DMatrix(void)
     SizingVector[1]=4;
     A.Resize(SizingVector);
     cout<<"3x4 Resize up using vector"<<endl;
-    B.DisplayInfo();
+    A.DisplayInfo();
 //
     B(0, 3)=45;
     B.DisplayInfo();
 
     /// Dimensions
 //    vector<int> dim(void);
+    vector<int> DimReturn;
+    DimReturn=B.dim();
+    cout<<"Vector dim output "<<DimReturn[0]<<", "<<DimReturn[1]<<endl;
 //    int xsize(void);
 //    int ysize(void);
+    cout<<"Int dim output "<<B.xsize()<<", "<<B.ysize()<<endl;
 //    template <typename OtherType>
 //    bool DimensionsCompatible( SimpleMatrix<OtherType> Other);
+    if (B.DimensionsCompatible(A))
+        cout<<"Dimensions compatible, as expected. Now resize"<<endl;
+
+    A.Resize(5, 4);
+    if (!B.DimensionsCompatible(A))
+        cout<<"Too big in x works"<<endl;
+    A.Resize(2, 4);
+    if (!B.DimensionsCompatible(A))
+        cout<<"Too small in x works"<<endl;
+    A.Resize(3, 5);
+    if (!B.DimensionsCompatible(A))
+        cout<<"Too big in y works"<<endl;
+    A.Resize(3, 2);
+    if (!B.DimensionsCompatible(A))
+        cout<<"Too small in y works"<<endl;
+
 //    template <typename OtherType>
 //    void StopIfDimensionsIncompatible(SimpleMatrix<OtherType> Other);
+    //B.StopIfDimensionsIncompatible(A);
+    //Works
+
 //    // void StopIfDimensionsIncompatible( SimpleMatrix<OtherType> Other);
 //    void SetAll(TemplateType SetValue);
+    A.SetAll(55);
+    A.DisplayInfo();
+
 //    SimpleMatrix<TemplateType> Transpose(void);
-//
-//
-//
-//
-    /// Overloading, pointer and template functions
-//    // Good tutorial on how this works: http://www.cprogramming.com/tutorial/operator_overloading.html
-//    // Index overloading
-//    // use () instead http://stackoverflow.com/questions/2533235/operator-c
+    A.Resize(3, 4);
+    for (int i=0; i<(3); i++)
+        for (int j=0; j<(4); j++)
+            A(i, j)=10*i+j;
+    A.DisplayInfo();
+    A.Transpose();
+    cout<<"Transpose of the above"<<endl;
+    A.DisplayInfo();
+
+
+
     ///Getting values
 //        TemplateType operator()(int i, int j)const{ return values[i][j];};
 //
+    cout<<"The number should say 23: "<<A(2, 3)<<endl;
     ///Setting Values
 //        TemplateType & operator()(int i, int j){ return values[i][j];};
-//
+//  Tested above
 //
     //Plus
 //        template <typename OtherType>
 //        SimpleMatrix<TemplateType> operator+(const SimpleMatrix<OtherType>& Other);
 //        template <typename OtherType>
 //        SimpleMatrix<TemplateType> operator+(const OtherType& Other);
+    cout<<"A: "<<endl;
+    A.DisplayInfo();
+
+    cout<<"Testing int add"<<endl;
+    int Two=2;
+    B=A+Two;
+    B.DisplayInfo();
+    cout<<"Testing left int add"<<endl;
+    B=Two+A;
+    B.DisplayInfo();
+
+    cout<<"Testing float add"<<endl;
+    float TreefiddyF=3.5;
+    B=A+TreefiddyF;
+    B.DisplayInfo();
+
+    cout<<"Testing double add"<<endl;
+    double TreefiddyD=3.5;
+    B=A+TreefiddyD;
+    B.DisplayInfo();
+
+    SimpleMatrix<double> C;
+    cout<<"Testing matrix add"<<endl;
+    C=A+B;
+    C.DisplayInfo();
+
     //Minus
 //        template <typename OtherType>
 //        SimpleMatrix<TemplateType> operator-(const SimpleMatrix<OtherType>& Other);
@@ -84,11 +140,59 @@ void TESTSimple2DMatrix(void)
 //        SimpleMatrix<TemplateType> operator-(const OtherType& Other);
 //        //Unary minus
 //        SimpleMatrix<TemplateType> operator-(void);
+    cout<<"A: "<<endl;
+    A.DisplayInfo();
+
+    cout<<"Testing int minus"<<endl;
+    B=A-Two;
+    B.DisplayInfo();
+    cout<<"Testing left int minus"<<endl;
+    B=Two-A;
+    B.DisplayInfo();
+
+    cout<<"Testing float minus"<<endl;
+    B=A-TreefiddyF;
+    B.DisplayInfo();
+
+    cout<<"Testing double minus"<<endl;
+    B=A-TreefiddyD;
+    B.DisplayInfo();
+
+    cout<<"Testing matrix minus"<<endl;
+    C=A-B;
+    C.DisplayInfo();
+
+    cout<<"Testing unitary minus"<<endl;
+    B=-A;
+    B.DisplayInfo();
+
     //Times
 //        template <typename OtherType>
 //        SimpleMatrix<TemplateType> operator*(const SimpleMatrix<OtherType>& Other);
 //        template <typename OtherType>
 //        SimpleMatrix<TemplateType> operator*(const OtherType& Other);
+
+    cout<<"A: "<<endl;
+    A.DisplayInfo();
+
+    cout<<"Testing int times"<<endl;
+    B=A*Two;
+    B.DisplayInfo();
+    cout<<"Testing left int times"<<endl;
+    B=Two*A;
+    B.DisplayInfo();
+
+    cout<<"Testing float times"<<endl;
+    B=A*TreefiddyF;
+    B.DisplayInfo();
+
+    cout<<"Testing double times"<<endl;
+    B=A*TreefiddyD;
+    B.DisplayInfo();
+
+    cout<<"Testing matrix times"<<endl;
+    C=A*B;
+    C.DisplayInfo();
     //Divide
 //        template <typename OtherType>
 //        SimpleMatrix<TemplateType> operator/(const SimpleMatrix<OtherType>& Other);
@@ -96,6 +200,30 @@ void TESTSimple2DMatrix(void)
 //        SimpleMatrix<TemplateType> operator/(const OtherType& Other);
 //        template <typename OtherType>
 //        SimpleMatrix<TemplateType> DivideByMatrix(const OtherType& Other);
+
+    cout<<"A: "<<endl;
+    A.DisplayInfo();
+
+    cout<<"Testing int divide"<<endl;
+    B=A/Two;
+    B.DisplayInfo();
+    cout<<"Testing left int divide"<<endl;
+    B=Two/A;
+    B.DisplayInfo();
+
+    cout<<"Testing float divide"<<endl;
+    B=A/TreefiddyF;
+    B.DisplayInfo();
+
+    cout<<"Testing double divide"<<endl;
+    B=A/TreefiddyD;
+    B.DisplayInfo();
+
+    cout<<"Testing matrix divide"<<endl;
+    C=A/B;
+    C.DisplayInfo();
+
+
     //Modulus
 //        template <typename OtherType>
 //        SimpleMatrix<TemplateType> operator%(const SimpleMatrix<OtherType>& Other);
@@ -119,6 +247,13 @@ void TESTSimple2DMatrix(void)
 //    void DisplayInfo(void);
 
 
+    cout<<"starting speed run"<<endl;
+    startTime=clock();
+
+
+
+    millisecondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+    cout<<"Milliseconds "<<millisecondsPassed<<endl;
 
 
 
@@ -127,141 +262,12 @@ void TESTSimple2DMatrix(void)
 
 
 
-//    int MatrixSize=4;
-//    SimpleMatrix<double> E(MatrixSize, MatrixSize);
-//    SimpleMatrix<double> F(MatrixSize, MatrixSize);
-//    E.DisplayInfo();
-//
-//    //Construtors
-//
-//
-//    MatrixSize=2000;
-//
-//
-//
-//    cout<<"Setting with loops and checks"<<endl;
-//    startTime=clock();
-//    E.Resize(MatrixSize, MatrixSize);
-//    for (int i=0; i<(MatrixSize); i++)
-//        for (int j=0; j<(MatrixSize); j++)
-//            E(i, j)=i+MatrixSize*j;
-//    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-//    cout<<"    Milliseconds "<<secondsPassed<<endl;
-//
-//    cout<<"Adding with loops and checks"<<endl;
-//    startTime=clock();
-//    for (int i=0; i<(MatrixSize*MatrixSize); i++)
-//        E(i)=E(i)+1;
-//    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-//    cout<<"    Milliseconds "<<secondsPassed<<endl;
-//
-//    cout<<"Adding as a matrix"<<endl;
-//    startTime=clock();
-//    E=E+1;
-//    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-//    cout<<"    Milliseconds "<<secondsPassed<<endl;
-//
-//    cout<<"Sin"<<endl;
-//    startTime=clock();
-//    E.Apply(sin);
-//    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-//    cout<<"    Milliseconds "<<secondsPassed<<endl;
-//
-//    cout<<"Sin 2nd application"<<endl;
-//    startTime=clock();
-//    E.Apply(sin);
-//    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-//    cout<<"    Milliseconds "<<secondsPassed<<endl;
-//
-//    cout<<"E times E"<<endl;
-//    startTime=clock();
-//    F=E*E;
-//    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-//    cout<<"    Milliseconds "<<secondsPassed<<endl;
-//
-//    //matlab version of the above
-////    MatrixSize=2000;
-////disp('Setting with loops and checks');
-////    tic
-////        E=zeros(MatrixSize, MatrixSize);
-////        for i=1:MatrixSize
-////            for j=1:MatrixSize
-////                E(i,j)=i+j*MatrixSize;
-////            end
-////        end
-////        E=1:(MatrixSize*MatrixSize);
-////    toc
-////disp('Adding with loops and checks');
-////    tic
-////    for i=1:(MatrixSize*MatrixSize)
-////        E(i)=E(i)+1;
-////    end
-////    toc
-////disp('Adding as a matrix');
-////    tic
-////    E=E+1;
-////    toc
-////disp('Sin');
-////    tic
-////    E=sin(E);
-////    toc
-////disp('Sin 2nd application');
-////    tic
-////    E=sin(E);
-////    toc
-////disp('E times E');
-////tic
-////F=E.*E;
-////toc
-//
-//
-////matlab version of the above
-////    MatrixSize=4000;
-////disp('Setting with loops and checks');
-////    tic
-////        E=1:(MatrixSize*MatrixSize);
-////    toc
-////disp('Adding with loops and checks');
-////    tic
-////    for i=1:(MatrixSize*MatrixSize)
-////        E(i)=E(i)+1;
-////    end
-////    toc
-////disp('Adding as a matrix');
-////    tic
-////    E=E+1;
-////    toc
-////disp('Sin');
-////    tic
-////    E=sin(E);
-////    toc
-////disp('Sin 2nd application');
-////    tic
-////    E=sin(E);
-////    toc
-////disp('E times E');
-////tic
-////F=E.*E;
-////toc
-//
-//    cout<<"Setting with loops and checks"<<endl;
-//    startTime=clock();
-//    vector<double> VecOnly;
-//    VecOnly.resize(MatrixSize*MatrixSize);
-//    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-//    cout<<"Milliseconds "<<secondsPassed<<endl;
-//
-//    startTime=clock();
-//    for (int i=0; i<(MatrixSize*MatrixSize); i++)
-//        VecOnly[i]=i;
-//    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-//    cout<<"Milliseconds "<<secondsPassed<<endl;
-//
 
 
 
-    char buffer;
-    cin>>buffer;
+
+    //char buffer;
+    //cin>>buffer;
 }
 
 

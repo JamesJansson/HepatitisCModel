@@ -38,7 +38,7 @@ class SimpleMatrix {
     void StopIfDimensionsIncompatible(SimpleMatrix<OtherType> Other);
     // void StopIfDimensionsIncompatible( SimpleMatrix<OtherType> Other);
     void SetAll(TemplateType SetValue);
-    SimpleMatrix<TemplateType> Transpose(void);
+    void Transpose(void);
 
 
 
@@ -220,7 +220,22 @@ class SimpleMatrix {
         }
     }
 
+    template <typename TemplateType>
+    void SimpleMatrix<TemplateType>::Transpose(void)
+    {
+        SimpleMatrix<TemplateType> NewMatrix(ydimsize, xdimsize);//doing this because it is the laziest way to make the proper sized matrix
 
+        for (int i=0; i<xdimsize; i++)
+        {
+            for (int j=0; j<ydimsize; j++)
+            {
+                NewMatrix.values[j][i]=values[i][j];
+            }
+        }
+        values=NewMatrix.values;
+        xdimsize=NewMatrix.xdimsize;
+        ydimsize=NewMatrix.ydimsize;
+    }
 
 
 /// Operator overloading
@@ -515,7 +530,7 @@ void SimpleMatrix<TemplateType>::DisplayInfo(void)
 {
     cout<<"Dimensions: ( "<< xdimsize << ", " << ydimsize <<")"<<endl;
 
-    cout<<"Contents summary: ";
+    cout<<"Contents summary: "<<endl;
     for (int j=0; j<ydimsize && j<5 ; j++)//limit to a 5 by 5 display of content
     {
         for (int i=0; i<xdimsize && i<5; i++)

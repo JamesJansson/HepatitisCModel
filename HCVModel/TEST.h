@@ -16,7 +16,7 @@
 
 void TESTFunctions(void)
 {
-    vector<vector <int>> A;
+    vector<vector <int>> A, B;
 
     vector <int> thisvector;
     A.resize(5);
@@ -25,10 +25,20 @@ void TESTFunctions(void)
         A[i].resize(4);
     }
 
+    B.resize(5);
+    for (int i=0; i<5; i++)
+    {
+        B[i].resize(4);
+    }
+
+    A=B;
 
     A[1][3]=3;
 
     TESTSimple2DMatrix();
+
+
+
 
 
 
