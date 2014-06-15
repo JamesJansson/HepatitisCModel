@@ -250,10 +250,8 @@ void TESTSimple2DMatrix(void)
     A.Apply(Add1);
     A.DisplayInfo();
 
-    //B=Apply( A);
-    //B=Apply(Add1, A);
-    //B.DisplayInfo();
-
+    B=Apply(Add1, A);
+    B.DisplayInfo();
 
 
 //

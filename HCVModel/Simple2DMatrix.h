@@ -101,8 +101,10 @@ class SimpleMatrix {
     //Changes this matrix
     void Apply(TemplateType (*FunctionPointer)(TemplateType));
     //returns a new matrix
-    template <typename ReturnTemplateType>
-    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType), const SimpleMatrix<TemplateType> A);
+//    template <typename ReturnTemplateType>
+//    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType), const SimpleMatrix<TemplateType> A);
+//    template <typename ReturnTemplateType>
+//    friend SimpleMatrix<ReturnTemplateType> Apply(const SimpleMatrix<TemplateType> A);
     //returns a new matrix, two input matrices
     template <typename ReturnTemplateType, typename TemplateTypeA, typename TemplateTypeB>
     friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType, TemplateType), const SimpleMatrix<TemplateTypeA> A, const SimpleMatrix<TemplateTypeB> B);
@@ -478,18 +480,25 @@ void SimpleMatrix<TemplateType>::Apply(TemplateType (*FunctionPointer)(TemplateT
 //This section used to work, now broken
 template <typename ReturnTemplateType, typename TemplateType>
 SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType), SimpleMatrix<TemplateType> A)
+//template <typename TemplateType, typename TemplateType>
+//SimpleMatrix<TemplateType> Apply( SimpleMatrix<TemplateType> A)
 {
-    ReturnTemplateType TempResultStore;
+//    ReturnTemplateType TempResultStore;
+    TemplateType TempResultStore;
     //Determine size of input vector
-    SimpleMatrix<ReturnTemplateType> ResultSM(A.xdimsize, A.ydimsize);
+    int xdimsize=A.xsize();
+    int ydimsize=A.ysize();
+    SimpleMatrix<ReturnTemplateType> ResultSM(xdimsize, ydimsize);
+//    SimpleMatrix<TemplateType> ResultSM(A.xdimsize, A.ydimsize);
 
     //for all the elements of A
-    for (int i=0; i<A.xdimsize; i++)
+    for (int i=0; i<xdimsize; i++)
     {
-        for (int j=0; j<A.ydimsize; j++)
+        for (int j=0; j<ydimsize; j++)
         {
-            TempResultStore=FunctionPointer(A.values[i][j]);
-            ResultSM.values[i][j]=TempResultStore;
+            TempResultStore=FunctionPointer(A(i, j));
+//            TempResultStore=3.1;
+            ResultSM(i, j)=TempResultStore;
         }
     }
     return ResultSM;
@@ -563,10 +572,19 @@ void SimpleMatrix<TemplateType>::DisplayInfo(void)
 
 
 template <typename TemplateType>
-SimpleMatrix<TemplateType> Join(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B, int Dimension)
+SimpleMatrix<TemplateType> XJoin(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B, int Dimension)
 {
+    //check that the y dimension is equal
+
+
+
+    //if the dimensions are incorrect
+
     SimpleMatrix<TemplateType> ReturnMatrix;
-    //check that  other dimension is equal
+
+
+    //copy A in
+    //copy B in
     return ReturnMatrix;
 }
 
