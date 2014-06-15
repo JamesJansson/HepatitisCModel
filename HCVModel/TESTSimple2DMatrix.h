@@ -13,7 +13,7 @@ double Add1(double A)
     A=A+1;
     return A;
 }
-double Mult(float A, int B){return A*B;}
+double MultAdd1(double A, double B){return (A*B+1);}
 
 void TESTSimple2DMatrix(void)
 {
@@ -253,11 +253,8 @@ void TESTSimple2DMatrix(void)
     B=Apply(Add1, A);
     B.DisplayInfo();
 
-
-//
-//    //Display functions
-//    void Display(void);
-//    void DisplayInfo(void);
+    C=Apply(MultAdd1, A, B);
+    C.DisplayInfo();
 
 
 
@@ -266,11 +263,6 @@ void TESTSimple2DMatrix(void)
 
 
     cout<<"Starting speed run, check memory space"<<endl;
-    char buffer;
-    cin>>buffer;
-
-
-
 
     int xdim=10000;
     int ydim=10000;
@@ -314,106 +306,6 @@ void TESTSimple2DMatrix(void)
     //cin>>buffer;
 }
 
-
-
-//SimpleMatrix<double> HeapSMA;
-//SimpleMatrix<double> HeapSMB;
-//
-//
-//void TESTSimpleMatrixHeap(void)
-//{
-//    int MatrixSize=10000;
-//    HeapSMA.Resize(MatrixSize, MatrixSize);
-//
-//    clock_t startTime;
-//    double secondsPassed;
-//
-//    startTime=clock();
-//    for (int i=0; i<(MatrixSize*MatrixSize); i++)
-//        HeapSMA(i)=i;
-//
-//    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-//    cout<<"Allocating values in a loop "<<secondsPassed<<endl;
-//
-//    startTime=clock();
-//    HeapSMB=HeapSMA+HeapSMA;
-//    secondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-//    cout<<"Adding matrices "<<secondsPassed<<endl;
-//
-//
-//}
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//void TESTSimpleMatrixGeneral(void)
-//{
-//    SimpleMatrix<double> A(2,3,4);
-//
-//    vector<int> TestingIndex;
-//    TestingIndex.push_back(1); TestingIndex.push_back(0); TestingIndex.push_back(2);
-//    A.DisplayInfo();
-//
-//    double StoreCount=-3.2;
-//    for (int k=0; k<4; k++)
-//    {
-//        for (int j=0; j<3; j++)
-//        {
-//            for (int i=0; i<2; i++)
-//            {
-//                StoreCount++;
-//
-//                TestingIndex.clear();
-//                TestingIndex.push_back(i); TestingIndex.push_back(j); TestingIndex.push_back(k);
-//                A(TestingIndex)=StoreCount;
-//            }
-//        }
-//    }
-//
-//    cout<<"Following set up..."<<endl;
-//    A.Display();
-//    SimpleMatrix<double> B;
-//    B=Apply(Add1, A);
-//    //B=Apply(sin, A);
-//    cout<<"After applying add 1 to B..."<<endl;
-//    B.Display();
-//
-//
-//
-//}
-//
-//
-//
-//
-//
-//
-//void TESTDimensionsCompatible(void)
-//{
-//    //Tested, works
-//    cout<<"Starting DimensionsCompatible test"<<endl;
-//    SimpleMatrix<double> A(2,3,4);
-//    SimpleMatrix<double> B(2,3,4);
-//    SimpleMatrix<double> C(2,1,4);
-//    if (A.DimensionsCompatible(B))
-//        cout<<"Dimensions compatible"<<endl;
-//    else
-//        cout<<"Dimensions NOT compatible"<<endl;
-//
-//    if (A.DimensionsCompatible(C))
-//        cout<<"Dimensions compatible"<<endl;
-//    else
-//        cout<<"Dimensions NOT compatible"<<endl;
-//
-//
-//
-//}
 
 
 
