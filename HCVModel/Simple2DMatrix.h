@@ -1,4 +1,4 @@
-/// Simple2DMatrix
+/// SimpleMatrix
 // Developed by James Jansson
 // This library is licensed under the Boost Software License 2003 (see end of file for terms).
 
@@ -6,7 +6,12 @@
 // This library is essentially compiler candy, designed to reduce the size of matrix operations from several lines down to a single line.
 // At this stage, all operations are done element-wise (that is, multiplication is element by element, not matrix multiplication as described in vector algebra).
 // Please note that none of these functions have been security tested as they are intended for scientific computing.
-// This library will likely require c++11 setting turned on in your compiler.
+
+// *** This library will likely require c++11 setting turned on in your compiler. ***
+
+#include <vector>
+using namespace std;
+
 
 
 /// Class declarations
