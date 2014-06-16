@@ -265,7 +265,7 @@ void TESTSimple2DMatrix(void)
     cout<<"Testing the joining of matrices"<<endl;
     A.resize(5, 6);
     B.resize(4, 6);
-    C=XJoin(A, B);
+    C=xjoin(A, B);
     C.displayinfo();
 
     //Testing that it looks right
@@ -283,11 +283,11 @@ void TESTSimple2DMatrix(void)
         for (int j=0; j<Bysize; j++)
             B(i, j)=6000+10*i+j;
 
-    C=XJoin(A, B);
-    C.displayinfo();
+    C=xjoin(A, B);
+    C.display();
 
-    C=YJoin(A, B);
-    C.displayinfo();
+    C=yjoin(A, B);
+    C.display();
 
 
 

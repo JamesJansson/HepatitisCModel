@@ -1,30 +1,22 @@
+/// Simple2DMatrix
 // Developed by James Jansson
+// This library is licensed under the Boost Software License 2003 (see end of file for terms).
 
+///Description
 // This library is essentially compiler candy, designed to reduce the size of matrix operations from several lines down to a single line.
-// At this stage, all operations are done elementwise.
+// At this stage, all operations are done element-wise (that is, multiplication is element by element, not matrix multiplication as described in vector algebra).
 // Please note that none of these functions have been security tested as they are intended for scientific computing.
 // This library will likely require c++11 setting turned on in your compiler.
 
-#include <stdarg.h>
 
-//Settings
-//int SMThreadsToUse=1;//will be used for multithreading in a future life
-//int SMMaxEntries=10000000;//used to prevent memory explosions
-
-
-// Class declarations
+/// Class declarations
 template <typename TemplateType>
 class SimpleMatrix {
     vector<vector<TemplateType>> values;//Data is stored in the value array
     int xdimsize;
     int ydimsize;
 
-//    int** ary = new int*[sizeX];
-//    for(int i = 0; i < sizeX; ++i)
-//        ary[i] = new int[sizeY];
-// And clean up
-//    for(int i = 0; i < sizeY; ++i)
-//        delete [] ary[i];
+
 
     public:
     /// Constructors
@@ -42,7 +34,6 @@ class SimpleMatrix {
     bool dimequal( SimpleMatrix<OtherType> Other);
     template <typename OtherType>
     void stop_if_dim_not_equal(SimpleMatrix<OtherType> Other);
-    // void stop_if_dim_not_equal( SimpleMatrix<OtherType> Other);
     void setall(TemplateType SetValue);
     void transpose(void);
 
@@ -97,19 +88,10 @@ class SimpleMatrix {
     //http://en.wikipedia.org/wiki/Operators_in_C_and_C%2B%2B
     // http://www.thegeekstuff.com/2013/09/cpp-operator-overloading/
 
-    //
-    //Changes this matrix
-    void apply(TemplateType (*FunctionPointer)(TemplateType));
-    //returns a new matrix
-//    template <typename ReturnTemplateType>
-//    friend SimpleMatrix<ReturnTemplateType> apply(ReturnTemplateType (*FunctionPointer)(TemplateType), const SimpleMatrix<TemplateType> A);
-//    template <typename ReturnTemplateType>
-//    friend SimpleMatrix<ReturnTemplateType> apply(const SimpleMatrix<TemplateType> A);
-    //returns a new matrix, two input matrices
- //   template <typename ReturnTemplateType, typename TemplateTypeA, typename TemplateTypeB>
- //   friend SimpleMatrix<ReturnTemplateType> apply(ReturnTemplateType (*FunctionPointer)(TemplateType, TemplateType), const SimpleMatrix<TemplateTypeA> A, const SimpleMatrix<TemplateTypeB> B);
+    /// Apply a function to this matrix
+    void apply(TemplateType (*FunctionPointer)(TemplateType));//Changes this matrix
 
-    //Display functions
+    /// Display functions
     void display(void);
     void displayinfo(void);
 
@@ -565,7 +547,7 @@ void SimpleMatrix<TemplateType>::displayinfo(void)
 
 
 template <typename TemplateType>
-SimpleMatrix<TemplateType> XJoin(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B)
+SimpleMatrix<TemplateType> xjoin(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B)
 {
     //check that the y dimension is equal
     int Axsize=A.xsize();
@@ -576,7 +558,8 @@ SimpleMatrix<TemplateType> XJoin(SimpleMatrix<TemplateType> A, SimpleMatrix<Temp
     //if the dimensions are incorrect
     if (Aysize!=Bysize)
     {
-        cout<<"Incorrect dimensions used in xjoin"<<endl;
+        cout<<"Incorrect dimensions used in xjoin ("<<Axsize<<", "<< Aysize <<") & ("<< Bxsize<<", "<<Bysize<<")." <<endl;
+        exit(-1);
     }
 
     SimpleMatrix<TemplateType> ReturnMatrix;
@@ -594,9 +577,9 @@ SimpleMatrix<TemplateType> XJoin(SimpleMatrix<TemplateType> A, SimpleMatrix<Temp
 }
 
 template <typename TemplateType>
-SimpleMatrix<TemplateType> YJoin(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B)
+SimpleMatrix<TemplateType> yjoin(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B)
 {
-    //check that the y dimension is equal
+    //check that the x dimension is equal
     int Axsize=A.xsize();
     int Bxsize=B.xsize();
     int Aysize=A.ysize();
@@ -605,7 +588,7 @@ SimpleMatrix<TemplateType> YJoin(SimpleMatrix<TemplateType> A, SimpleMatrix<Temp
     //if the dimensions are incorrect
     if (Axsize!=Bxsize)
     {
-        cout<<"Incorrect dimensions used in yjoin"<<endl;
+        cout<<"Incorrect dimensions used in yjoin ("<<Axsize<<", "<< Aysize <<") & ("<< Bxsize<<", "<<Bysize<<")." <<endl;
         exit(-1);
     }
 
@@ -624,5 +607,30 @@ SimpleMatrix<TemplateType> YJoin(SimpleMatrix<TemplateType> A, SimpleMatrix<Temp
 }
 
 
-    //Use this in in CountConstructorArgs to only run if ints
-    //http://www.cplusplus.com/reference/type_traits/enable_if/
+
+
+/*
+Boost Software License - Version 1.0 - August 17, 2003
+
+Permission is hereby granted, free of charge, to any person or organization
+obtaining a copy of the software and accompanying documentation covered by
+this license (the "Software") to use, reproduce, display, distribute,
+execute, and transmit the Software, and to prepare [[derivative work]]s of the
+Software, and to permit third-parties to whom the Software is furnished to
+do so, all subject to the following:
+
+The copyright notices in the Software and this entire statement, including
+the above license grant, this restriction and the following disclaimer,
+must be included in all copies of the Software, in whole or in part, and
+all derivative works of the Software, unless such copies or derivative
+works are solely in the form of machine-executable object code generated by
+a source language processor.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
+ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+DEALINGS IN THE SOFTWARE.
+*/
