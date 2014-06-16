@@ -5,11 +5,13 @@
 
 #include "EventVector.h"
 #include "SimulationClass.h"
+
+#include "SimpleMatrix.h"
 #include "csvread.h"
 
 
 
-#include "SimpleMatrix.h"
+
 
 //#include <thread.h>
 

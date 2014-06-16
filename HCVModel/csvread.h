@@ -1,7 +1,8 @@
 // Developed by James Jansson
 #include <fstream>
 #include <sstream>// may not be necesary in final build
-//using namespace std;
+#include "SimpleMatrix.h"
+using namespace std;
 
 
 
@@ -28,16 +29,20 @@ public:
     float GetFloat(int xStart, int xEnd, int yStart, int yEnd);
     int ConvertToInt(void);
     int ConvertToFloat(void);
-    int ReadInt(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
-    float ReadFloat(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
-    string ReadString(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
+    //int ReadInt(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
+    //float ReadFloat(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
+    //string ReadString(string FileName, int ReadDimensionXStart, int ReadDimensionXEnd, int ReadDimensionYStart, int ReadDimensionYEnd);
     int xSize(void);
     int ySize(void);
+
+    SimpleMatrix<int> outputint(void);
+    SimpleMatrix<int> outputint(int xStart, int xEnd, int yStart, int yEnd);
 
     void DisplayFile(void);
 
     // Writing functions
-    int Add(int ArrayOf, int xpos, int ypos);//
+    int Add(SimpleMatrix<int> ArrayOf, int xpos, int ypos);// Converts content to a string
+
 
 
     // SaveFile
