@@ -568,16 +568,29 @@ template <typename TemplateType>
 SimpleMatrix<TemplateType> XJoin(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B, int Dimension)
 {
     //check that the y dimension is equal
-
-
+    Axsize=A.xsize();
+    Bxsize=B.xsize();
+    Aysize=A.ysize();
+    Bysize=B.ysize();
 
     //if the dimensions are incorrect
+    if (Aysize!=Bysize)
+    {
+        cout<<"Incorrect dimensions used in xjoin
+    }
 
     SimpleMatrix<TemplateType> ReturnMatrix;
 
+    ReturnMatrix=A;
+    ReturnMatrix.resize(Axsize+Bxsize, Aysize);
 
-    //copy A in
-    //copy B in
+    for (int i=0; i<Bxsize; i++)
+    {
+        for (int j=0; j<ydimsize; j++)
+        {
+            ReturnMatrix(i+Axsize, j)=B(i, j);
+        }
+    }
     return ReturnMatrix;
 }
 
