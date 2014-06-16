@@ -256,45 +256,71 @@ void TESTSimple2DMatrix(void)
     C=Apply(MultAdd1, A, B);
     C.DisplayInfo();
 
+    cout<<"Testing the joining of matrices"<<endl;
+
+    A.Resize(5, 6);
+    B.Resize(4, 6);
+    C=XJoin(A, B);
+    C.DisplayInfo();
+
+    //Testing that it looks right
+    int Axsize, Aysize, Bxsize, Bysize;
+    Axsize=3;
+    Aysize=4;
+    Bxsize=4;
+    Bysize=4;
+    A.Resize(Axsize, Aysize);
+    for (int i=0; i<Axsize; i++)
+        for (int j=0; j<Aysize; j++)
+            A(i, j)=3000+10*i+j;
+    B.Resize(Bxsize, Bysize);
+    for (int i=0; i<Bxsize; i++)
+        for (int j=0; j<Bysize; j++)
+            B(i, j)=6000+10*i+j;
+
+    C=XJoin(A, B);
+    C.DisplayInfo();
+
+    C=YJoin(A, B);
+    C.DisplayInfo();
+
+    bool DoSpeedTest;
+    if (DoSpeedTest)
+    {
+        cout<<"Starting speed run, check memory space"<<endl;
+
+        int xdim=10000;
+        int ydim=10000;
+        D.Resize(xdim, ydim);
+        E.Resize(xdim, ydim);
+
+        int DSize=sizeof(D);
+        cout<<"The size of a 10000x10000 vector is "<<DSize<<endl;
+
+        for (int i=0; i<(xdim); i++)
+            for (int j=0; j<(ydim); j++)
+                D(i, j)=ydim*i+j;
 
 
+        cout<<"Adding"<<endl;
+        startTime=clock();
+        E=D+2;
+        millisecondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+        cout<<"Milliseconds: "<<millisecondsPassed<<endl;
 
+        cout<<"Dividing"<<endl;
+        startTime=clock();
+        F=D/E;
+        millisecondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+        cout<<"Milliseconds: "<<millisecondsPassed<<endl;
 
-
-
-    cout<<"Starting speed run, check memory space"<<endl;
-
-    int xdim=10000;
-    int ydim=10000;
-    D.Resize(xdim, ydim);
-    E.Resize(xdim, ydim);
-
-    int DSize=sizeof(D);
-    cout<<"The size of a 10000x10000 vector is "<<DSize<<endl;
-
-    for (int i=0; i<(xdim); i++)
-        for (int j=0; j<(ydim); j++)
-            D(i, j)=ydim*i+j;
-
-
-    cout<<"Adding"<<endl;
-    startTime=clock();
-    E=D+2;
-    millisecondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-    cout<<"Milliseconds: "<<millisecondsPassed<<endl;
-
-    cout<<"Dividing"<<endl;
-    startTime=clock();
-    F=D/E;
-    millisecondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-    cout<<"Milliseconds: "<<millisecondsPassed<<endl;
-
-    cout<<"Dividing into preallocated space"<<endl;// is prealloacted becaur C is currently the right size
-    F.SetAll(0.5);
-    startTime=clock();
-    F=D/E;
-    millisecondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
-    cout<<"Milliseconds: "<<millisecondsPassed<<endl;
+        cout<<"Dividing into preallocated space"<<endl;// is prealloacted becaur C is currently the right size
+        F.SetAll(0.5);
+        startTime=clock();
+        F=D/E;
+        millisecondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
+        cout<<"Milliseconds: "<<millisecondsPassed<<endl;
+    }
 
 
 

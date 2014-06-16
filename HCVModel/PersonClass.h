@@ -65,7 +65,7 @@ Person::Person(void)//Constructor class
 	//StepSize=0.1;
 	Active=0;
 	NextSusceptible=0;
-
+    cout<<"In this section, pass pointers of this person class to the other classes (e.g. to HCVClass)"<<endl;
 }
 
 void Person::Reset(void)//Constructor class

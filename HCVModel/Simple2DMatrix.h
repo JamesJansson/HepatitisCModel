@@ -565,30 +565,59 @@ void SimpleMatrix<TemplateType>::DisplayInfo(void)
 
 
 template <typename TemplateType>
-SimpleMatrix<TemplateType> XJoin(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B, int Dimension)
+SimpleMatrix<TemplateType> XJoin(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B)
 {
     //check that the y dimension is equal
-    Axsize=A.xsize();
-    Bxsize=B.xsize();
-    Aysize=A.ysize();
-    Bysize=B.ysize();
+    int Axsize=A.xsize();
+    int Bxsize=B.xsize();
+    int Aysize=A.ysize();
+    int Bysize=B.ysize();
 
     //if the dimensions are incorrect
     if (Aysize!=Bysize)
     {
-        cout<<"Incorrect dimensions used in xjoin
+        cout<<"Incorrect dimensions used in xjoin"<<endl;
     }
 
     SimpleMatrix<TemplateType> ReturnMatrix;
-
     ReturnMatrix=A;
-    ReturnMatrix.resize(Axsize+Bxsize, Aysize);
+    ReturnMatrix.Resize(Axsize+Bxsize, Aysize);
 
     for (int i=0; i<Bxsize; i++)
     {
-        for (int j=0; j<ydimsize; j++)
+        for (int j=0; j<Bysize; j++)
         {
             ReturnMatrix(i+Axsize, j)=B(i, j);
+        }
+    }
+    return ReturnMatrix;
+}
+
+template <typename TemplateType>
+SimpleMatrix<TemplateType> YJoin(SimpleMatrix<TemplateType> A, SimpleMatrix<TemplateType> B)
+{
+    //check that the y dimension is equal
+    int Axsize=A.xsize();
+    int Bxsize=B.xsize();
+    int Aysize=A.ysize();
+    int Bysize=B.ysize();
+
+    //if the dimensions are incorrect
+    if (Axsize!=Bxsize)
+    {
+        cout<<"Incorrect dimensions used in yjoin"<<endl;
+        exit(-1);
+    }
+
+    SimpleMatrix<TemplateType> ReturnMatrix;
+    ReturnMatrix=A;
+    ReturnMatrix.Resize(Axsize, Aysize+Bysize);
+
+    for (int i=0; i<Bxsize; i++)
+    {
+        for (int j=0; j<Bysize; j++)
+        {
+            ReturnMatrix(i, j+Aysize)=B(i, j);
         }
     }
     return ReturnMatrix;
