@@ -15,7 +15,7 @@ double Add1(double A)
 }
 double MultAdd1(double A, double B){return (A*B+1);}
 
-void TESTSimple2DMatrix(void)
+void TESTSimpleMatrix(void)
 {
     clock_t startTime;
     double millisecondsPassed;
@@ -285,6 +285,20 @@ void TESTSimple2DMatrix(void)
 
     C=xjoin(A, B);
     C.display();
+
+    Axsize=3;
+    Aysize=2;
+    Bxsize=3;
+    Bysize=5;
+    A.resize(Axsize, Aysize);
+    for (int i=0; i<Axsize; i++)
+        for (int j=0; j<Aysize; j++)
+            A(i, j)=3000+10*i+j;
+    B.resize(Bxsize, Bysize);
+    for (int i=0; i<Bxsize; i++)
+        for (int j=0; j<Bysize; j++)
+            B(i, j)=6000+10*i+j;
+
 
     C=yjoin(A, B);
     C.display();

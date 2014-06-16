@@ -1,11 +1,11 @@
 # depslib dependency file v1.0
-1402655372 source:c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\main.cpp
+1402895691 source:c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\main.cpp
 	<iostream>
 	<ctime>
 	"EventVector.h"
 	"SimulationClass.h"
 	"csvread.h"
-	"Simple2DMatrix.h"
+	"SimpleMatrix.h"
 	"TEST.h"
 
 1401854239 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\eventvector.h
@@ -17,7 +17,7 @@
 	"EventVector.h"
 	"PersonClass.h"
 
-1402892907 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\personclass.h
+1402895796 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\personclass.h
 	"EventVector.h"
 	"HCVClass.h"
 	"IDUClass.h"
@@ -40,10 +40,10 @@
 	<fstream>
 	<sstream>
 
-1402835239 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\test.h
+1402895723 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\test.h
 	"TESTcsvread.h"
 	"TESTEventVector.h"
-	"TESTSimple2DMatrix.h"
+	"TESTSimpleMatrix.h"
 	<time.h>
 
 1402149635 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\testcsvread.h
@@ -98,11 +98,13 @@
 
 1402016862 c:\users\james\documents\github\hepatitiscmodel\hcvmodel\testeventvector.h
 
-1402261477 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\simplematrix.h
-	<stdarg.h>
+1402895527 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\simplematrix.h
+	<vector>
 
-1402261499 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\testsimplematrix.h
-	"SimpleMatrix.h"
+1402895773 c:\users\jjansson\documents\github\sparseepidemiologicalnetworks\hcvmodel\testsimplematrix.h
+	<math.h>
+	<time.h>
+	<stdio.h>
 
 1402372113 c:\users\james\documents\github\hepatitiscmodel\hcvmodel\simplematrix.h
 	<stdarg.h>

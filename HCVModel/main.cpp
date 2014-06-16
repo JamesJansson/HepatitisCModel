@@ -6,10 +6,10 @@
 #include "EventVector.h"
 #include "SimulationClass.h"
 #include "csvread.h"
-//#include "SimpleMatrix.h"
 
 
-#include "Simple2DMatrix.h"
+
+#include "SimpleMatrix.h"
 
 //#include <thread.h>
 

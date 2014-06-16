@@ -7,7 +7,7 @@
 
 
 
-#include "TESTSimple2DMatrix.h"
+#include "TESTSimpleMatrix.h"
 #include <time.h>
 //#include "Matrix.h"
 
@@ -18,7 +18,7 @@ void TESTFunctions(void)
 {
 
 
-    TESTSimple2DMatrix();
+    TESTSimpleMatrix();
 
 
 
