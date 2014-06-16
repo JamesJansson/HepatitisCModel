@@ -25,31 +25,31 @@ void TESTSimple2DMatrix(void)
 //    SimpleMatrix(int xsize, int ysize);//alows a vector to be used to specify the dimensions of the matrix
     SimpleMatrix<double> A(2, 3);
     cout<<"2x3"<<endl;
-    A.DisplayInfo();
+    A.displayinfo();
 //    SimpleMatrix(void);
     SimpleMatrix<double> U;
     cout<<"1x1"<<endl;
-    U.DisplayInfo();
+    U.displayinfo();
 //    SimpleMatrix(vector<int> dimensions);//alows a vector to be used to specify the dimensions of the matrix
     vector<int> SizingVector;
     SizingVector.push_back(5);
     SizingVector.push_back(6);
     SimpleMatrix<double> B(SizingVector);
     cout<<"5x6 vector"<<endl;
-    B.DisplayInfo();
+    B.displayinfo();
 //    void resize(int xsize, int ysize);
     B.resize(3, 4);
     cout<<"3x4 resize down using ints"<<endl;
-    B.DisplayInfo();
+    B.displayinfo();
 //    void resize(vector<int> dimensions);
     SizingVector[0]=3;
     SizingVector[1]=4;
     A.resize(SizingVector);
     cout<<"3x4 resize up using vector"<<endl;
-    A.DisplayInfo();
+    A.displayinfo();
 //
     B(0, 3)=45;
-    B.DisplayInfo();
+    B.displayinfo();
 
     /// Dimensions
 //    vector<int> dim(void);
@@ -85,17 +85,17 @@ void TESTSimple2DMatrix(void)
 //    // void StopIfDimensionsIncompatible( SimpleMatrix<OtherType> Other);
 //    void setall(TemplateType SetValue);
     A.setall(55);
-    A.DisplayInfo();
+    A.displayinfo();
 
 //    SimpleMatrix<TemplateType> transpose(void);
     A.resize(3, 4);
     for (int i=0; i<(3); i++)
         for (int j=0; j<(4); j++)
             A(i, j)=10*i+j;
-    A.DisplayInfo();
+    A.displayinfo();
     A.transpose();
     cout<<"Transpose of the above"<<endl;
-    A.DisplayInfo();
+    A.displayinfo();
 
 
 
@@ -113,30 +113,30 @@ void TESTSimple2DMatrix(void)
 //        template <typename OtherType>
 //        SimpleMatrix<TemplateType> operator+(const OtherType& Other);
     cout<<"A: "<<endl;
-    A.DisplayInfo();
+    A.displayinfo();
 
     cout<<"Testing int add"<<endl;
     int Two=2;
     B=A+Two;
-    B.DisplayInfo();
+    B.displayinfo();
     cout<<"Testing left int add"<<endl;
     B=Two+A;
-    B.DisplayInfo();
+    B.displayinfo();
 
     cout<<"Testing float add"<<endl;
     float TreefiddyF=3.5;
     B=A+TreefiddyF;
-    B.DisplayInfo();
+    B.displayinfo();
 
     cout<<"Testing double add"<<endl;
     double TreefiddyD=3.5;
     B=A+TreefiddyD;
-    B.DisplayInfo();
+    B.displayinfo();
 
     SimpleMatrix<double> C;
     cout<<"Testing matrix add"<<endl;
     C=A+B;
-    C.DisplayInfo();
+    C.displayinfo();
 
     //Minus
 //        template <typename OtherType>
@@ -146,30 +146,30 @@ void TESTSimple2DMatrix(void)
 //        //Unary minus
 //        SimpleMatrix<TemplateType> operator-(void);
     cout<<"A: "<<endl;
-    A.DisplayInfo();
+    A.displayinfo();
 
     cout<<"Testing int minus"<<endl;
     B=A-Two;
-    B.DisplayInfo();
+    B.displayinfo();
     cout<<"Testing left int minus"<<endl;
     B=Two-A;
-    B.DisplayInfo();
+    B.displayinfo();
 
     cout<<"Testing float minus"<<endl;
     B=A-TreefiddyF;
-    B.DisplayInfo();
+    B.displayinfo();
 
     cout<<"Testing double minus"<<endl;
     B=A-TreefiddyD;
-    B.DisplayInfo();
+    B.displayinfo();
 
     cout<<"Testing matrix minus"<<endl;
     C=A-B;
-    C.DisplayInfo();
+    C.displayinfo();
 
     cout<<"Testing unitary minus"<<endl;
     B=-A;
-    B.DisplayInfo();
+    B.displayinfo();
 
     //Times
 //        template <typename OtherType>
@@ -178,26 +178,26 @@ void TESTSimple2DMatrix(void)
 //        SimpleMatrix<TemplateType> operator*(const OtherType& Other);
 
     cout<<"A: "<<endl;
-    A.DisplayInfo();
+    A.displayinfo();
 
     cout<<"Testing int times"<<endl;
     B=A*Two;
-    B.DisplayInfo();
+    B.displayinfo();
     cout<<"Testing left int times"<<endl;
     B=Two*A;
-    B.DisplayInfo();
+    B.displayinfo();
 
     cout<<"Testing float times"<<endl;
     B=A*TreefiddyF;
-    B.DisplayInfo();
+    B.displayinfo();
 
     cout<<"Testing double times"<<endl;
     B=A*TreefiddyD;
-    B.DisplayInfo();
+    B.displayinfo();
 
     cout<<"Testing matrix times"<<endl;
     C=A*B;
-    C.DisplayInfo();
+    C.displayinfo();
     //Divide
 //        template <typename OtherType>
 //        SimpleMatrix<TemplateType> operator/(const SimpleMatrix<OtherType>& Other);
@@ -207,26 +207,26 @@ void TESTSimple2DMatrix(void)
 //        SimpleMatrix<TemplateType> DivideByMatrix(const OtherType& Other);
 
     cout<<"A: "<<endl;
-    A.DisplayInfo();
+    A.displayinfo();
 
     cout<<"Testing int divide"<<endl;
     B=A/Two;
-    B.DisplayInfo();
+    B.displayinfo();
     cout<<"Testing left int divide"<<endl;
     B=Two/A;
-    B.DisplayInfo();
+    B.displayinfo();
 
     cout<<"Testing float divide"<<endl;
     B=A/TreefiddyF;
-    B.DisplayInfo();
+    B.displayinfo();
 
     cout<<"Testing double divide"<<endl;
     B=A/TreefiddyD;
-    B.DisplayInfo();
+    B.displayinfo();
 
     cout<<"Testing matrix divide"<<endl;
     C=A/B;
-    C.DisplayInfo();
+    C.displayinfo();
 
 
     //Modulus
@@ -246,22 +246,27 @@ void TESTSimple2DMatrix(void)
 //    //returns a new matrix, two input matrices
 //    template <typename ReturnTemplateType>
 //    friend SimpleMatrix<ReturnTemplateType> apply(ReturnTemplateType (*FunctionPointer)(TemplateType, TemplateType), const SimpleMatrix<TemplateType> A, const SimpleMatrix<TemplateType> B);
+
+
+
+
     cout<<"Applying add 1 to A"<<endl;
     A.apply(Add1);
-    A.DisplayInfo();
+    A.displayinfo();
 
     B=apply(Add1, A);
-    B.DisplayInfo();
+    B.displayinfo();
 
     C=apply(MultAdd1, A, B);
-    C.DisplayInfo();
+    C.displayinfo();
+
+
 
     cout<<"Testing the joining of matrices"<<endl;
-
     A.resize(5, 6);
     B.resize(4, 6);
     C=XJoin(A, B);
-    C.DisplayInfo();
+    C.displayinfo();
 
     //Testing that it looks right
     int Axsize, Aysize, Bxsize, Bysize;
@@ -279,12 +284,15 @@ void TESTSimple2DMatrix(void)
             B(i, j)=6000+10*i+j;
 
     C=XJoin(A, B);
-    C.DisplayInfo();
+    C.displayinfo();
 
     C=YJoin(A, B);
-    C.DisplayInfo();
+    C.displayinfo();
 
-    bool DoSpeedTest;
+
+
+
+    bool DoSpeedTest=false;
     if (DoSpeedTest)
     {
         cout<<"Starting speed run, check memory space"<<endl;

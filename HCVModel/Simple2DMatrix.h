@@ -110,8 +110,8 @@ class SimpleMatrix {
  //   friend SimpleMatrix<ReturnTemplateType> apply(ReturnTemplateType (*FunctionPointer)(TemplateType, TemplateType), const SimpleMatrix<TemplateTypeA> A, const SimpleMatrix<TemplateTypeB> B);
 
     //Display functions
-    void Display(void);
-    void DisplayInfo(void);
+    void display(void);
+    void displayinfo(void);
 
 
 
@@ -523,7 +523,7 @@ SimpleMatrix<ReturnTemplateType> apply(ReturnTemplateType (*FunctionPointer)(Inp
 
 //Display functions
 template <typename TemplateType>
-void SimpleMatrix<TemplateType>::Display(void)
+void SimpleMatrix<TemplateType>::display(void)
 {
     cout<<"Contents: "<<endl;
     for (int j=0; j<ydimsize; j++)
@@ -536,7 +536,7 @@ void SimpleMatrix<TemplateType>::Display(void)
 }
 
 template <typename TemplateType>
-void SimpleMatrix<TemplateType>::DisplayInfo(void)
+void SimpleMatrix<TemplateType>::displayinfo(void)
 {
     cout<<"Dimensions: ( "<< xdimsize << ", " << ydimsize <<")"<<endl;
 
@@ -548,7 +548,7 @@ void SimpleMatrix<TemplateType>::DisplayInfo(void)
         cout<<endl;
     }
     cout<<"..."<<endl;
-    cout<<"To see full contents use Display()"<<endl<<endl;
+    cout<<"To see full contents use display()"<<endl<<endl;
 }
 
 
