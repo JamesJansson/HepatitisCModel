@@ -41,10 +41,10 @@ class SimpleMatrix {
     template <typename OtherType>
     bool dimequal( SimpleMatrix<OtherType> Other);
     template <typename OtherType>
-    void StopIfDimensionsIncompatible(SimpleMatrix<OtherType> Other);
-    // void StopIfDimensionsIncompatible( SimpleMatrix<OtherType> Other);
-    void SetAll(TemplateType SetValue);
-    void Transpose(void);
+    void stop_if_dim_not_equal(SimpleMatrix<OtherType> Other);
+    // void stop_if_dim_not_equal( SimpleMatrix<OtherType> Other);
+    void setall(TemplateType SetValue);
+    void transpose(void);
 
 
 
@@ -99,15 +99,15 @@ class SimpleMatrix {
 
     //
     //Changes this matrix
-    void Apply(TemplateType (*FunctionPointer)(TemplateType));
+    void apply(TemplateType (*FunctionPointer)(TemplateType));
     //returns a new matrix
 //    template <typename ReturnTemplateType>
-//    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType), const SimpleMatrix<TemplateType> A);
+//    friend SimpleMatrix<ReturnTemplateType> apply(ReturnTemplateType (*FunctionPointer)(TemplateType), const SimpleMatrix<TemplateType> A);
 //    template <typename ReturnTemplateType>
-//    friend SimpleMatrix<ReturnTemplateType> Apply(const SimpleMatrix<TemplateType> A);
+//    friend SimpleMatrix<ReturnTemplateType> apply(const SimpleMatrix<TemplateType> A);
     //returns a new matrix, two input matrices
  //   template <typename ReturnTemplateType, typename TemplateTypeA, typename TemplateTypeB>
- //   friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType, TemplateType), const SimpleMatrix<TemplateTypeA> A, const SimpleMatrix<TemplateTypeB> B);
+ //   friend SimpleMatrix<ReturnTemplateType> apply(ReturnTemplateType (*FunctionPointer)(TemplateType, TemplateType), const SimpleMatrix<TemplateTypeA> A, const SimpleMatrix<TemplateTypeB> B);
 
     //Display functions
     void Display(void);
@@ -206,7 +206,7 @@ class SimpleMatrix {
     }
 
     template <typename TemplateType> template <typename OtherType>
-    void SimpleMatrix<TemplateType>::StopIfDimensionsIncompatible(SimpleMatrix<OtherType> Other)
+    void SimpleMatrix<TemplateType>::stop_if_dim_not_equal(SimpleMatrix<OtherType> Other)
     {
         if (dimequal(Other)==false)
         {
@@ -217,7 +217,7 @@ class SimpleMatrix {
 
 ///Matrix operations
     template <typename TemplateType>
-    void SimpleMatrix<TemplateType>::SetAll(TemplateType SetValue)
+    void SimpleMatrix<TemplateType>::setall(TemplateType SetValue)
     {
         for (int i=0; i<xdimsize; i++)
         {
@@ -229,7 +229,7 @@ class SimpleMatrix {
     }
 
     template <typename TemplateType>
-    void SimpleMatrix<TemplateType>::Transpose(void)
+    void SimpleMatrix<TemplateType>::transpose(void)
     {
         SimpleMatrix<TemplateType> NewMatrix(ydimsize, xdimsize);//doing this because it is the laziest way to make the proper sized matrix
 
@@ -263,7 +263,7 @@ class SimpleMatrix {
         template <typename TemplateType> template <typename OtherType>
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator+(const SimpleMatrix<OtherType>& Other)
         {
-            StopIfDimensionsIncompatible(Other);
+            stop_if_dim_not_equal(Other);
             SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
             for (int i=0; i<xdimsize; i++)
                 for (int j=0; j<ydimsize; j++)
@@ -297,7 +297,7 @@ class SimpleMatrix {
         template <typename TemplateType> template <typename OtherType>
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator-(const SimpleMatrix<OtherType>& Other)
         {
-            StopIfDimensionsIncompatible(Other);
+            stop_if_dim_not_equal(Other);
             SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
             for (int i=0; i<xdimsize; i++)
                 for (int j=0; j<ydimsize; j++)
@@ -343,7 +343,7 @@ class SimpleMatrix {
         template <typename TemplateType> template <typename OtherType>
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator*(const SimpleMatrix<OtherType>& Other)
         {
-            StopIfDimensionsIncompatible(Other);
+            stop_if_dim_not_equal(Other);
             SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
             for (int i=0; i<xdimsize; i++)
                 for (int j=0; j<ydimsize; j++)
@@ -379,7 +379,7 @@ class SimpleMatrix {
         template <typename TemplateType> template <typename OtherType>
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator/(const SimpleMatrix<OtherType>& Other)
         {
-            StopIfDimensionsIncompatible(Other);
+            stop_if_dim_not_equal(Other);
             SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
             for (int i=0; i<xdimsize; i++)
                 for (int j=0; j<ydimsize; j++)
@@ -422,7 +422,7 @@ class SimpleMatrix {
         template <typename TemplateType> template <typename OtherType>
         SimpleMatrix<TemplateType> SimpleMatrix<TemplateType>::operator%(const SimpleMatrix<OtherType>& Other)
         {
-            StopIfDimensionsIncompatible(Other);
+            stop_if_dim_not_equal(Other);
             SimpleMatrix<TemplateType> ResultSM(xdimsize, ydimsize);
             for (int i=0; i<xdimsize; i++)
                 for (int j=0; j<ydimsize; j++)
@@ -467,7 +467,7 @@ class SimpleMatrix {
 
 //Apply a function to the matrix
 template <typename TemplateType>
-void SimpleMatrix<TemplateType>::Apply(TemplateType (*FunctionPointer)(TemplateType))
+void SimpleMatrix<TemplateType>::apply(TemplateType (*FunctionPointer)(TemplateType))
 {
     for (int i=0; i<xdimsize; i++)
         for (int j=0; j<ydimsize; j++)
@@ -476,7 +476,7 @@ void SimpleMatrix<TemplateType>::Apply(TemplateType (*FunctionPointer)(TemplateT
 
 //Apply a function to be returned
 template <typename ReturnTemplateType, typename TemplateType>
-SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType), SimpleMatrix<TemplateType> A)
+SimpleMatrix<ReturnTemplateType> apply(ReturnTemplateType (*FunctionPointer)(TemplateType), SimpleMatrix<TemplateType> A)
 {
     TemplateType TempResultStore;
     //Determine size of input vector
@@ -497,11 +497,11 @@ SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(Tem
 
 
 
-//Applying a function to 2 multidimensional matrices
+//applying a function to 2 multidimensional matrices
 template <typename ReturnTemplateType, typename InputTemplateTypeA, typename InputTemplateTypeB>
-SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(InputTemplateTypeA, InputTemplateTypeB), SimpleMatrix<InputTemplateTypeA> A, SimpleMatrix<InputTemplateTypeB> B)
+SimpleMatrix<ReturnTemplateType> apply(ReturnTemplateType (*FunctionPointer)(InputTemplateTypeA, InputTemplateTypeB), SimpleMatrix<InputTemplateTypeA> A, SimpleMatrix<InputTemplateTypeB> B)
 {
-    A.StopIfDimensionsIncompatible(B);
+    A.stop_if_dim_not_equal(B);
     ReturnTemplateType TempResultStore;
     int xdimsize=A.xsize();
     int ydimsize=A.ysize();

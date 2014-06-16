@@ -83,17 +83,17 @@ void TESTSimple2DMatrix(void)
     //Works
 
 //    // void StopIfDimensionsIncompatible( SimpleMatrix<OtherType> Other);
-//    void SetAll(TemplateType SetValue);
-    A.SetAll(55);
+//    void setall(TemplateType SetValue);
+    A.setall(55);
     A.DisplayInfo();
 
-//    SimpleMatrix<TemplateType> Transpose(void);
+//    SimpleMatrix<TemplateType> transpose(void);
     A.resize(3, 4);
     for (int i=0; i<(3); i++)
         for (int j=0; j<(4); j++)
             A(i, j)=10*i+j;
     A.DisplayInfo();
-    A.Transpose();
+    A.transpose();
     cout<<"Transpose of the above"<<endl;
     A.DisplayInfo();
 
@@ -239,21 +239,21 @@ void TESTSimple2DMatrix(void)
 //
 
 //    //Changes this matrix
-//    void Apply(TemplateType (*FunctionPointer)(TemplateType));
+//    void apply(TemplateType (*FunctionPointer)(TemplateType));
 //    //returns a new matrix
 //    template <typename ReturnTemplateType>
-//    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType), const SimpleMatrix<TemplateType> A);
+//    friend SimpleMatrix<ReturnTemplateType> apply(ReturnTemplateType (*FunctionPointer)(TemplateType), const SimpleMatrix<TemplateType> A);
 //    //returns a new matrix, two input matrices
 //    template <typename ReturnTemplateType>
-//    friend SimpleMatrix<ReturnTemplateType> Apply(ReturnTemplateType (*FunctionPointer)(TemplateType, TemplateType), const SimpleMatrix<TemplateType> A, const SimpleMatrix<TemplateType> B);
+//    friend SimpleMatrix<ReturnTemplateType> apply(ReturnTemplateType (*FunctionPointer)(TemplateType, TemplateType), const SimpleMatrix<TemplateType> A, const SimpleMatrix<TemplateType> B);
     cout<<"Applying add 1 to A"<<endl;
-    A.Apply(Add1);
+    A.apply(Add1);
     A.DisplayInfo();
 
-    B=Apply(Add1, A);
+    B=apply(Add1, A);
     B.DisplayInfo();
 
-    C=Apply(MultAdd1, A, B);
+    C=apply(MultAdd1, A, B);
     C.DisplayInfo();
 
     cout<<"Testing the joining of matrices"<<endl;
@@ -315,7 +315,7 @@ void TESTSimple2DMatrix(void)
         cout<<"Milliseconds: "<<millisecondsPassed<<endl;
 
         cout<<"Dividing into preallocated space"<<endl;// is prealloacted becaur C is currently the right size
-        F.SetAll(0.5);
+        F.setall(0.5);
         startTime=clock();
         F=D/E;
         millisecondsPassed = (clock() - startTime) / (CLOCKS_PER_SEC/1000);
