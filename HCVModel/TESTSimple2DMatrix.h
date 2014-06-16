@@ -37,15 +37,15 @@ void TESTSimple2DMatrix(void)
     SimpleMatrix<double> B(SizingVector);
     cout<<"5x6 vector"<<endl;
     B.DisplayInfo();
-//    void Resize(int xsize, int ysize);
-    B.Resize(3, 4);
-    cout<<"3x4 Resize down using ints"<<endl;
+//    void resize(int xsize, int ysize);
+    B.resize(3, 4);
+    cout<<"3x4 resize down using ints"<<endl;
     B.DisplayInfo();
-//    void Resize(vector<int> dimensions);
+//    void resize(vector<int> dimensions);
     SizingVector[0]=3;
     SizingVector[1]=4;
-    A.Resize(SizingVector);
-    cout<<"3x4 Resize up using vector"<<endl;
+    A.resize(SizingVector);
+    cout<<"3x4 resize up using vector"<<endl;
     A.DisplayInfo();
 //
     B(0, 3)=45;
@@ -60,21 +60,21 @@ void TESTSimple2DMatrix(void)
 //    int ysize(void);
     cout<<"Int dim output "<<B.xsize()<<", "<<B.ysize()<<endl;
 //    template <typename OtherType>
-//    bool DimensionsCompatible( SimpleMatrix<OtherType> Other);
-    if (B.DimensionsCompatible(A))
+//    bool dimequal( SimpleMatrix<OtherType> Other);
+    if (B.dimequal(A))
         cout<<"Dimensions compatible, as expected. Now resize"<<endl;
 
-    A.Resize(5, 4);
-    if (!B.DimensionsCompatible(A))
+    A.resize(5, 4);
+    if (!B.dimequal(A))
         cout<<"Too big in x works"<<endl;
-    A.Resize(2, 4);
-    if (!B.DimensionsCompatible(A))
+    A.resize(2, 4);
+    if (!B.dimequal(A))
         cout<<"Too small in x works"<<endl;
-    A.Resize(3, 5);
-    if (!B.DimensionsCompatible(A))
+    A.resize(3, 5);
+    if (!B.dimequal(A))
         cout<<"Too big in y works"<<endl;
-    A.Resize(3, 2);
-    if (!B.DimensionsCompatible(A))
+    A.resize(3, 2);
+    if (!B.dimequal(A))
         cout<<"Too small in y works"<<endl;
 
 //    template <typename OtherType>
@@ -88,7 +88,7 @@ void TESTSimple2DMatrix(void)
     A.DisplayInfo();
 
 //    SimpleMatrix<TemplateType> Transpose(void);
-    A.Resize(3, 4);
+    A.resize(3, 4);
     for (int i=0; i<(3); i++)
         for (int j=0; j<(4); j++)
             A(i, j)=10*i+j;
@@ -258,8 +258,8 @@ void TESTSimple2DMatrix(void)
 
     cout<<"Testing the joining of matrices"<<endl;
 
-    A.Resize(5, 6);
-    B.Resize(4, 6);
+    A.resize(5, 6);
+    B.resize(4, 6);
     C=XJoin(A, B);
     C.DisplayInfo();
 
@@ -269,11 +269,11 @@ void TESTSimple2DMatrix(void)
     Aysize=4;
     Bxsize=4;
     Bysize=4;
-    A.Resize(Axsize, Aysize);
+    A.resize(Axsize, Aysize);
     for (int i=0; i<Axsize; i++)
         for (int j=0; j<Aysize; j++)
             A(i, j)=3000+10*i+j;
-    B.Resize(Bxsize, Bysize);
+    B.resize(Bxsize, Bysize);
     for (int i=0; i<Bxsize; i++)
         for (int j=0; j<Bysize; j++)
             B(i, j)=6000+10*i+j;
@@ -291,8 +291,8 @@ void TESTSimple2DMatrix(void)
 
         int xdim=10000;
         int ydim=10000;
-        D.Resize(xdim, ydim);
-        E.Resize(xdim, ydim);
+        D.resize(xdim, ydim);
+        E.resize(xdim, ydim);
 
         int DSize=sizeof(D);
         cout<<"The size of a 10000x10000 vector is "<<DSize<<endl;

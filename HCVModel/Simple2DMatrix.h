@@ -31,15 +31,15 @@ class SimpleMatrix {
     SimpleMatrix(int xsize, int ysize);//alows a vector to be used to specify the dimensions of the matrix
     SimpleMatrix(void);
     SimpleMatrix(vector<int> dimensions);//alows a vector to be used to specify the dimensions of the matrix
-    void Resize(int xsize, int ysize);
-    void Resize(vector<int> dimensions);
+    void resize(int xsize, int ysize);
+    void resize(vector<int> dimensions);
 
     /// Dimensions
     vector<int> dim(void);
     int xsize(void);
     int ysize(void);
     template <typename OtherType>
-    bool DimensionsCompatible( SimpleMatrix<OtherType> Other);
+    bool dimequal( SimpleMatrix<OtherType> Other);
     template <typename OtherType>
     void StopIfDimensionsIncompatible(SimpleMatrix<OtherType> Other);
     // void StopIfDimensionsIncompatible( SimpleMatrix<OtherType> Other);
@@ -123,7 +123,7 @@ class SimpleMatrix {
     template <typename TemplateType>
     SimpleMatrix<TemplateType>::SimpleMatrix(int xsize, int ysize)
     {
-        Resize(xsize, ysize);
+        resize(xsize, ysize);
     }
 
     template <typename TemplateType>
@@ -138,11 +138,11 @@ class SimpleMatrix {
     template <typename TemplateType>
     SimpleMatrix<TemplateType>::SimpleMatrix(vector<int> dimensions)
     {
-        Resize(dimensions);
+        resize(dimensions);
     }
 
     template <typename TemplateType>
-    void SimpleMatrix<TemplateType>::Resize(int xsize, int ysize)
+    void SimpleMatrix<TemplateType>::resize(int xsize, int ysize)
     {
         if (xsize<=0 || ysize<=0)
         {
@@ -160,14 +160,14 @@ class SimpleMatrix {
     }
 
     template <typename TemplateType>
-    void SimpleMatrix<TemplateType>::Resize(vector<int> dimensions)
+    void SimpleMatrix<TemplateType>::resize(vector<int> dimensions)
     {
         if (dimensions.size()!=2)
         {
             cout<<"Error: cannot create a matrix which is larger or smaller than 2 dimensions"<<endl;
             exit(-1);
         }
-        Resize(dimensions[0], dimensions[1]);
+        resize(dimensions[0], dimensions[1]);
     }
 
 
@@ -197,7 +197,7 @@ class SimpleMatrix {
     }
 
     template <typename TemplateType> template <typename OtherType>
-    bool SimpleMatrix<TemplateType>::DimensionsCompatible(SimpleMatrix<OtherType> Other)
+    bool SimpleMatrix<TemplateType>::dimequal(SimpleMatrix<OtherType> Other)
     {
         if (xdimsize!=Other.xdimsize || ydimsize!=Other.ydimsize)
             return false;
@@ -208,7 +208,7 @@ class SimpleMatrix {
     template <typename TemplateType> template <typename OtherType>
     void SimpleMatrix<TemplateType>::StopIfDimensionsIncompatible(SimpleMatrix<OtherType> Other)
     {
-        if (DimensionsCompatible(Other)==false)
+        if (dimequal(Other)==false)
         {
             cout<<"Error: dimensions incompatible ("<<xdimsize<<","<<ydimsize<<") and ("<<Other.xdimsize<<","<<Other.ydimsize<<")."<<endl;
             exit(-1);
@@ -581,7 +581,7 @@ SimpleMatrix<TemplateType> XJoin(SimpleMatrix<TemplateType> A, SimpleMatrix<Temp
 
     SimpleMatrix<TemplateType> ReturnMatrix;
     ReturnMatrix=A;
-    ReturnMatrix.Resize(Axsize+Bxsize, Aysize);
+    ReturnMatrix.resize(Axsize+Bxsize, Aysize);
 
     for (int i=0; i<Bxsize; i++)
     {
@@ -611,7 +611,7 @@ SimpleMatrix<TemplateType> YJoin(SimpleMatrix<TemplateType> A, SimpleMatrix<Temp
 
     SimpleMatrix<TemplateType> ReturnMatrix;
     ReturnMatrix=A;
-    ReturnMatrix.Resize(Axsize, Aysize+Bysize);
+    ReturnMatrix.resize(Axsize, Aysize+Bysize);
 
     for (int i=0; i<Bxsize; i++)
     {
