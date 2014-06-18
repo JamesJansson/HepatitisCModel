@@ -11,6 +11,7 @@ class HCVClass {
 
 	//int Sex;//male 0, female, 1
 
+    //PersonClass Pointer;
 
 
 public:
@@ -45,6 +46,8 @@ public:
 	//HCVProbabilityClass *Prob;//Some sort of pointer to a class of probabilities. This can be live updated to represent changes in the probabilities
 
 	HCVClass(void);//Constructor class
+	void SetUp(PersonClass &PersonPointer);
+
 	void Reset(void);
 
 	void Start(float YearOfBirth);
@@ -87,6 +90,13 @@ HCVClass::HCVClass(void)//Constructor class
 	//NextSusceptible=0;
 
 }
+
+
+void HCVClass::SetUp(PersonClass &PersonPointer)//Constructor class
+{
+
+}
+
 
 void HCVClass::Reset(void)//Constructor class
 {

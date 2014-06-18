@@ -66,6 +66,11 @@ Person::Person(void)//Constructor class
 	Active=0;
 	NextSusceptible=0;
     //cout<<"In this section, pass pointers of this person class to the other classes (e.g. to HCVClass)"<<endl;
+
+    //Set up each of the subclasses
+
+
+
 }
 
 void Person::Reset(void)//Constructor class
