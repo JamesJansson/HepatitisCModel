@@ -1,3 +1,6 @@
+#ifndef PERSONCLASSFLAG ///used to prevent this header from being comiled multiple times
+#define PERSONCLASSFLAG
+
 #include "EventVector.h"
 //#include "transmission.h"
 #include "HCVClass.h"
@@ -12,6 +15,7 @@ class Person {
 	int Sex;//male 0, female, 1
 	EventVector Location;//numerical location
 
+    //For constructors http://stackoverflow.com/questions/12927169/how-can-i-initialize-c-object-member-variables-in-the-constructor
     MortalityClass *Mortalilty;//a pointer to a general mortality probability
 
 	HCVClass HCV;
@@ -396,3 +400,4 @@ void Person::SetNextSusceptible (float Year)
 */
 
 
+#endif

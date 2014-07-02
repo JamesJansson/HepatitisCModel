@@ -1,7 +1,7 @@
 //#include "stdafx.h"
 #include "ProbabilityFunctions.h"
 #include "EventVector.h"
-
+//#include "PersonClass.h"
 
 
 
@@ -46,7 +46,7 @@ public:
 	//HCVProbabilityClass *Prob;//Some sort of pointer to a class of probabilities. This can be live updated to represent changes in the probabilities
 
 	HCVClass(void);//Constructor class
-	void SetUp(PersonClass &PersonPointer);
+	//void SetUp(Person PersonPointer);
 
 	void Reset(void);
 
@@ -92,10 +92,10 @@ HCVClass::HCVClass(void)//Constructor class
 }
 
 
-void HCVClass::SetUp(PersonClass &PersonPointer)//Constructor class
-{
+//void HCVClass::SetUp(Person PersonPointer)//Constructor class
+//{
 
-}
+//}
 
 
 void HCVClass::Reset(void)//Constructor class
