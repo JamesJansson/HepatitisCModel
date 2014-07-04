@@ -16,7 +16,7 @@ int main()
 
 
     startTime=clock();
-    for (int j=1; j<TotalLoops; j++)
+    for (int j=0; j<TotalLoops; j++)
     {
         FloatOperand=(FloatOperand+ 1.1*(3.1 - FloatOperand))/2.1; //4 FLOP occur here, implying at 250000000 loops 1GFLOP
         //cout<<"    Result "<<FloatOperand<<"Count"<<j<<endl;

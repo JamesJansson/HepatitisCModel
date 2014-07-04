@@ -1,4 +1,6 @@
 //please use c++11 setting for compiler
+#define VersionNumber 0.0.1
+
 
 #include <iostream>
 #include <ctime>
