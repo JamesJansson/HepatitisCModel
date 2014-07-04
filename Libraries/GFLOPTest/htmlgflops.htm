@@ -10,7 +10,10 @@
 document.getElementById("demo").addEventListener("click", myFunction);
 
 function myFunction() {
-
+	document.getElementById("demo").innerHTML = "Running";
+	window.setTimeout(1, 100);
+	
+	
     FloatOperand=0.9;
     TotalLoops=1000000000;
 
@@ -25,7 +28,7 @@ function myFunction() {
     TotalCalculations=TotalLoops*4;
 
     GFLOPS=TotalCalculations/TotalTime/1000000000;
-    document.getElementById("demo").innerHTML = GFLOPS;
+    document.getElementById("demo").innerHTML = GFLOPS + " GFLOPs";
 }
 </script>
 
