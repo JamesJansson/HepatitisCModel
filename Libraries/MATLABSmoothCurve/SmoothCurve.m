@@ -1,7 +1,7 @@
 function [Age, AgeValues]=SmoothCurve(Ranges, values)
 % Written by James Jansson, as part of a PhD program
 % Example usage
-% A=SmoothCurve([0 13; 14 19; 20 29; 30 39; 40 100 ], [ 0 23984 101668 57672 15165]')
+% [Age, AgeValues]=SmoothCurve([0 13; 14 19; 20 29; 30 39; 40 100 ], [ 0 23984 101668 57672 15165]')
 
 %create a vector that indiates the ranges
 Age=(min(Ranges( :, 1))):(max(Ranges(:, 2)));
